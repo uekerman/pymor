@@ -1,16 +1,15 @@
 import math
 import numpy as np
+from IPython.core.display import display
+from ipywidgets import widgets, Layout
 from matplotlib.cm import get_cmap
-import os
-from ipywidgets import DOMWidget, register
-from traitlets import Unicode
 
 import ngsolve as ngs
-import ngsolve.webgui
+from ngsolve.webgui import encodeData, NGSWebGuiWidget, render_js_code, html_template
 
-# the build script fills the contents of the variables below
-render_js_code = ngsolve.webgui.render_js_code
-widgets_version = ngsolve.webgui.widgets_version
+from pymor.discretizers.builtin.grids.referenceelements import triangle, square
+from pymor.discretizers.builtin.grids.constructions import flatten_grid
+
 
 try:
     __IPYTHON__
@@ -25,54 +24,11 @@ try:
 except ImportError:
     _IN_GOOGLE_COLAB = False
 
-#           <script src="https://cdn.jsdelivr.net/npm/three@0.115.0/build/three.min.js"></script>
-#           <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.js"></script>
-#           <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
-#
-html_template = """
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>NGSolve WebGUI</title>
-        <meta name='viewport' content='width=device-width, user-scalable=no'/>
-        <style>
-            body{
-                margin:0;
-                overflow:hidden;
-            }
-            canvas{
-                cursor:grab;
-                cursor:-webkit-grab;
-                cursor:-moz-grab;
-            }
-            canvas:active{
-                cursor:grabbing;
-                cursor:-webkit-grabbing;
-                cursor:-moz-grabbing;
-            }
-        </style>
-    </head>
-    <body>
-          <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
-          <script>
-            {render}
-
-            require(["ngsolve_jupyter_widgets"], ngs=>
-            {
-                let scene = new ngs.Scene();
-                scene.init(document.body, render_data);
-            });
-          </script>
-    </body>
-</html>
-"""
 
 
 class WebGLScene:
     def __init__(self, cf, mesh, order, min_, max_, draw_vol, draw_surf, autoscale, deformation, interpolate_multidim,
                  animate):
-        from IPython.display import display, Javascript
-        import threading
         self.cf = cf
         self.mesh = mesh
         self.order = order
@@ -87,7 +43,6 @@ class WebGLScene:
         self.deformation = deformation
 
     def GetData(self, set_minmax=True):
-        import json
         d = BuildRenderData(self.mesh, self.cf, self.order)
 
         if set_minmax:
@@ -99,93 +54,12 @@ class WebGLScene:
 
         return d
 
-    def GenerateHTML(self, filename=None):
-        import json
-        d = self.GetData()
-
-        data = json.dumps(d)
-
-        html = html_template.replace('{data}', data)
-        jscode = "var render_data = {}\n".format(data) + render_js_code
-        html = html.replace('{render}', jscode)
-
-        if filename is not None:
-            open(filename, 'w').write(html)
-        return html
-
-    def Draw(self):
-        self.widget = NGSWebGuiWidget()
-        d = self.GetData()
-        self.widget.value = d
-        display(self.widget)
-
     def Redraw(self):
         d = self.GetData(set_minmax=False)
         self.widget.value = d
 
-    def __repr__(self):
-        return ""
-
 
 bezier_trig_trafos = {}  # cache trafos for different orders
-
-timer = ngs.Timer("BuildRenderData")
-timer2 = ngs.Timer("edges")
-timermult = ngs.Timer("timer2 - mult")
-timer3 = ngs.Timer("els")
-timer3Bvals = ngs.Timer("timer3, bezier")
-timer3minmax = ngs.Timer("els minmax")
-timer2list = ngs.Timer("timer2 - make list")
-timer3list = ngs.Timer("timer3 - make list")
-timer4 = ngs.Timer("func")
-
-
-def Draw(grid, u, name='function', order=2, min=None, max=None, draw_vol=True, draw_surf=True, autoscale=True,
-         deformation=False, interpolate_multidim=False, animate=False):
-    scene = WebGLScene(u, grid, order, min_=min, max_=max, draw_vol=draw_vol, draw_surf=draw_surf, autoscale=autoscale,
-                       deformation=deformation, interpolate_multidim=interpolate_multidim, animate=animate)
-    # render scene using widgets.DOMWidget
-    scene.Draw()
-    return scene
-
-
-@register
-class NGSWebGuiWidget(DOMWidget):
-    from traitlets import Dict, Unicode
-    _view_name = Unicode('NGSolveView').tag(sync=True)
-    _view_module = Unicode('ngsolve_jupyter_widgets').tag(sync=True)
-    _view_module_version = Unicode(widgets_version).tag(sync=True)
-    value = Dict({"ngsolve_version": '0.0.0'}).tag(sync=True)
-
-
-tencode = ngs.Timer("encode")
-
-
-def encodeData(array):
-    from base64 import b64encode
-    tencode.Start()
-    values = np.array(array.flatten(), dtype=np.float32)
-    res = b64encode(values).decode("ascii")
-    tencode.Stop()
-    return res
-
-
-_jupyter_lab_extension_path = os.path.join(os.path.dirname(ngs.__file__), "labextension")
-
-
-def howtoInstallJupyterLabextension():
-    import ngsolve, os
-    d = os.path.dirname(ngsolve.__file__)
-    labdir = os.path.join(d, "labextension")
-    print("""# To install jupyter lab extension:
-jupyter labextension install --clean {labdir}
-""".format(labdir=_jupyter_lab_extension_path))
-
-
-from pymor.core import config
-from pymor.discretizers.builtin.grids.referenceelements import triangle, square
-from pymor.discretizers.builtin.grids.constructions import flatten_grid
-from pymor.vectorarrays.interface import VectorArray
 
 
 def BuildRenderData(grid, u, order=1):
@@ -205,9 +79,6 @@ def BuildRenderData(grid, u, order=1):
         og = order
         d['show_wireframe'] = True
         d['show_mesh'] = True
-        timer2.Start()
-
-        timer3Bvals.Start()
 
         # transform point-values to Bernsteinbasis
         def Binomial(n, i):
@@ -221,7 +92,6 @@ def BuildRenderData(grid, u, order=1):
             for j in range(og + 1):
                 Bvals[i, j] = Bernstein(i / og, j, og)
         iBvals = Bvals.I
-        timer3Bvals.Stop()
 
         Bezier_points = []
 
@@ -273,17 +143,12 @@ def BuildRenderData(grid, u, order=1):
                 pmat[3 * i + j][0][:3] = vertices[indices[i][j]]
                 pmat[3 * i + j][1][:3] = vertices[indices[i][(j + 1) % 3]]
 
-        timermult.Start()
         # pmat = pmat.reshape(-1, og+1, 4)
         #         print('pmat', pmat)
         BezierPnts = np.tensordot(iBvals.NumPy(), pmat, axes=(1, 1))
         #         print(BezierPnts)
-        timermult.Stop()
-
-        timer2list.Start()
         for i in range(og + 1):
             Bezier_points.append(encodeData(BezierPnts[i]))
-        timer2list.Stop()
 
         d['Bezier_points'] = Bezier_points
         d['edges'] = Bezier_points
@@ -325,15 +190,10 @@ def BuildRenderData(grid, u, order=1):
         #         pmat = pmat.reshape(-1, len(ir_trig), 4)
         BezierPnts = np.tensordot(iBvals_trig.NumPy(), pmat, axes=(1, 1))
 
-        timer3list.Start()
         for i in range(ndtrig):
             Bezier_points.append(encodeData(BezierPnts[i]))
-        timer3list.Stop()
 
         d['Bezier_trig_points'] = Bezier_points
-        d['mesh_center'] = (0, 0, 0)
-        d['mesh_radius'] = 1.0
-        timer3.Stop()
 
     d['funcmin'] = funcmin
     d['funcmax'] = funcmax
@@ -347,4 +207,9 @@ def visualize_ngsolve(grid, U, bounding_box=([0, 0], [1, 1]), codim=2, title=Non
          color_map=get_cmap('viridis')):
     if isinstance(U, tuple):
         raise NotImplementedError('tuples of VectorArrays cannot yet be visualized with the ngsolve backend')
-    return Draw(grid, U, order=1)
+
+    scene = WebGLScene(U, grid, order=1, min_=None, max_=None, draw_vol=True, draw_surf=True,
+                       autoscale=True,
+                       deformation=False, interpolate_multidim=False, animate=False)
+    scene.Draw()
+    return scene
