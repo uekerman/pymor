@@ -25,8 +25,7 @@ except ImportError:
     _IN_GOOGLE_COLAB = False
 
 
-
-class WebGLScene:
+class WebGLScene(widgets.VBox):
     def __init__(self, cf, mesh, order, min_, max_, draw_vol, draw_surf, autoscale, deformation, interpolate_multidim,
                  animate):
         self.cf = cf
@@ -41,6 +40,10 @@ class WebGLScene:
         self.animate = animate
 
         self.deformation = deformation
+        self.widget = NGSWebGuiWidget()
+        self.widget.value = self.GetData()
+
+        super().__init__(children=[self.widget])
 
     def GetData(self, set_minmax=True):
         d = BuildRenderData(self.mesh, self.cf, self.order)
@@ -51,7 +54,6 @@ class WebGLScene:
             if self.max is not None:
                 d['funcmax'] = self.max
             d['autoscale'] = self.autoscale
-
         return d
 
     def Redraw(self):
@@ -194,6 +196,11 @@ def BuildRenderData(grid, u, order=1):
             Bezier_points.append(encodeData(BezierPnts[i]))
 
         d['Bezier_trig_points'] = Bezier_points
+        bb = grid.bounding_box()
+        center = np.zeros(3)
+        center[0:2] = (bb[1] - bb[0]) / 2
+        d['mesh_center'] = tuple(center)
+        d['mesh_radius'] = np.linalg.norm(center) * 1.1
 
     d['funcmin'] = funcmin
     d['funcmax'] = funcmax
@@ -208,8 +215,6 @@ def visualize_ngsolve(grid, U, bounding_box=([0, 0], [1, 1]), codim=2, title=Non
     if isinstance(U, tuple):
         raise NotImplementedError('tuples of VectorArrays cannot yet be visualized with the ngsolve backend')
 
-    scene = WebGLScene(U, grid, order=1, min_=None, max_=None, draw_vol=True, draw_surf=True,
+    return WebGLScene(U, grid, order=1, min_=None, max_=None, draw_vol=True, draw_surf=True,
                        autoscale=True,
                        deformation=False, interpolate_multidim=False, animate=False)
-    scene.Draw()
-    return scene
