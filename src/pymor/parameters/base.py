@@ -505,7 +505,7 @@ class ParameterSpace(ParametricObject):
         else:
             return [get_param() for _ in range(count)]
 
-    def contains(self, mu):
+    def contains(self, mu: Mu) -> bool:
         if not isinstance(mu, Mu):
             mu = self.parameters.parse(mu)
         if not self.parameters.is_compatible(mu):

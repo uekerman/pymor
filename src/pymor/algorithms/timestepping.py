@@ -18,8 +18,12 @@ and :class:`ImplicitEulerTimeStepper` encapsulate :func:`explicit_euler` and
 :func:`implicit_euler` to provide this interface.
 """
 
+from typing import Union
+import icontract
+
 from pymor.core.base import ImmutableObject, abstractmethod
 from pymor.operators.interface import Operator
+from pymor.parameters.base import Mu
 from pymor.vectorarrays.interface import VectorArray
 
 
@@ -118,11 +122,11 @@ class ExplicitEulerTimeStepper(TimeStepper):
         return explicit_euler(operator, rhs, initial_data, initial_time, end_time, self.nt, mu, num_values)
 
 
-def implicit_euler(A, F, M, U0, t0, t1, nt, mu=None, num_values=None, solver_options='operator'):
-    assert isinstance(A, Operator)
-    assert isinstance(F, (type(None), Operator, VectorArray))
-    assert isinstance(M, (type(None), Operator))
-    assert A.source == A.range
+@icontract.require(lambda A: A.source == A.range and isinstance(A, Operator))
+@icontract.require(lambda F: isinstance(F, (type(None), Operator, VectorArray)))
+@icontract.require(lambda M: isinstance(M, (type(None), Operator)))
+def implicit_euler(A: Operator, F: Union[None, Operator, VectorArray], M: Union[None, Operator], U0, t0, t1, nt,
+                   mu: Union[None, Mu] = None, num_values=None, solver_options='operator') -> VectorArray:
     num_values = num_values or nt + 1
     dt = (t1 - t0) / nt
     DT = (t1 - t0) / (num_values - 1)

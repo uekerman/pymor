@@ -20,9 +20,6 @@ import pymortests.strategies as pyst
 @settings(deadline=20000)
 def test_gram_schmidt(vector_array):
     U = vector_array
-    # TODO assumption here masks a potential issue with the algorithm
-    #      where it fails in del instead of a proper error
-    assume(len(U) > 1 or not contains_zero_vector(U))
 
     V = U.copy()
     onb = gram_schmidt(U, copy=True)

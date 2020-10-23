@@ -3,16 +3,21 @@
 # License: BSD 2-Clause License (http://opensource.org/licenses/BSD-2-Clause)
 
 import numpy as np
+import icontract
+from typing import Union, Tuple
 
 from pymor.core.defaults import defaults
 from pymor.core.exceptions import AccuracyError
 from pymor.core.logger import getLogger
+from pymor.vectorarrays.interface import VectorArray
+from pymor.algorithms.basic import contains_zero_vector
 
 
+@icontract.require(lambda A: (len(A) > 1 or not contains_zero_vector(A)))
 @defaults('atol', 'rtol', 'reiterate', 'reiteration_threshold', 'check', 'check_tol')
-def gram_schmidt(A, product=None, return_R=False, atol=1e-13, rtol=1e-13, offset=0,
+def gram_schmidt(A: VectorArray, product=None, return_R=False, atol=1e-13, rtol=1e-13, offset=0,
                  reiterate=True, reiteration_threshold=1e-1, check=True, check_tol=1e-3,
-                 copy=True):
+                 copy=True) -> Union[VectorArray, Tuple[VectorArray, np.ndarray]]:
     """Orthonormalize a |VectorArray| using the modified Gram-Schmidt algorithm.
 
     Parameters
