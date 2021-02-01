@@ -8,14 +8,16 @@ ARG NB_UID=1000
 ARG PYMOR_JUPYTER_TOKEN=pyMOR_token
 
 USER root
+ADD . /pymor
 RUN useradd -d /home/pymor --shell /bin/bash -u ${NB_UID} -o -c "" -m ${NB_USER} && \
-    chown -R ${NB_USER} /home/pymor
+    chown -R ${NB_USER} /home/pymor /pymor
 
 # do local package install before requirements to avoid conflict
 COPY .binder/local_packages /pymor/local_packages/
 RUN (for i in $(find /pymor/local_packages -maxdepth 1 -mindepth 1 -type d | grep -v keepdir) ; do pip install -e $i ; done) \
   && rm -rf /pymor/local_packages
 USER ${NB_USER}
+RUN cd /pymor && python setup.py build_ext --inplace
 
 ENV JUPYTER_TOKEN=${PYMOR_JUPYTER_TOKEN} \
     USER=${NB_USER} \
