@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=pyMOR
+Exec=python %F
+Terminal=true
+Type=Application
+Icon=pymor
+Categories=Science
+StartupNotify=false
+MimeType=application/x-extension-fcstd;
