@@ -3,9 +3,10 @@ wget -c "https://raw.githubusercontent.com/TheAssassin/linuxdeploy-plugin-conda/
 wget -c "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
 chmod u+x linuxdeploy-x86_64.AppImage linuxdeploy-plugin-conda.sh
 
+export ARCH=x86_64
 export CONDA_CHANNELS="conda-forge"
 export CONDA_DOWNLOAD_DIR=/home/stephan/Repos/pymor/appimage/conda
-export CONDA_PACKAGES="pymor;fenics"
+export CONDA_PACKAGES="pymor;fenics;mshr"
 
 ./linuxdeploy-x86_64.AppImage --appdir AppDir -i pymor.png -d pymor.desktop --plugin conda --output appimage --custom-apprun AppRun.sh
 
