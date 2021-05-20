@@ -60,6 +60,7 @@ def setup_package():
             'console_scripts': [
                 'pymor-demo = pymor.scripts.pymor_demo:run',
                 'pymor-vis = pymor.scripts.pymor_vis:run',
+                'pymor-numba-benchmark= pymor.scripts.benchmark:run',
             ],
         },
         url='https://pymor.org',
