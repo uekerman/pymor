@@ -31,6 +31,7 @@ pyopengl
 pytest==7.1.2
 python-slugify
 pythreejs
+pytimings
 qtpy!=2.0.0
 scipy>=1.3.3;python_version == "3.8"
 scipy>=1.3;python_version < "3.8"
