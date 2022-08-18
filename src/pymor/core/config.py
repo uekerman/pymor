@@ -118,7 +118,15 @@ def is_jupyter():
     force = environ.get('PYMOR_FORCE_JUPYTER', None)
     if force is not None:
         return bool(force)
-    return type(get_ipython()).__module__.startswith('ipykernel.')
+    ipy = type(get_ipython()).__module__.startswith('ipykernel.')
+    if ipy:
+        return True
+    try:
+        import google.colab
+        return True
+    except ImportError:
+        pass
+    return False
 
 
 def is_nbconvert():
