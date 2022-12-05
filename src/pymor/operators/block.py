@@ -80,7 +80,7 @@ class BlockOperatorBase(Operator):
             if isinstance(op, ZeroOperator):
                 Vi = op.range.zeros(len(U))
             else:
-                Vi = op.apply(U.blocks[j] if self.blocked_source else U, mu=mu)
+                Vi = op.apply(U._blocks[j] if self.blocked_source else U, mu=mu)
             if V_blocks[i] is None:
                 V_blocks[i] = Vi
             else:
@@ -97,7 +97,7 @@ class BlockOperatorBase(Operator):
             if isinstance(op, ZeroOperator):
                 Uj = op.source.zeros(len(V))
             else:
-                Uj = op.apply_adjoint(V.blocks[i] if self.blocked_range else V, mu=mu)
+                Uj = op.apply_adjoint(V._blocks[i] if self.blocked_range else V, mu=mu)
             if U_blocks[j] is None:
                 U_blocks[j] = Uj
             else:
