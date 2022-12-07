@@ -333,6 +333,7 @@ class L2ProductP1(NumpyMatrixBasedOperator):
         self.logger.info('Assemble system matrix ...')
         A = coo_matrix((SF_INTS, (SF_I0, SF_I1)), shape=(g.size(g.dim), g.size(g.dim)))
         del SF_INTS, SF_I0, SF_I1
+        A.eliminate_zeros()
         A = csc_matrix(A).copy()  # See DiffusionOperatorP1 for why copy() is necessary
 
         return A
@@ -412,6 +413,7 @@ class L2ProductQ1(NumpyMatrixBasedOperator):
         self.logger.info('Assemble system matrix ...')
         A = coo_matrix((SF_INTS, (SF_I0, SF_I1)), shape=(g.size(g.dim), g.size(g.dim)))
         del SF_INTS, SF_I0, SF_I1
+        A.eliminate_zeros()
         A = csc_matrix(A).copy()  # See DiffusionOperatorP1 for why copy() is necessary
 
         return A
@@ -510,6 +512,7 @@ class DiffusionOperatorP1(NumpyMatrixBasedOperator):
         self.logger.info('Assemble system matrix ...')
         A = coo_matrix((SF_INTS, (SF_I0, SF_I1)), shape=(g.size(g.dim), g.size(g.dim)))
         del SF_INTS, SF_I0, SF_I1
+        A.eliminate_zeros()
         A = csc_matrix(A).copy()
 
         # The call to copy() is necessary to resize the data arrays of the sparse matrix:
@@ -617,6 +620,7 @@ class DiffusionOperatorQ1(NumpyMatrixBasedOperator):
         self.logger.info('Assemble system matrix ...')
         A = coo_matrix((SF_INTS, (SF_I0, SF_I1)), shape=(g.size(g.dim), g.size(g.dim)))
         del SF_INTS, SF_I0, SF_I1
+        A.eliminate_zeros()
         A = csc_matrix(A).copy()
 
         # The call to copy() is necessary to resize the data arrays of the sparse matrix:
@@ -716,6 +720,7 @@ class AdvectionOperatorP1(NumpyMatrixBasedOperator):
         self.logger.info('Assemble system matrix ...')
         A = coo_matrix((SF_INTS, (SF_I0, SF_I1)), shape=(g.size(g.dim), g.size(g.dim)))
         del SF_INTS, SF_I0, SF_I1
+        A.eliminate_zeros()
         A = csc_matrix(A).copy()
 
         # The call to copy() is necessary to resize the data arrays of the sparse matrix:
@@ -816,6 +821,7 @@ class AdvectionOperatorQ1(NumpyMatrixBasedOperator):
         self.logger.info('Assemble system matrix ...')
         A = coo_matrix((SF_INTS, (SF_I0, SF_I1)), shape=(g.size(g.dim), g.size(g.dim)))
         del SF_INTS, SF_I0, SF_I1
+        A.eliminate_zeros()
         A = csc_matrix(A).copy()
 
         # The call to copy() is necessary to resize the data arrays of the sparse matrix:
@@ -881,6 +887,7 @@ class RobinBoundaryOperator(NumpyMatrixBasedOperator):
         if g.dim == 1:
             robin_c = self.robin_data[0](g.centers(1)[RI], mu=mu)
             I = coo_matrix((robin_c, (RI, RI)), shape=(g.size(g.dim), g.size(g.dim)))
+            I.eliminate_zeros()
             return csc_matrix(I).copy()
         else:
             xref = g.centers(1)[RI]
@@ -903,6 +910,7 @@ class RobinBoundaryOperator(NumpyMatrixBasedOperator):
             SF_I0 = np.repeat(g.subentities(1, g.dim)[RI], 2).ravel()
             SF_I1 = np.tile(g.subentities(1, g.dim)[RI], [1, 2]).ravel()
             I = coo_matrix((SF_INTS, (SF_I0, SF_I1)), shape=(g.size(g.dim), g.size(g.dim)))
+            I.eliminate_zeros()
             return csc_matrix(I).copy()
 
 
