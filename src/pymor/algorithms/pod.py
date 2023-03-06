@@ -10,11 +10,13 @@ from pymor.core.defaults import defaults
 from pymor.core.logger import getLogger
 from pymor.operators.interface import Operator
 from pymor.vectorarrays.interface import VectorArray
+from pymor.vectorarrays.numpy import NumpyVectorSpace
 
 
 @defaults('rtol', 'atol', 'l2_err', 'method', 'orth_tol')
 def pod(A, product=None, modes=None, rtol=1e-7, atol=0., l2_err=0.,
-        method='method_of_snapshots', orth_tol=1e-10):
+        method='method_of_snapshots', orth_tol=1e-10,
+        return_right_singular_vectors=False):
     """Proper orthogonal decomposition of `A`.
 
     Viewing the |VectorArray| `A` as a `A.dim` x `len(A)` matrix, the
@@ -52,6 +54,9 @@ def pod(A, product=None, modes=None, rtol=1e-7, atol=0., l2_err=0.,
     orth_tol
         POD modes are reorthogonalized if the orthogonality error is
         above this value.
+    return_right_singular_vectors
+        If `True`, also return the right singular vectors corresponding
+        to the POD modes.
 
     Returns
     -------
@@ -59,6 +64,9 @@ def pod(A, product=None, modes=None, rtol=1e-7, atol=0., l2_err=0.,
         |VectorArray| of POD modes.
     SVALS
         One-dimensional |NumPy array| of singular values.
+    Vh
+        If `return_right_singular_vectors` is `True`, a |NumPy| array
+        of right singular vectors.
     """
     assert isinstance(A, VectorArray)
     assert product is None or isinstance(product, Operator)
@@ -68,7 +76,8 @@ def pod(A, product=None, modes=None, rtol=1e-7, atol=0., l2_err=0.,
 
     svd_va = method_of_snapshots if method == 'method_of_snapshots' else qr_svd
     with logger.block('Computing SVD ...'):
-        POD, SVALS, _ = svd_va(A, product=product, modes=modes, rtol=rtol, atol=atol, l2_err=l2_err)
+        POD, SVALS, Vh = svd_va(A, product=product, modes=modes, rtol=rtol, atol=atol, l2_err=l2_err)
+        assert len(POD) == len(SVALS) == Vh.shape[0]
 
     if POD.dim > 0 and len(POD) > 0 and np.isfinite(orth_tol):
         logger.info('Checking orthonormality ...')
@@ -76,5 +85,15 @@ def pod(A, product=None, modes=None, rtol=1e-7, atol=0., l2_err=0.,
         if err >= orth_tol:
             logger.info('Reorthogonalizing POD modes ...')
             gram_schmidt(POD, product=product, atol=0., rtol=0., copy=False)
+        if return_right_singular_vectors:
+            Vh = NumpyVectorSpace.from_numpy(Vh)
+            err = np.max(np.abs(Vh.inner(Vh) - np.eye(len(Vh))))
+            if err >= orth_tol:
+                logger.info('Reorthogonalizing POD modes ...')
+                gram_schmidt(Vh, atol=0., rtol=0., copy=False)
+            Vh = Vh.to_numpy()
 
-    return POD, SVALS
+    if return_right_singular_vectors:
+        return POD, SVALS, Vh
+    else:
+        return POD, SVALS
