@@ -35,15 +35,16 @@ class MoebiusTransformation(ImmutableObject):
     def __init__(self, coefficients, normalize=False, name=None):
         coefficients = np.array(coefficients)
         assert coefficients.shape == (4,)
-        assert coefficients[0]*coefficients[3] != coefficients[1]*coefficients[2]
+        assert not np.array_equal(coefficients[0]*coefficients[3], coefficients[1]*coefficients[2])
+        kappa = coefficients[0]*coefficients[3] -  coefficients[1]*coefficients[2]
+        factor = np.sqrt(np.abs(kappa)) * np.exp(-1j * np.angle(kappa))
 
         if normalize:
-            factor = coefficients[0]*coefficients[3]-coefficients[1]*coefficients[2]
             if np.isrealobj(coefficients):
-                coefficients, factor = np.asarray(coefficients, dtype=float), np.abs(factor)
-
-            coefficients /= np.sqrt(factor)
-            coefficients *= np.sign(coefficients[0])
+                coefficients = np.asarray(coefficients, dtype=float)
+                if np.any(coefficients.imag) != 0:
+                    self.logger.warning('Discarding non-zero imaginary part!')
+            coefficients /= factor.real
 
         self.__auto_init(locals())
 
@@ -83,7 +84,7 @@ class MoebiusTransformation(ImmutableObject):
             else:
                 A[i] = [z[i], 1, -w[i]*z[i], -w[i]]
 
-        return cls(null_space(A).ravel(), name=name)
+        return cls(null_space(A).ravel(), normalize=True, name=name)
 
     def inverse(self, normalize=False):
         """Returns the inverse Moebius transformation by applying the inversion formula.
