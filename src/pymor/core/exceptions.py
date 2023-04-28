@@ -35,6 +35,10 @@ class NewtonError(Exception):
     """Is raised if the Newton algorithm fails to converge."""
 
 
+class PHDMDError(Exception):
+    """Is raised if the pH DMD algorithm fails to converge."""
+
+
 class CacheKeyGenerationError(Exception):
     """Is raised when cache key generation fails due to unsupported arguments."""
 
