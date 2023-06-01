@@ -23,5 +23,10 @@ repos:
   rev: v0.7.1
   hooks:
   - id: markdownlint-cli2
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: 5f67571
+  hooks:
+  - id: pretty-format-toml
+    args: [--autofix, --trailing-commas, --no-sort]
 ci:
   autofix_prs: false
