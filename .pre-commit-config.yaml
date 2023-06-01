@@ -11,6 +11,7 @@ repos:
     -   id: check-yaml
     -   id: debug-statements
         exclude: "src/pymor/algorithms/rules.py"
+    -   id: end-of-file-fixer
     -   id: pretty-format-json
         args: [--autofix]
     -   id: trailing-whitespace
