@@ -13,6 +13,8 @@ repos:
     -   id: debug-statements
         exclude: "src/pymor/algorithms/rules.py"
     -   id: end-of-file-fixer
+    -   id: file-contents-sorter
+        files: ^\.mailmap$
     -   id: pretty-format-json
         args: [--autofix]
     -   id: trailing-whitespace
