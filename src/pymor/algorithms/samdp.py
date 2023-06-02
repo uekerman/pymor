@@ -353,7 +353,8 @@ def samdp(A, E, B, C, nwanted, init_shifts=None, which='NR', tol=1e-10, imagtol=
             elif which == 'NM':
                 idx = np.argsort(-absres)
             else:
-                raise ValueError('Unknown SAMDP selection strategy.')
+                msg = 'Unknown SAMDP selection strategy.'
+                raise ValueError(msg)
 
             residues = residues[idx]
             poles = poles[idx]
@@ -502,6 +503,7 @@ def _select_max_eig(H, G, X, V, B, C, which):
     elif which == 'NM':
         idx = np.argsort(-residue)
     else:
-        raise ValueError('Unknown SAMDP selection strategy.')
+        msg = 'Unknown SAMDP selection strategy.'
+        raise ValueError(msg)
 
     return np.diag(DP[idx]), Vs[:, idx], Vt[:, idx], residue

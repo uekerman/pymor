@@ -354,7 +354,8 @@ class InstationaryModel(Model):
         E = self.mass
 
         if not all(op.linear for op in [A, B, C, E]):
-            raise ValueError('Operators not linear.')
+            msg = 'Operators not linear.'
+            raise ValueError(msg)
 
         from pymor.models.iosys import LTIModel
         return LTIModel(A, B, C, E=E, visualizer=self.visualizer)

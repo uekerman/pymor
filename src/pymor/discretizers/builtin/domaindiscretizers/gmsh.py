@@ -63,8 +63,8 @@ def discretize_gmsh(domain_description=None, geo_file=None, geo_file_path=None, 
     try:
         version = subprocess.check_output(['gmsh', '--version'], stderr=subprocess.STDOUT, env=env).decode()
     except (subprocess.CalledProcessError, OSError) as e:
-        raise GmshMissingError('Could not find Gmsh.'
-                          ' Please ensure that the gmsh binary (https://gmsh.info/) is in your PATH.') from e
+        msg = 'Could not find Gmsh. Please ensure that the gmsh binary (https://gmsh.info/) is in your PATH.'
+        raise GmshMissingError(msg) from e
 
     logger.info('Found version ' + version.strip())
 
@@ -118,7 +118,8 @@ def discretize_gmsh(domain_description=None, geo_file=None, geo_file_path=None, 
             elif isinstance(domain_description, RectDomain):
                 points, boundary_types = discretize_RectDomain()
             else:
-                raise NotImplementedError(f'I do not know how to discretize {domain_description}')
+                msg = f'I do not know how to discretize {domain_description}'
+                raise NotImplementedError(msg)
 
             # assign ids to all points and write them to the GEO-file.
             for id, p in enumerate([p for ps in points for p in ps]):

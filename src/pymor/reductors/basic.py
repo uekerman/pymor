@@ -59,12 +59,15 @@ class ProjectionBasedReductor(BasicObject):
         if isinstance(dims, Number):
             dims = {k: dims for k in self.bases}
         if set(dims.keys()) != set(self.bases.keys()):
-            raise ValueError(f'Must specify dimensions for {set(self.bases.keys())}')
+            msg = f'Must specify dimensions for {set(self.bases.keys())}'
+            raise ValueError(msg)
         for k, d in dims.items():
             if d < 0:
-                raise ValueError(f'Reduced state dimension must be larger than zero {k}')
+                msg = f'Reduced state dimension must be larger than zero {k}'
+                raise ValueError(msg)
             if d > len(self.bases[k]):
-                raise ValueError(f'Specified reduced state dimension larger than reduced basis {k}')
+                msg = f'Specified reduced state dimension larger than reduced basis {k}'
+                raise ValueError(msg)
 
         if self._last_rom is None or any(dims[b] > self._last_rom_dims[b] for b in dims):
             self._last_rom = self._reduce()
@@ -143,7 +146,8 @@ class ProjectionBasedReductor(BasicObject):
         if error_matrix.size > 0:
             err = np.max(np.abs(error_matrix))
             if err >= self.check_tol:
-                raise AccuracyError(f'result not orthogonal (max err={err})')
+                msg = f'result not orthogonal (max err={err})'
+                raise AccuracyError(msg)
 
 
 class StationaryRBReductor(ProjectionBasedReductor):

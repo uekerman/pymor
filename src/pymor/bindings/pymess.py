@@ -175,7 +175,8 @@ def solve_lyap_lrcf(A, E, B, trans=False, cont_time=True, options=None, default_
             logger.warning(f'Desired relative residual tolerance was not achieved '
                            f'({relres:e} > {opts.adi.res2_tol:e}).')
     else:
-        raise ValueError(f'Unexpected Lyapunov equation solver ({options["type"]}).')
+        msg = f'Unexpected Lyapunov equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     return A.source.from_numpy(Z.T)
 
@@ -235,7 +236,8 @@ def solve_lyap_dense(A, E, B, trans=False, cont_time=True, options=None):
             X = pymess.glyap(A, E, Y, op=op)[0]
         X = np.asarray(X)
     else:
-        raise ValueError(f'Unexpected Lyapunov equation solver ({options["type"]}).')
+        msg = f'Unexpected Lyapunov equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     return X
 
@@ -416,7 +418,8 @@ def solve_ricc_lrcf(A, E, B, C, R=None, trans=False, options=None, default_solve
             logger.warning(f'Desired relative residual tolerance was not achieved '
                            f'({relres:e} > {opts.adi.res2_tol:e}).')
     else:
-        raise ValueError(f'Unexpected Riccati equation solver ({options["type"]}).')
+        msg = f'Unexpected Riccati equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     return A.source.from_numpy(Z.T)
 
@@ -473,7 +476,8 @@ def solve_pos_ricc_lrcf(A, E, B, C, R=None, trans=False, options=None):
                                          method_name='solve_pos_ricc_lrcf')
         Z = _chol(X)
     else:
-        raise ValueError(f'Unexpected positive Riccati equation solver ({options["type"]}).')
+        msg = f'Unexpected positive Riccati equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     return A.source.from_numpy(Z.T)
 

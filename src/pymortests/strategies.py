@@ -74,7 +74,8 @@ def _np_arrays(length, dim, dtype=None):
         return hynp.arrays(dtype=dtype, shape=(length, dim), elements=hy_complex_array_elements)
     if dtype is np.float64:
         return hynp.arrays(dtype=dtype, shape=(length, dim), elements=hy_float_array_elements)
-    raise RuntimeError(f'unsupported dtype={dtype}')
+    msg = f'unsupported dtype={dtype}'
+    raise RuntimeError(msg)
 
 
 def _numpy_vector_spaces(draw, np_data_list, compatible, count, dims):

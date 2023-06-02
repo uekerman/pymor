@@ -343,10 +343,12 @@ def visualize_patch(grid, U, bounding_box=([0, 0], [1, 1]), codim=2, title=None,
             logger.warning('import of Qt.QtOpenGL failed, falling back to matplotlib; rendering will be slow')
             backend = 'matplotlib'
         if backend == 'matplotlib' and not config.HAVE_MATPLOTLIB:
-            raise ImportError('cannot visualize: import of matplotlib failed')
+            msg = 'cannot visualize: import of matplotlib failed'
+            raise ImportError(msg)
     else:
         if not config.HAVE_MATPLOTLIB:
-            raise ImportError('cannot visualize: import of matplotlib failed')
+            msg = 'cannot visualize: import of matplotlib failed'
+            raise ImportError(msg)
 
     if backend == 'gl':
         from pymor.discretizers.builtin.gui.qt.gl import ColorBarWidget, GLPatchWidget
@@ -461,7 +463,8 @@ def visualize_matplotlib_1d(grid, U, codim=1, title=None, legend=None, separate_
         If `True`, block execution until the plot window is closed.
     """
     if not config.HAVE_MATPLOTLIB:
-        raise ImportError('cannot visualize: import of matplotlib failed')
+        msg = 'cannot visualize: import of matplotlib failed'
+        raise ImportError(msg)
 
     from pymor.discretizers.builtin.gui.visualizers import _vmins_vmaxs
 

@@ -82,7 +82,8 @@ class GenericIRKAReductor(BasicObject):
             assert rom0_params.dim_input == self.fom.dim_input
             assert rom0_params.dim_output == self.fom.dim_output
         else:
-            raise ValueError(f'rom0_params is of wrong type ({type(rom0_params)}).')
+            msg = f'rom0_params is of wrong type ({type(rom0_params)}).'
+            raise ValueError(msg)
 
     @staticmethod
     def _check_common_args(tol, maxit, num_prev, conv_crit):
@@ -648,8 +649,9 @@ class TFIRKAReductor(GenericIRKAReductor):
 
     def reconstruct(self, u):
         """Reconstruct high-dimensional vector from reduced vector `u`."""
+        msg = f'The reconstruct method is not available for {self.__class__.__name__}.'
         raise TypeError(
-            f'The reconstruct method is not available for {self.__class__.__name__}.'
+            msg
         )
 
 

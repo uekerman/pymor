@@ -82,7 +82,8 @@ class GenericBTReductor(BasicObject):
             r_tol = np.argmax(error_bounds <= tol) + 1
             r = r_tol if r is None else min(r, r_tol)
         if r > min(len(cf), len(of)):
-            raise ValueError('r needs to be smaller than the sizes of Gramian factors.')
+            msg = 'r needs to be smaller than the sizes of Gramian factors.'
+            raise ValueError(msg)
 
         # compute projection matrices
         self.V = cf.lincomb(sV[:r])

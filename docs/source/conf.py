@@ -13,7 +13,8 @@ import sphinx
 
 # Check Sphinx version
 if sphinx.__version__ < '3.4':
-    raise RuntimeError('Sphinx 3.4 or newer required')
+    msg = 'Sphinx 3.4 or newer required'
+    raise RuntimeError(msg)
 
 needs_sphinx = '3.4'
 os.environ['PYMOR_WITH_SPHINX'] = '1'

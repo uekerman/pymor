@@ -77,7 +77,8 @@ def solve_sylv_schur(A, Ar, E=None, Er=None, B=None, Br=None, C=None, Cr=None):
     compute_W = C is not None and Cr is not None
 
     if not compute_V and not compute_W:
-        raise ValueError('Not enough parameters are given to solve a Sylvester equation.')
+        msg = 'Not enough parameters are given to solve a Sylvester equation.'
+        raise ValueError(msg)
 
     if compute_V:
         assert isinstance(B, Operator) and B.linear and B.range == A.source

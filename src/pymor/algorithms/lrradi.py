@@ -93,7 +93,8 @@ def solve_ricc_lrcf(A, E, B, C, R=None, trans=False, options=None):
         init_shifts = hamiltonian_shifts_init
         iteration_shifts = hamiltonian_shifts
     else:
-        raise ValueError('Unknown lrradi shift strategy.')
+        msg = 'Unknown lrradi shift strategy.'
+        raise ValueError(msg)
 
     if E is None:
         E = IdentityOperator(A.source)
@@ -266,7 +267,8 @@ def hamiltonian_shifts_init(A, E, B, C, shift_options):
         if np.abs(shift.imag) / np.abs(shift) < 1e-8:
             shift = shift.real
         return np.array([shift])
-    raise RuntimeError('Could not generate initial shifts for low-rank RADI iteration.')
+    msg = 'Could not generate initial shifts for low-rank RADI iteration.'
+    raise RuntimeError(msg)
 
 
 def hamiltonian_shifts(A, E, B, R, K, Z, shift_options):

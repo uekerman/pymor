@@ -182,7 +182,8 @@ class Operator(ParametricObject):
         if self.linear:
             raise NotImplementedError
         else:
-            raise LinAlgError('Operator not linear.')
+            msg = 'Operator not linear.'
+            raise LinAlgError(msg)
 
     def apply_inverse(self, V, mu=None, initial_guess=None, least_squares=False):
         """Apply the inverse operator.
@@ -318,7 +319,8 @@ class Operator(ParametricObject):
         """
         from pymor.operators.constructions import FixedParameterOperator
         if not self.linear:
-            raise LinAlgError('Operator not linear.')
+            msg = 'Operator not linear.'
+            raise LinAlgError(msg)
         assembled_op = self.assemble(mu)
         if assembled_op != self and not isinstance(assembled_op, FixedParameterOperator):
             return assembled_op.apply_inverse_adjoint(U, initial_guess=initial_guess, least_squares=least_squares)
@@ -445,13 +447,15 @@ class Operator(ParametricObject):
             |VectorArray| of length 1 containing the vector representation.
         """
         if not self.linear:
-            raise TypeError('This nonlinear operator does not represent a vector or linear functional.')
+            msg = 'This nonlinear operator does not represent a vector or linear functional.'
+            raise TypeError(msg)
         if self.source.is_scalar:
             return self.as_range_array(mu)
         elif self.range.is_scalar:
             return self.as_source_array(mu)
         else:
-            raise TypeError('This operator does not represent a vector or linear functional.')
+            msg = 'This operator does not represent a vector or linear functional.'
+            raise TypeError(msg)
 
     def assemble(self, mu=None):
         """Assemble the operator for given |parameter values|.

@@ -126,7 +126,8 @@ def solve_ricc_lrcf(A, E, B, C, R=None, trans=False, options=None,
     elif backend == 'lrradi':
         from pymor.algorithms.lrradi import solve_ricc_lrcf as solve_ricc_impl
     else:
-        raise ValueError(f'Unknown solver backend ({backend}).')
+        msg = f'Unknown solver backend ({backend}).'
+        raise ValueError(msg)
     return solve_ricc_impl(A, E, B, C, R, trans=trans, options=options)
 
 
@@ -205,7 +206,8 @@ def solve_ricc_dense(A, E, B, C, R=None, trans=False, options=None,
     elif backend == 'slycot':
         from pymor.bindings.slycot import solve_ricc_dense as solve_ricc_impl
     else:
-        raise ValueError(f'Unknown solver backend ({backend}).')
+        msg = f'Unknown solver backend ({backend}).'
+        raise ValueError(msg)
     return solve_ricc_impl(A, E, B, C, R, trans, options=options)
 
 
@@ -309,7 +311,8 @@ def solve_pos_ricc_lrcf(A, E, B, C, R=None, trans=False, options=None,
     elif backend == 'pymess':
         from pymor.bindings.pymess import solve_pos_ricc_lrcf as solve_ricc_impl
     else:
-        raise ValueError(f'Unknown solver backend ({backend}).')
+        msg = f'Unknown solver backend ({backend}).'
+        raise ValueError(msg)
     return solve_ricc_impl(A, E, B, C, R, trans=trans, options=options)
 
 

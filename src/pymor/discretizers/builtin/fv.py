@@ -874,7 +874,8 @@ class InterpolationOperator(NumpyMatrixBasedOperator):
         assert function.dim_domain == grid.dim
         assert function.shape_range == ()
         if order != 0:
-            raise NotImplementedError('Higher orders not implemented yet!')
+            msg = 'Higher orders not implemented yet!'
+            raise NotImplementedError(msg)
         self.__auto_init(locals())
         self.range = FVVectorSpace(grid)
 

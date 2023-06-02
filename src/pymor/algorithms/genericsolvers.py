@@ -143,7 +143,8 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
                              inner_m=options['inner_m'],
                              outer_k=options['outer_k'])
             if info > 0:
-                raise InversionError(f'lgmres failed to converge after {info} iterations')
+                msg = f'lgmres failed to converge after {info} iterations'
+                raise InversionError(msg)
             assert info == 0
             R.append(r)
     elif options['type'] == 'generic_least_squares_lsmr':
@@ -157,7 +158,8 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
                                                show=options['show'])
             assert 0 <= info <= 7
             if info == 7:
-                raise InversionError(f'lsmr failed to converge after {itn} iterations')
+                msg = f'lsmr failed to converge after {itn} iterations'
+                raise InversionError(msg)
             getLogger('pymor.algorithms.genericsolvers.lsmr').info(f'Converged after {itn} iterations')
             R.append(r)
     elif options['type'] == 'generic_least_squares_lsqr':
@@ -171,15 +173,18 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
                                                   show=options['show'])
             assert 0 <= info <= 7
             if info == 7:
-                raise InversionError(f'lsmr failed to converge after {itn} iterations')
+                msg = f'lsmr failed to converge after {itn} iterations'
+                raise InversionError(msg)
             getLogger('pymor.algorithms.genericsolvers.lsqr').info(f'Converged after {itn} iterations')
             R.append(r)
     else:
-        raise ValueError('Unknown solver type')
+        msg = 'Unknown solver type'
+        raise ValueError(msg)
 
     if check_finite:
         if not np.isfinite(np.all(R.norm())):
-            raise InversionError('Result contains non-finite values')
+            msg = 'Result contains non-finite values'
+            raise InversionError(msg)
 
     return R
 

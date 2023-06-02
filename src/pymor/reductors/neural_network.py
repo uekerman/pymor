@@ -216,7 +216,8 @@ class NeuralNetworkReductor(BasicObject):
                     loss_function = weighted_mse_loss_function
                     self.logger.info('Using weighted MSE loss function ...')
                 else:
-                    raise RuntimeError('No weights for weighted MSE loss available!')
+                    msg = 'No weights for weighted MSE loss available!'
+                    raise RuntimeError(msg)
             training_parameters = {'optimizer': optimizer, 'epochs': epochs,
                                    'batch_size': batch_size, 'learning_rate': learning_rate,
                                    'lr_scheduler': lr_scheduler, 'lr_scheduler_params': lr_scheduler_params,
@@ -354,19 +355,20 @@ class NeuralNetworkReductor(BasicObject):
 
             if isinstance(self.ann_mse, Number):
                 if self.losses['full'] > self.ann_mse:
-                    raise NeuralNetworkTrainingError('Could not train a neural network that '
-                                                      'guarantees prescribed tolerance!')
+                    msg = 'Could not train a neural network that guarantees prescribed tolerance!'
+                    raise NeuralNetworkTrainingError(msg)
             elif self.ann_mse == 'like_basis':
                 if self.losses['full'] > self.mse_basis:
-                    raise NeuralNetworkTrainingError('Could not train a neural network with an error as small as '
-                                                      'the reduced basis error! Maybe you can try a different '
-                                                      'neural network architecture or change the value of '
-                                                      '`ann_mse`.')
+                    msg = ('Could not train a neural network with an error as small as the reduced basis error! '
+                           'Maybe you can try a different neural network architecture '
+                           'or change the value of `ann_mse`.')
+                    raise NeuralNetworkTrainingError(msg)
             elif self.ann_mse is None:
                 self.logger.info('Using neural network with smallest validation error ...')
                 self.logger.info(f'Finished training with a validation loss of {self.losses["val"]} ...')
             else:
-                raise ValueError('Unknown value for mean squared error of neural network')
+                msg = 'Unknown value for mean squared error of neural network'
+                raise ValueError(msg)
 
     def _build_rom(self):
         """Construct the reduced order model."""
@@ -1312,7 +1314,8 @@ def multiple_restarts_training(training_data, validation_data, neural_network,
                         f'(instead of {losses["full"]:.3e}) ...')
 
     if target_loss:
-        raise NeuralNetworkTrainingError(f'Could not find neural network with prescribed loss of '
-                                          f'{target_loss:.3e} (best one found was {losses["full"]:.3e})!')
+        msg = (f'Could not find neural network with prescribed loss of {target_loss:.3e} '
+               f'(best one found was {losses["full"]:.3e})!')
+        raise NeuralNetworkTrainingError(msg)
     logger.info(f'Found neural network with error of {losses["full"]:.3e} ...')
     return best_neural_network, losses

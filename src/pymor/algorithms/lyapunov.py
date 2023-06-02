@@ -128,7 +128,8 @@ def solve_cont_lyap_lrcf(A, E, B, trans=False, options=None,
     elif backend == 'lradi':
         from pymor.algorithms.lradi import solve_lyap_lrcf as solve_lyap_impl
     else:
-        raise ValueError(f'Unknown solver backend ({backend}).')
+        msg = f'Unknown solver backend ({backend}).'
+        raise ValueError(msg)
     return solve_lyap_impl(A, E, B, trans=trans, cont_time=True, options=options)
 
 
@@ -206,7 +207,8 @@ def solve_disc_lyap_lrcf(A, E, B, trans=False, options=None,
     elif backend == 'slycot':
         from pymor.bindings.slycot import solve_lyap_lrcf as solve_lyap_impl
     else:
-        raise ValueError(f'Unknown solver backend ({backend}).')
+        msg = f'Unknown solver backend ({backend}).'
+        raise ValueError(msg)
     return solve_lyap_impl(A, E, B, trans=trans, cont_time=False, options=options)
 
 
@@ -298,7 +300,8 @@ def solve_cont_lyap_dense(A, E, B, trans=False, options=None,
     elif backend == 'pymess':
         from pymor.bindings.pymess import solve_lyap_dense as solve_lyap_impl
     else:
-        raise ValueError(f'Unknown solver backend ({backend}).')
+        msg = f'Unknown solver backend ({backend}).'
+        raise ValueError(msg)
     return solve_lyap_impl(A, E, B, trans=trans, cont_time=True, options=options)
 
 
@@ -375,7 +378,8 @@ def solve_disc_lyap_dense(A, E, B, trans=False, options=None,
     elif backend == 'slycot':
         from pymor.bindings.slycot import solve_lyap_dense as solve_lyap_impl
     else:
-        raise ValueError(f'Unknown solver backend ({backend}).')
+        msg = f'Unknown solver backend ({backend}).'
+        raise ValueError(msg)
     return solve_lyap_impl(A, E, B, trans=trans, cont_time=False, options=options)
 
 

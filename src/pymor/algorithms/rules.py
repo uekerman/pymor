@@ -78,7 +78,8 @@ class match_class_base(rule):
     def __init__(self, *classes):
         super().__init__()
         if not classes:
-            raise ValueError('At least one class is required')
+            msg = 'At least one class is required'
+            raise ValueError(msg)
         self.classes = classes
         self.condition_description = ', '.join(c.__name__ for c in classes)
 
@@ -153,11 +154,13 @@ class RuleTableMeta(UberMeta):
         assert 'rules' not in dct
         rules = []
         if not {p.__name__ for p in parents} <= {'RuleTable', 'BasicObject'}:
-            raise NotImplementedError('Inheritance for RuleTables not implemented yet.')
+            msg = 'Inheritance for RuleTables not implemented yet.'
+            raise NotImplementedError(msg)
         for k, v in dct.items():
             if isinstance(v, rule):
                 if not k.startswith('action_'):
-                    raise ValueError('Rule definition names have to start with "action_"')
+                    msg = 'Rule definition names have to start with "action_"'
+                    raise ValueError(msg)
                 v.name = k
                 rules.append(v)
         # note: since Python 3.6, the definition order is preserved in dct,

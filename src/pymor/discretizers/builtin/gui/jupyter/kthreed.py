@@ -25,7 +25,8 @@ class VectorArrayPlot(k3dPlot):
     def __init__(self, U, grid, codim, color_map, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if 'transform' in kwargs.keys():
-            raise RuntimeError('supplying transforms is currently not supported for time series Data')
+            msg = 'supplying transforms is currently not supported for time series Data'
+            raise RuntimeError(msg)
 
         self.subentities, self.coordinates, entity_map = flatten_grid(grid)
         self.data = (U.to_numpy() if codim == 0 else U.to_numpy()[:, entity_map].copy()).astype(np.float32)

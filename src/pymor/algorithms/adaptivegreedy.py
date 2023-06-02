@@ -337,7 +337,8 @@ class AdaptiveSampleSet(BasicObject):
     def visualize(self, vertex_data=None, vertex_inds=None, center_data=None, center_inds=None, volume_data=None,
                   vertex_size=80, vmin=None, vmax=None, new_figure=True):
         if self.dim not in (2, 3):
-            raise ValueError('Can only visualize samples of dimension 2, 3')
+            msg = 'Can only visualize samples of dimension 2, 3'
+            raise ValueError(msg)
 
         vertices = np.array(self.vertices).astype(float) * self.dimensions[np.newaxis, :] + self.ranges[:, 0]
         centers = np.array(self.centers).astype(float) * self.dimensions[np.newaxis, :] + self.ranges[:, 0]

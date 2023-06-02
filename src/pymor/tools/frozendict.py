@@ -13,7 +13,8 @@ class FrozenDict(dict):
 
     @property
     def _blocked_attribute(self):
-        raise AttributeError(f'A {type(self).__name__} cannot be modified.')
+        msg = f'A {type(self).__name__} cannot be modified.'
+        raise AttributeError(msg)
 
     __delitem__ = __setitem__ = clear = _blocked_attribute
     pop = popitem = setdefault = update = _blocked_attribute

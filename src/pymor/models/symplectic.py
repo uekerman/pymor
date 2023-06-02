@@ -30,7 +30,8 @@ class BaseQuadraticHamiltonianModel(InstationaryModel):
             # this case is required to use "with_" in combination with this model
             assert hasattr(time_stepper, 'nt') and time_stepper.nt == nt
         if time_stepper is None and nt is None:
-            raise ValueError('Specify time_stepper or nt (or both)')
+            msg = 'Specify time_stepper or nt (or both)'
+            raise ValueError(msg)
         if time_stepper is None:
             time_stepper = ImplicitMidpointTimeStepper(nt)
 

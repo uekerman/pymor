@@ -221,6 +221,7 @@ select = [
   "ASYNC",  # flake8-async
   "ICN",  # flake8-import-conventions
   "Q",  # flake8-quotes
+  "EM",  # flake8-errmsg
 ]
 ignore = [
   "D10",  # missing docstring in module, function, method, magic, __init__, public nested class

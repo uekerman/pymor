@@ -218,7 +218,8 @@ class VectorArray(BasicObject):
             if 0 <= ind < l:
                 ind = slice(ind, ind+1)
             elif ind >= l or ind < -l:
-                raise IndexError('VectorArray index out of range')
+                msg = 'VectorArray index out of range'
+                raise IndexError(msg)
             else:
                 ind = l+ind
                 ind = slice(ind, ind+1)
@@ -247,7 +248,8 @@ class VectorArray(BasicObject):
     def __delitem__(self, ind):
         """Remove vectors from the array."""
         if self.is_view:
-            raise ValueError('Cannot delete items from VectorArray view')
+            msg = 'Cannot delete items from VectorArray view'
+            raise ValueError(msg)
         assert self.check_ind(ind)
         self._copy_impl_if_multiple_refs()
         self.impl.delete(ind)
@@ -278,9 +280,11 @@ class VectorArray(BasicObject):
         """
         assert other in self.space
         if self.is_view:
-            raise ValueError('Cannot append to VectorArray view')
+            msg = 'Cannot append to VectorArray view'
+            raise ValueError(msg)
         if remove_from_other and self.impl is other.impl:
-            raise ValueError('Cannot append VectorArray to itself with remove_from_other=True')
+            msg = 'Cannot append VectorArray to itself with remove_from_other=True'
+            raise ValueError(msg)
         self._copy_impl_if_multiple_refs()
         if remove_from_other:
             other._copy_impl_if_multiple_refs()
@@ -592,7 +596,8 @@ class VectorArray(BasicObject):
         if product is not None:
             norm_squared = product.pairwise_apply2(self, self)
             if raise_complex and np.any(np.abs(norm_squared.imag) > tol):
-                raise ValueError(f'norm is complex (square = {norm_squared})')
+                msg = f'norm is complex (square = {norm_squared})'
+                raise ValueError(msg)
             return norm_squared.real
         else:
             norm_squared = self.impl.norm2(self.ind)

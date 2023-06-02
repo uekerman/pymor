@@ -21,21 +21,25 @@ def _loadmat(path, key=None):
         try:
             return data[key]
         except KeyError as e:
-            raise OSError(f'"{key}" not found in MATLAB file {path}') from e
+            msg = f'"{key}" not found in MATLAB file {path}'
+            raise OSError(msg) from e
 
     data = [v for v in data.values() if isinstance(v, np.ndarray) or issparse(v)]
 
     if len(data) == 0:
-        raise OSError(f'No matrix data contained in MATLAB file {path}')
+        msg = f'No matrix data contained in MATLAB file {path}'
+        raise OSError(msg)
     elif len(data) > 1:
-        raise OSError(f'More than one matrix object stored in MATLAB file {path}')
+        msg = f'More than one matrix object stored in MATLAB file {path}'
+        raise OSError(msg)
     else:
         return data[0]
 
 
 def _savemat(path, matrix, key=None):
     if key is None:
-        raise OSError('"key" must be specified for MATLAB file')
+        msg = '"key" must be specified for MATLAB file'
+        raise OSError(msg)
     try:
         savemat(path, {key: matrix})
     except Exception as e:
@@ -44,7 +48,8 @@ def _savemat(path, matrix, key=None):
 
 def _mmread(path, key=None):
     if key:
-        raise OSError('Cannot specify "key" for Matrix Market file')
+        msg = 'Cannot specify "key" for Matrix Market file'
+        raise OSError(msg)
     try:
         matrix = mmread(path)
         if issparse(matrix):
@@ -59,7 +64,8 @@ def _mmread(path, key=None):
 
 def _mmwrite(path, matrix, key=None):
     if key:
-        raise OSError('Cannot specify "key" for Matrix Market file')
+        msg = 'Cannot specify "key" for Matrix Market file'
+        raise OSError(msg)
     try:
         if path.suffix != '.gz':
             open_file = open
@@ -86,23 +92,28 @@ def _load(path, key=None):
             try:
                 matrix = data[key]
             except KeyError as e:
-                raise OSError(f'"{key}" not found in NPY file {path}') from e
+                msg = f'"{key}" not found in NPY file {path}'
+                raise OSError(msg) from e
         elif len(data) == 0:
-            raise OSError(f'No data contained in NPY file {path}')
+            msg = f'No data contained in NPY file {path}'
+            raise OSError(msg)
         elif len(data) > 1:
-            raise OSError(f'More than one object stored in NPY file {path} for key {key}')
+            msg = f'More than one object stored in NPY file {path} for key {key}'
+            raise OSError(msg)
         else:
             matrix = next(iter(data.values()))
     else:
         matrix = data
     if not isinstance(matrix, np.ndarray) and not issparse(matrix):
-        raise OSError(f'Loaded data is not a matrix in NPY file {path}')
+        msg = f'Loaded data is not a matrix in NPY file {path}'
+        raise OSError(msg)
     return matrix
 
 
 def _save(path, matrix, key=None):
     if key:
-        raise OSError('Cannot specify "key" for NPY file')
+        msg = 'Cannot specify "key" for NPY file'
+        raise OSError(msg)
     try:
         np.save(path, matrix)
     except Exception as e:
@@ -121,7 +132,8 @@ def _savez(path, matrix, key=None):
 
 def _loadtxt(path, key=None):
     if key:
-        raise OSError('Cannot specify "key" for TXT file')
+        msg = 'Cannot specify "key" for TXT file'
+        raise OSError(msg)
     try:
         return np.loadtxt(path)
     except Exception as e:
@@ -130,7 +142,8 @@ def _loadtxt(path, key=None):
 
 def _savetxt(path, matrix, key=None):
     if key:
-        raise OSError('Cannot specify "key" for TXT file')
+        msg = 'Cannot specify "key" for TXT file'
+        raise OSError(msg)
     try:
         return np.savetxt(path, matrix)
     except Exception as e:
@@ -198,7 +211,8 @@ def load_matrix(path, key=None):
         except OSError:
             pass
 
-    raise OSError(f'Could not load file {path} (key = {key})')
+    msg = f'Could not load file {path} (key = {key})'
+    raise OSError(msg)
 
 
 def save_matrix(path, matrix, key=None):
@@ -239,4 +253,5 @@ def save_matrix(path, matrix, key=None):
         logger.info(file_type + ' file detected.')
         return saver(path, matrix, key)
 
-    raise OSError(f'Unknown extension "{extension}"')
+    msg = f'Unknown extension "{extension}"'
+    raise OSError(msg)

@@ -112,7 +112,8 @@ def solve_lyap_lrcf(A, E, B, trans=False, cont_time=True, options=None):
         init_shifts = wachspress_shifts_init
         iteration_shifts = cycle_shifts
     else:
-        raise ValueError('Unknown low-rank ADI shift strategy.')
+        msg = 'Unknown low-rank ADI shift strategy.'
+        raise ValueError(msg)
 
     if E is None:
         E = IdentityOperator(A.source)
@@ -201,7 +202,8 @@ def projection_shifts_init(A, E, B, shift_options):
                 B = B.random(len(B), distribution='normal')
         else:
             return shifts
-    raise RuntimeError('Could not generate initial shifts for low-rank ADI iteration.')
+    msg = 'Could not generate initial shifts for low-rank ADI iteration.'
+    raise RuntimeError(msg)
 
 
 def projection_shifts(A, E, V, Z, prev_shifts, shift_options):
@@ -293,7 +295,8 @@ def wachspress_shifts_init(A, E, B, shift_options):
         m = 2 * np.cos(alpha)**2 / cos2b - 1
         if m < 1:
             # shifts are complex, method not applicable
-            raise NotImplementedError('LR-ADI shift parameter strategy can not handle complex shifts.')
+            msg = 'LR-ADI shift parameter strategy can not handle complex shifts.'
+            raise NotImplementedError(msg)
         kp = 1 / (m + np.sqrt(m**2 - 1))
 
     # make sure k is not exactly 1

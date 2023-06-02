@@ -381,4 +381,5 @@ class TFBHIReductor(BasicObject):
 
     def reconstruct(self, u):
         """Reconstruct high-dimensional vector from reduced vector `u`."""
-        raise TypeError(f'The reconstruct method is not available for {self.__class__.__name__}.')
+        msg = f'The reconstruct method is not available for {self.__class__.__name__}.'
+        raise TypeError(msg)

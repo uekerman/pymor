@@ -116,7 +116,8 @@ class TransferFunction(CacheableObject, ParametricObject):
             mu = self.parameters.parse(mu)
         assert self.parameters.assert_compatible(mu)
         if self.dtf is None:
-            raise ValueError('The derivative was not given.')
+            msg = 'The derivative was not given.'
+            raise ValueError(msg)
         if not self.parametric:
             return self.dtf(s)
         else:

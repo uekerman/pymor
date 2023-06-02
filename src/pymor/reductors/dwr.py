@@ -91,11 +91,13 @@ class DWRCoerciveRBReductor(BasicObject):
         assert isinstance(dual_dims, list)
         assert all(isinstance(dim, Number) for dim in dual_dims)
         if primal_dim < 0 or any(dim < 0 for dim in dual_dims):
-            raise ValueError('Reduced state dimension must be non-negative')
+            msg = 'Reduced state dimension must be non-negative'
+            raise ValueError(msg)
         if primal_dim > len(self.primal_reductor.bases['RB']) or \
                 any(dim > len(dual_reductor.bases['RB'])
                     for dim, dual_reductor in zip(dual_dims, self.dual_reductors)):
-            raise ValueError('Specified reduced state dimension larger than reduced basis')
+            msg = 'Specified reduced state dimension larger than reduced basis'
+            raise ValueError(msg)
 
         dims = [primal_dim] + dual_dims
         if self._last_rom is None or any((dim > last_rom_dim)

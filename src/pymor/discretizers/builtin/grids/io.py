@@ -25,7 +25,8 @@ def to_meshio(grid, data, codim=2):
     list of meshio.Mesh objects
     """
     if not config.HAVE_MESHIO:
-        raise ImportError('Missing meshio')
+        msg = 'Missing meshio'
+        raise ImportError(msg)
     import meshio
 
     subentities, coordinates, entity_map = flatten_grid(grid)
@@ -38,7 +39,8 @@ def to_meshio(grid, data, codim=2):
     elif ref is referenceelements.square:
         cells = [('quad', subentities), ]
     else:
-        raise NotImplementedError('Meshio conversion restricted to grid with triangle or rectangle reference elements')
+        msg = 'Meshio conversion restricted to grid with triangle or rectangle reference elements'
+        raise NotImplementedError(msg)
 
     meshes = []
     for i in range(len(data)):

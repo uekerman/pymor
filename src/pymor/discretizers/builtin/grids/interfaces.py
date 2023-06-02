@@ -579,7 +579,8 @@ class BoundaryInfo(CacheableObject):
         retval[i] is `True` if the codim-`codim` entity of global index `i` is associated to the
         boundary type `boundary_type`.
         """
-        raise ValueError(f'Has no boundary_type "{boundary_type}"')
+        msg = f'Has no boundary_type "{boundary_type}"'
+        raise ValueError(msg)
 
     def unique_boundary_type_mask(self, codim):
         """Return unique boundary type mask.

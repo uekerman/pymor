@@ -149,7 +149,8 @@ def newton(operator, rhs, initial_guess=None, mu=None, range_product=None, sourc
                             f'window: {stagnation_window}). Converged.')
                 break
             if iteration >= maxiter:
-                raise NewtonError(f'Failed to converge after {iteration} iterations.')
+                msg = f'Failed to converge after {iteration} iterations.'
+                raise NewtonError(msg)
 
         iteration += 1
 
@@ -164,7 +165,8 @@ def newton(operator, rhs, initial_guess=None, mu=None, range_product=None, sourc
         try:
             update = jacobian.apply_inverse(residual, least_squares=least_squares)
         except InversionError as e:
-            raise NewtonError('Could not invert jacobian.') from e
+            msg = 'Could not invert jacobian.'
+            raise NewtonError(msg) from e
 
         # compute step size
         if isinstance(relax, Number):
@@ -181,7 +183,8 @@ def newton(operator, rhs, initial_guess=None, mu=None, range_product=None, sourc
                           + jacobian.apply(range_product.apply_adjoint(residual)))
             step_size = armijo(res, U, update, grad=grad, initial_value=residual_norm, **(line_search_params or {}))
         else:
-            raise ValueError('Unknown line search method.')
+            msg = 'Unknown line search method.'
+            raise ValueError(msg)
 
         # update solution and residual
         U.axpy(step_size, update)
@@ -212,7 +215,8 @@ def newton(operator, rhs, initial_guess=None, mu=None, range_product=None, sourc
                         f'tot_red:{residual_norm / residual_norms[0]:.3e}')
 
         if not np.isfinite(residual_norm) or not np.isfinite(solution_norm):
-            raise NewtonError('Failed to converge.')
+            msg = 'Failed to converge.'
+            raise NewtonError(msg)
 
     logger.info('')
 

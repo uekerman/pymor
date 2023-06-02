@@ -178,7 +178,8 @@ def create_fom(problem_number, grid_intervals, time_steps):
         fom, _ = discretize_instationary_fv(problem, diameter=1. / grid_intervals, nt=time_steps)
         plot_function = fom.visualize
     else:
-        raise ValueError(f'Unknown problem number {problem_number}')
+        msg = f'Unknown problem number {problem_number}'
+        raise ValueError(msg)
 
     return fom, plot_function
 

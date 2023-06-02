@@ -226,7 +226,8 @@ class Model(CacheableObject, ParametricObject):
         `'solution_error_estimate'`.
         """
         if self.error_estimator is None:
-            raise ValueError('Model has no error estimator')
+            msg = 'Model has no error estimator'
+            raise ValueError(msg)
         return self.error_estimator.estimate_error(solution, mu, self, **kwargs)
 
     def _compute_output_error_estimate(self, solution, mu=None, return_vector=False, **kwargs):
@@ -265,7 +266,8 @@ class Model(CacheableObject, ParametricObject):
         `'solution_error_estimate'`.
         """
         if self.error_estimator is None:
-            raise ValueError('Model has no error estimator')
+            msg = 'Model has no error estimator'
+            raise ValueError(msg)
         return self.error_estimator.estimate_output_error(solution, mu, self,
                                                           return_vector=return_vector,
                                                           **kwargs)
@@ -670,4 +672,5 @@ class Model(CacheableObject, ParametricObject):
         if getattr(self, 'visualizer') is not None:
             return self.visualizer.visualize(U, **kwargs)
         else:
-            raise NotImplementedError('Model has no visualizer.')
+            msg = 'Model has no visualizer.'
+            raise NotImplementedError(msg)

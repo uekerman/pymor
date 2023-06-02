@@ -48,7 +48,8 @@ class Point(ReferenceElement):
             assert npoints is None or npoints == 1, 'there is only one point in dimension 0!'
             return np.zeros((1, 0)), np.ones(1)
         else:
-            raise NotImplementedError('quadrature_type must be "default" or "gauss"')
+            msg = 'quadrature_type must be "default" or "gauss"'
+            raise NotImplementedError(msg)
 
 
 point = Point()
@@ -107,7 +108,8 @@ class Line(ReferenceElement):
             P, W = GaussQuadratures.quadrature(order, npoints)
             return P[:, np.newaxis], W
         else:
-            raise NotImplementedError('quadrature_type must be "default" or "gauss"')
+            msg = 'quadrature_type must be "default" or "gauss"'
+            raise NotImplementedError(msg)
 
 
 line = Line()
@@ -209,7 +211,8 @@ class Square(ReferenceElement):
                 p = np.where(self._quadrature_npoints == npoints)[0][0]
             return self._quadrature_points[p], self._quadrature_weights[p]
         else:
-            raise NotImplementedError('quadrature_type must be "default" or "tensored_gauss"')
+            msg = 'quadrature_type must be "default" or "tensored_gauss"'
+            raise NotImplementedError(msg)
 
 
 square = Square()
@@ -307,7 +310,8 @@ class Triangle(ReferenceElement):
             #         np.ones(3) / len(A) * self.volume)
             return np.array(([0.5, 0.5], [0, 0.5], [0.5, 0])), np.ones(3) / 3 * self.volume
         else:
-            raise NotImplementedError('quadrature_type must be "center" or "edge_centers"')
+            msg = 'quadrature_type must be "center" or "edge_centers"'
+            raise NotImplementedError(msg)
 
 
 triangle = Triangle()

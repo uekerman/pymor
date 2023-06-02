@@ -74,7 +74,8 @@ def solve_lyap_lrcf(A, E, B, trans=False, cont_time=True, options=None):
                              trans=trans, cont_time=cont_time, options=options)
         Z = _chol(X)
     else:
-        raise ValueError(f"Unexpected Lyapunov equation solver ({options['type']}).")
+        msg = f'Unexpected Lyapunov equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     return A.source.from_numpy(Z.T)
 
@@ -155,7 +156,8 @@ def solve_lyap_dense(A, E, B, trans=False, cont_time=True, options=None):
             _solve_check(A.dtype, 'slycot.sg03ad', sep, ferr)
         X /= scale
     else:
-        raise ValueError(f"Unexpected Lyapunov equation solver ({options['type']}).")
+        msg = f'Unexpected Lyapunov equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     return X
 
@@ -198,7 +200,8 @@ def solve_ricc_dense(A, E, B, C, R=None, trans=False, options=None):
     options = _parse_options(options, ricc_dense_solver_options(), 'slycot', None, False)
 
     if options['type'] != 'slycot':
-        raise ValueError(f"Unexpected Riccati equation solver ({options['type']}).")
+        msg = f'Unexpected Riccati equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     dico = 'C'
     n = A.shape[0]
@@ -312,7 +315,8 @@ def solve_ricc_lrcf(A, E, B, C, R=None, trans=False, options=None):
     _solve_ricc_check_args(A, E, B, C, R, trans)
     options = _parse_options(options, ricc_lrcf_solver_options(), 'slycot', None, False)
     if options['type'] != 'slycot':
-        raise ValueError(f"Unexpected Riccati equation solver ({options['type']}).")
+        msg = f'Unexpected Riccati equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     A_source = A.source
     A = to_matrix(A, format='dense')
@@ -383,7 +387,8 @@ def solve_pos_ricc_lrcf(A, E, B, C, R=None, trans=False, options=None):
     _solve_ricc_check_args(A, E, B, C, R, trans)
     options = _parse_options(options, pos_ricc_lrcf_solver_options(), 'slycot', None, False)
     if options['type'] != 'slycot':
-        raise ValueError(f"Unexpected positive Riccati equation solver ({options['type']}).")
+        msg = f'Unexpected positive Riccati equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     if R is None:
         R = np.eye(len(C) if not trans else len(B))

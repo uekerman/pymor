@@ -82,7 +82,8 @@ def parse_expression(expression, parameters={}, values={}):
                 or (name in globals() and isinstance(globals()[name], Expression))
                 or name in parameters
                 or name in values):
-            raise ValueError(f'Unknown name "{name}" in expression "{expression}"')
+            msg = f'Unknown name "{name}" in expression "{expression}"'
+            raise ValueError(msg)
 
     # wrap all literals as Expressions
     transformed_tree = TransformLiterals().visit(tree)
@@ -95,19 +96,21 @@ def parse_expression(expression, parameters={}, values={}):
     try:
         expression = eval(code, dict(globals(), **values), locals_dict)
     except ValueError as e:
-        raise ValueError(f"""
+        msg = f"""
 While parsing expression
 \t{expression}
 with parameters {parameters} and values {values} the following error occurred:
 \t{e}
-""") from e
+"""
+        raise ValueError(msg) from e
 
     if not isinstance(expression, Expression):
-        raise ValueError(f"""
+        msg = f"""
 Malformed expression
 \t{expression}
 evaluates to {type(expression).__name__} instead of Expression object.
-""")
+"""
+        raise ValueError(msg)
 
     return expression
 
@@ -276,7 +279,8 @@ class Expression(ParametricObject):
         return GT(self, other)
 
     def __bool__(self):
-        raise TypeError("Cannot convert Expression to bool. (Don't use boolean operators or two-sided comparisons.)")
+        msg = "Cannot convert Expression to bool. (Don't use boolean operators or two-sided comparisons.)"
+        raise TypeError(msg)
 
 
 class BaseConstant(Expression):
@@ -292,7 +296,8 @@ class BaseConstant(Expression):
     def fenics_expr(self, params):
         import ufl
         if self.fenics_symbol is None:
-            raise NotImplementedError('No FEniCS symbol was given!')
+            msg = 'No FEniCS symbol was given!'
+            raise NotImplementedError(msg)
 
         fenics_const = getattr(ufl, self.fenics_symbol)
         return np.array(fenics_const)
@@ -310,7 +315,8 @@ class Constant(BaseConstant):
         if isinstance(value, np.ndarray):
             value = value.item()
         if not isinstance(value, Number):
-            raise ValueError(f'Invalid Constant "{value}" of type {type(value).__name__} (expected Number).')
+            msg = f'Invalid Constant "{value}" of type {type(value).__name__} (expected Number).'
+            raise ValueError(msg)
         self.value = value
         self.numpy_symbol = repr(value)
 
@@ -338,10 +344,11 @@ class Parameter(Expression):
 
     def __init__(self, name, dim):
         if not isinstance(name, str):
-            raise ValueError(f'Invalid name "{name}" for Parameter (must by string given {type(name).__name__}).')
+            msg = f'Invalid name "{name}" for Parameter (must by string given {type(name).__name__}).'
+            raise ValueError(msg)
         if not isinstance(dim, int):
-            raise ValueError(f'Invalid dimension "{dim}" for Parameter {name} '
-                             f'(must by int given {type(dim).__name__}).')
+            msg = f'Invalid dimension "{dim}" for Parameter {name} (must by int given {type(dim).__name__}).'
+            raise ValueError(msg)
         self.name, self.dim = name, dim
         self.shape = (dim,)
         self.parameters_own = {name: dim}
@@ -365,12 +372,14 @@ class Array(Expression):
         A = np.array(array)
         for i, v in np.ndenumerate(A):
             if isinstance(v, (np.ndarray, list)):
-                raise ValueError(f'Malformed Array construction {array} does not give ndarray of Expressions.')
+                msg = f'Malformed Array construction {array} does not give ndarray of Expressions.'
+                raise ValueError(msg)
             if not isinstance(v, Expression):
-                raise ValueError(f'Entry "{v}" at index {i} of Array {array} is not an Expression '
-                                 f'(type: {type(v).__name__}).')
+                msg = f'Entry "{v}" at index {i} of Array {array} is not an Expression (type: {type(v).__name__}).'
+                raise ValueError(msg)
             if v.shape != ():
-                raise ValueError(f'Entry "{v}" at index {i} of Array {array} is not scalar valued (shape: {v.shape}).')
+                msg = f'Entry "{v}" at index {i} of Array {array} is not scalar valued (shape: {v.shape}).'
+                raise ValueError(msg)
         self.array = A
         self.shape = A.shape
 
@@ -403,14 +412,17 @@ class BinaryOp(Expression):
 
     def __init__(self, first, second):
         if not isinstance(first, Expression):
-            raise ValueError(f'First operand of {type(self).__name__}({first}, {second}) must be Expression '
-                             f'(given: {type(first).__name__}).')
+            msg = (f'First operand of {type(self).__name__}({first}, {second}) must be Expression '
+                   f'(given: {type(first).__name__}).')
+            raise ValueError(msg)
         if not isinstance(second, Expression):
-            raise ValueError(f'Second operand of {type(self).__name__}({first}, {second}) must be Expression '
-                             f'(given: {type(second).__name__}).')
+            msg = (f'Second operand of {type(self).__name__}({first}, {second}) must be Expression '
+                   f'(given: {type(second).__name__}).')
+            raise ValueError(msg)
         if not _broadcastable_shapes(first.shape, second.shape):
-            raise ValueError(f'Operands of {type(self).__name__}({first}, {second}) have incompatible shapes '
-                             f'({first.shape} and {second.shape}).')
+            msg = (f'Operands of {type(self).__name__}({first}, {second}) have incompatible shapes '
+                   f'({first.shape} and {second.shape}).')
+            raise ValueError(msg)
 
         self.first, self.second = first, second
         self.shape = tuple(builtin_max(f, s)
@@ -434,14 +446,17 @@ class BinaryOp(Expression):
     def fenics_expr(self, params):
         import ufl
         if self.fenics_symbol is None:
-            raise NotImplementedError(f'UFL does not support operand {self.numpy_symbol}')
+            msg = f'UFL does not support operand {self.numpy_symbol}'
+            raise NotImplementedError(msg)
 
         ufl_op = getattr(ufl, self.fenics_symbol) if isinstance(self.fenics_symbol, str) else self.fenics_symbol
         first = self.first.fenics_expr(params)
         second = self.second.fenics_expr(params)
         if not _broadcastable_shapes(first.shape, second.shape):
-            raise ValueError(f'Incompatible shapes of expressions "{first}" and "{second}" with shapes '
-                             f'{first.shape} and {second.shape} for binary operator {self.numpy_symbol}')
+            msg = (f'Incompatible shapes of expressions "{first}" and "{second}" '
+                   f'with shapes {first.shape} and {second.shape} '
+                   f'for binary operator {self.numpy_symbol}')
+            raise ValueError(msg)
         if self.fenics_conditional:
             return np.vectorize(lambda x, y: ufl.conditional(ufl_op(x, y), 1., 0.))(first, second)
         else:
@@ -456,8 +471,9 @@ class Neg(Expression):
 
     def __init__(self, operand):
         if not isinstance(operand, Expression):
-            raise ValueError(f'Operand of {type(self).__name__}({operand}) must be Expression '
-                             f'(given: {type(operand).__name__}).')
+            msg = (f'Operand of {type(self).__name__}({operand}) must be Expression '
+                   f'(given: {type(operand).__name__}).')
+            raise ValueError(msg)
         self.operand = operand
         self.shape = operand.shape
 
@@ -476,21 +492,25 @@ class Indexed(Expression):
 
     def __init__(self, base, index):
         if not isinstance(base, Expression):
-            raise ValueError(f'Base of index expression {base}[{index}] must be Expression '
-                             f'(given: {type(base).__name__}).')
+            msg = (f'Base of index expression {base}[{index}] must be Expression '
+                   f'(given: {type(base).__name__}).')
+            raise ValueError(msg)
         if not isinstance(index, int) and \
                 not (isinstance(index, tuple) and all(isinstance(i, int) for i in index)):
-            raise ValueError(f'Index of index expression {base}[{index}] must be int or tuple of ints '
-                             f'(given: "{index}" of type {type(index).__name__}).')
+            msg = (f'Index of index expression {base}[{index}] must be int or tuple of ints '
+                   f'(given: "{index}" of type {type(index).__name__}).')
+            raise ValueError(msg)
         if isinstance(index, int):
             index = (index,)
         if not len(index) == len(base.shape):
-            raise ValueError(f'Wrong number of indices for index expression {base}[{index}] '
-                             f'(given {len(index)} indices for expression of shape {base.shape}).')
+            msg = (f'Wrong number of indices for index expression {base}[{index}] '
+                   f'(given {len(index)} indices for expression of shape {base.shape}).')
+            raise ValueError(msg)
         for i, (ind, s) in enumerate(zip(index, base.shape)):
             if not 0 <= ind < s:
-                raise ValueError(f'Invalid index for index expression {base}[{index}] '
-                                 f'(given index {ind} for axis {i} of dimension {s}).')
+                msg = (f'Invalid index for index expression {base}[{index}] '
+                       f'(given index {ind} for axis {i} of dimension {s}).')
+                raise ValueError(msg)
         self.base, self.index = base, index
         self.shape = base.shape[len(index):]
 
@@ -519,10 +539,13 @@ class UnaryFunctionCall(Expression):
 
     def __init__(self, arg, *args):
         if args:
-            raise ValueError(f'{self.numpy_symbol} takes a single argument (given: {(arg,) + args})')
+            msg = (f'{self.numpy_symbol} takes a single argument '
+                   f'(given: {(arg,) + args})')
+            raise ValueError(msg)
         if not isinstance(arg, Expression):
-            raise ValueError(f'Argument of function call {self.numpy_symbol}({arg}) must be Expression '
-                             f'(given: {type(arg).__name__}).')
+            msg = (f'Argument of function call {self.numpy_symbol}({arg}) must be Expression '
+                   f'(given: {type(arg).__name__}).')
+            raise ValueError(msg)
         self.arg = arg
         self.shape = self.arg.shape
 
@@ -532,7 +555,8 @@ class UnaryFunctionCall(Expression):
     def fenics_expr(self, params):
         import ufl
         if self.fenics_symbol is None:
-            raise NotImplementedError(f'UFL does not support function {self.numpy_symbol}')
+            msg = f'UFL does not support function {self.numpy_symbol}'
+            raise NotImplementedError(msg)
         ufl_op = getattr(ufl, self.fenics_symbol)
         return np.vectorize(ufl_op)(self.arg.fenics_expr(params))
 
@@ -565,7 +589,8 @@ class UnaryReductionCall(UnaryFunctionCall):
 
     def fenics_expr(self, params):
         if self.fenics_op is None:
-            raise NotImplementedError(f'UFL does not support function {self.numpy_symbol}')
+            msg = f'UFL does not support function {self.numpy_symbol}'
+            raise NotImplementedError(msg)
         r = None
         op = self.fenics_op
         if isinstance(op, str):

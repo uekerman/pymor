@@ -204,9 +204,11 @@ class LTIModel(Model):
                 assert isinstance(time_stepper, DiscreteTimeStepper)
         else:
             if initial_data is not None:
-                raise ValueError('Initial data is given but T is not.')
+                msg = 'Initial data is given but T is not.'
+                raise ValueError(msg)
             if time_stepper is not None:
-                raise ValueError('Time-stepper is given but T is not.')
+                msg = 'Time-stepper is given but T is not.'
+                raise ValueError(msg)
 
         assert presets is None or presets.keys() <= {'poles', 'c_lrcf', 'o_lrcf', 'c_dense', 'o_dense', 'hsv',
                                                      'h2_norm', 'hinf_norm', 'l2_norm', 'linf_norm', 'fpeak'}
@@ -444,9 +446,11 @@ class LTIModel(Model):
             `IdentityOperator`.
         """
         if D_file is None and not isinstance(self.D, ZeroOperator):
-            raise ValueError('D is not zero, D_file must be given')
+            msg = 'D is not zero, D_file must be given'
+            raise ValueError(msg)
         if E_file is None and not isinstance(self.E, IdentityOperator):
-            raise ValueError('E is not identity, E_file must be given')
+            msg = 'E is not identity, E_file must be given'
+            raise ValueError(msg)
 
         from pymor.tools.io import save_matrix
 
@@ -677,7 +681,8 @@ class LTIModel(Model):
             E = BlockDiagonalOperator([self.E, other.E])
         if self.T is not None and other.T is not None:
             if type(self.time_stepper) != type(other.time_stepper):  # noqa
-                raise TypeError('The time-steppers are not of the same type.')
+                msg = 'The time-steppers are not of the same type.'
+                raise TypeError(msg)
             T = min(self.T, other.T)
             initial_data = BlockColumnOperator([self.initial_data, other.initial_data])
             time_stepper = self.time_stepper
@@ -719,7 +724,8 @@ class LTIModel(Model):
             E = BlockDiagonalOperator([self.E, other.E])
         if self.T is not None and other.T is not None:
             if type(self.time_stepper) != type(other.time_stepper):  # noqa
-                raise TypeError('The time-steppers are not of the same type.')
+                msg = 'The time-steppers are not of the same type.'
+                raise TypeError(msg)
             T = min(self.T, other.T)
             initial_data = BlockColumnOperator([self.initial_data, other.initial_data])
             time_stepper = self.time_stepper
@@ -1069,7 +1075,8 @@ class LTIModel(Model):
             cf = self.gramian(('br_c_lrcf', gamma), mu=mu)
             of = self.gramian(('br_o_lrcf', gamma), mu=mu)
         else:
-            raise ValueError(f'Unknown typ ({typ}).')
+            msg = f'Unknown typ ({typ}).'
+            raise ValueError(msg)
         U, hsv, Vh = spla.svd(self.E.apply2(of, cf, mu=mu), lapack_driver='gesvd')
         return hsv, U.T, Vh
 
@@ -2327,9 +2334,11 @@ class SecondOrderModel(Model):
             The name of the file (with extension) containing D or `None` if D is a `ZeroOperator`.
         """
         if Cv_file is None and not isinstance(self.Cv, ZeroOperator):
-            raise ValueError('Cv is not zero, Cv_file must be given')
+            msg = 'Cv is not zero, Cv_file must be given'
+            raise ValueError(msg)
         if D_file is None and not isinstance(self.D, ZeroOperator):
-            raise ValueError('D is not zero, D_file must be given')
+            msg = 'D is not zero, D_file must be given'
+            raise ValueError(msg)
 
         from pymor.tools.io import save_matrix
 

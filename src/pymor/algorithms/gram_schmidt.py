@@ -114,7 +114,8 @@ def gram_schmidt(A, product=None, return_R=False, atol=1e-13, rtol=1e-13, offset
         if error_matrix.size > 0:
             err = np.max(np.abs(error_matrix))
             if err >= check_tol:
-                raise AccuracyError(f'result not orthogonal (max err={err})')
+                msg = f'result not orthogonal (max err={err})'
+                raise AccuracyError(msg)
 
     if return_R:
         return A, R
@@ -229,6 +230,7 @@ def gram_schmidt_biorth(V, W, product=None,
         if error_matrix.size > 0:
             err = np.max(np.abs(error_matrix))
             if err >= check_tol:
-                raise AccuracyError(f'result not biorthogonal (max err={err})')
+                msg = f'result not biorthogonal (max err={err})'
+                raise AccuracyError(msg)
 
     return V, W

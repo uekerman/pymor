@@ -162,16 +162,19 @@ def discretize_domain_default(domain_description, diameter=1 / 100, grid_type=No
 
     if not isinstance(domain_description,
                       (RectDomain, CylindricalDomain, TorusDomain, LineDomain, CircleDomain, PolygonalDomain)):
-        raise NotImplementedError(f'I do not know how to discretize {domain_description}')
+        msg = f'I do not know how to discretize {domain_description}'
+        raise NotImplementedError(msg)
     if isinstance(domain_description, RectDomain):
         grid_type = grid_type or TriaGrid
         if grid_type not in (TriaGrid, RectGrid):
-            raise NotImplementedError(f'I do not know how to discretize RectDomain with {grid_type}')
+            msg = f'I do not know how to discretize RectDomain with {grid_type}'
+            raise NotImplementedError(msg)
         return discretize_RectDomain()
     elif isinstance(domain_description, (CylindricalDomain, TorusDomain)):
         grid_type = grid_type or TriaGrid
         if grid_type not in (TriaGrid, RectGrid):
-            raise NotImplementedError(f'I do not know how to discretize {type(domain_description)} with {grid_type}')
+            msg = f'I do not know how to discretize {type(domain_description)} with {grid_type}'
+            raise NotImplementedError(msg)
         if isinstance(domain_description, CylindricalDomain):
             return discretize_CylindricalDomain()
         else:
@@ -184,5 +187,6 @@ def discretize_domain_default(domain_description, diameter=1 / 100, grid_type=No
     else:
         grid_type = grid_type or OnedGrid
         if grid_type is not OnedGrid:
-            raise NotImplementedError(f'I do not know hot to discretize {type(domain_description)} with {grid_type}')
+            msg = f'I do not know hot to discretize {type(domain_description)} with {grid_type}'
+            raise NotImplementedError(msg)
         return discretize_LineDomain() if isinstance(domain_description, LineDomain) else discretize_CircleDomain()

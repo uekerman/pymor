@@ -85,7 +85,8 @@ class NumpyGenericOperator(Operator):
 
     def apply_adjoint(self, V, mu=None):
         if self.adjoint_mapping is None:
-            raise ValueError('NumpyGenericOperator: adjoint mapping was not defined.')
+            msg = 'NumpyGenericOperator: adjoint mapping was not defined.'
+            raise ValueError(msg)
         assert V in self.range
         assert self.parameters.assert_compatible(mu)
         V = V.to_numpy()
@@ -322,14 +323,16 @@ class NumpyMatrixOperator(NumpyMatrixBasedOperator):
                 try:
                     R, _, _, _ = np.linalg.lstsq(self.matrix, V.to_numpy().T, rcond=None)
                 except np.linalg.LinAlgError as e:
-                    raise InversionError(f'{str(type(e))}: {str(e)}') from e
+                    msg = f'{str(type(e))}: {str(e)}'
+                    raise InversionError(msg) from e
                 R = R.T
             else:
                 if not hasattr(self, '_lu_factor'):
                     try:
                         self._lu_factor = lu_factor(self.matrix)
                     except np.linalg.LinAlgError as e:
-                        raise InversionError(f'{str(type(e))}: {str(e)}') from e
+                        msg = f'{str(type(e))}: {str(e)}'
+                        raise InversionError(msg) from e
                     gecon = get_lapack_funcs('gecon', self._lu_factor)
                     rcond, _ = gecon(self._lu_factor[0], np.linalg.norm(self.matrix, ord=1), norm='1')
                     if rcond < np.finfo(np.float64).eps:
@@ -339,7 +342,8 @@ class NumpyMatrixOperator(NumpyMatrixBasedOperator):
 
             if check_finite:
                 if not np.isfinite(np.sum(R)):
-                    raise InversionError('Result contains non-finite values')
+                    msg = 'Result contains non-finite values'
+                    raise InversionError(msg)
 
             return self.source.make_array(R)
 

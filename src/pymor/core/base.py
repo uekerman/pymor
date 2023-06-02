@@ -156,7 +156,8 @@ class UberMeta(abc.ABCMeta):
             elif description.kind == description.VAR_KEYWORD:
                 has_kwargs = True
             else:
-                raise NotImplementedError(f'Unknown argument type {description.kind}')
+                msg = f'Unknown argument type {description.kind}'
+                raise NotImplementedError(msg)
         c._init_arguments, c._init_has_args, c._init_has_kwargs = tuple(init_args), has_args, has_kwargs
 
         return c
@@ -321,7 +322,8 @@ class ImmutableObject(BasicObject, metaclass=ImmutableMeta):
         if not self._locked or key[0] == '_':
             return object.__setattr__(self, key, value)
         else:
-            raise ConstError(f'Changing "{key}" is not allowed in locked "{self.__class__}"')
+            msg = f'Changing "{key}" is not allowed in locked "{self.__class__}"'
+            raise ConstError(msg)
 
     def with_(self, new_type=None, **kwargs):
         """Returns a copy with changed attributes.
@@ -349,8 +351,9 @@ class ImmutableObject(BasicObject, metaclass=ImmutableMeta):
                 try:
                     kwargs[arg] = getattr(self, arg)
                 except AttributeError as e:
-                    raise ValueError(f"Cannot find missing __init__ argument '{arg}' for '{self.__class__}' "
-                                     f"as attribute of '{self}'") from e
+                    msg = (f"Cannot find missing __init__ argument '{arg}' "
+                           f"for '{self.__class__}' as attribute of '{self}'")
+                    raise ValueError(msg) from e
 
         c = (type(self) if new_type is None else new_type)(**kwargs)
 

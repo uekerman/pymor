@@ -246,7 +246,8 @@ def parse_sections(sections):
         if section == 'nonsection':
             non_section_lines.extend(lines)
         elif section in parsed_sections:
-            raise ValueError(f'Duplicate section "{section}" in docstring')
+            msg = f'Duplicate section "{section}" in docstring'
+            raise ValueError(msg)
         elif section in FIELD_SECTIONS:
             parsed_sections[section] = parse_fields_section(lines)
         else:

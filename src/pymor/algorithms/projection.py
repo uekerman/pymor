@@ -126,7 +126,8 @@ class ProjectRules(RuleTable):
             try:
                 V = op.apply_adjoint(range_basis)
             except NotImplementedError as e:
-                raise RuleNotMatchingError('apply_adjoint not implemented') from e
+                msg = 'apply_adjoint not implemented'
+                raise RuleNotMatchingError(msg) from e
             if isinstance(op.source, NumpyVectorSpace):
                 from pymor.operators.numpy import NumpyMatrixOperator
                 return NumpyMatrixOperator(V.to_numpy(), source_id=op.source.id, name=op.name)
@@ -203,7 +204,8 @@ class ProjectRules(RuleTable):
         if len(op.interpolation_dofs) == 0:
             return self.apply(ZeroOperator(op.range, op.source, op.name))
         elif not hasattr(op, 'restricted_operator') or source_basis is None:
-            raise RuleNotMatchingError('Has no restricted operator or source_basis is None')
+            msg = 'Has no restricted operator or source_basis is None'
+            raise RuleNotMatchingError(msg)
         if range_basis is not None:
             projected_collateral_basis = NumpyVectorSpace.make_array(op.collateral_basis.inner(range_basis))
         else:
@@ -323,7 +325,8 @@ class ProjectToSubbasisRules(RuleTable):
     def action_IdentityOperator(self, op):
         dim_range, dim_source = self.dim_range, self.dim_source
         if dim_range != dim_source:
-            raise RuleNotMatchingError('dim_range and dim_source must be equal.')
+            msg = 'dim_range and dim_source must be equal.'
+            raise RuleNotMatchingError(msg)
         space = op.source if dim_source is None else NumpyVectorSpace(dim_source)
         return IdentityOperator(space, name=op.name)
 

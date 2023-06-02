@@ -203,8 +203,8 @@ class GenericParameterFunctional(ParameterFunctional):
         if parameter in self.parameters:
             assert 0 <= index < self.parameters[parameter]
             if self.derivative_mappings is None:
-                raise ValueError('You must provide a dict of expressions for all \
-                                  partial derivatives in self.parameters')
+                msg = 'You must provide a dict of expressions for all partial derivatives in self.parameters'
+                raise ValueError(msg)
             else:
                 if parameter in self.derivative_mappings:
                     if self.second_derivative_mappings is None:
@@ -226,7 +226,8 @@ class GenericParameterFunctional(ParameterFunctional):
                                 derivative_mappings={}
                             )
                 else:
-                    raise ValueError(f'derivative expressions do not contain item {parameter}')
+                    msg = f'derivative expressions do not contain item {parameter}'
+                    raise ValueError(msg)
         return ConstantParameterFunctional(0, name=f'{self.name}_d_{parameter}_{index}')
 
 

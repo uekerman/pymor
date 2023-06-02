@@ -292,7 +292,8 @@ class CacheableObject(ImmutableObject):
             self.__dict__['cache_region'] = region
             r = cache_regions.get(region, None)
             if r and r.persistent and cache_id is None:
-                raise ValueError('For persistent CacheRegions a cache_id has to be specified.')
+                msg = 'For persistent CacheRegions a cache_id has to be specified.'
+                raise ValueError(msg)
 
     def cached_method_call(self, method, *args, **kwargs):
         """Call a given `method` and cache the return value.
@@ -332,7 +333,8 @@ class CacheableObject(ImmutableObject):
         try:
             region = cache_regions[self.cache_region]
         except KeyError as e:
-            raise KeyError(f'No cache region "{self.cache_region}" found') from e
+            msg = f'No cache region "{self.cache_region}" found'
+            raise KeyError(msg) from e
 
         # id for self
         assert self.cache_id or not region.persistent
@@ -393,7 +395,8 @@ def build_cache_key(obj):
             return obj
         elif t is np.ndarray:
             if obj.dtype == object:
-                raise CacheKeyGenerationError('Cannot generate cache key for provided arguments')
+                msg = 'Cannot generate cache key for provided arguments'
+                raise CacheKeyGenerationError(msg)
             return obj
         elif t is Mu:
             return transform_obj(obj._raw_values)
@@ -407,7 +410,8 @@ def build_cache_key(obj):
             # handle numpy number objects
             return obj
         else:
-            raise CacheKeyGenerationError('Cannot generate cache key for provided arguments')
+            msg = 'Cannot generate cache key for provided arguments'
+            raise CacheKeyGenerationError(msg)
 
     obj = transform_obj(obj)
     key = hashlib.sha256(dumps(obj, protocol=-1)).hexdigest()

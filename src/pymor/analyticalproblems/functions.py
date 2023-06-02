@@ -71,7 +71,8 @@ class Function(ParametricObject):
             Dict mapping parameter names to lists of dolfin `Constants` which are
             used in the ufl expressions for the corresponding parameter values.
         """
-        raise NotImplementedError(f'Conversion to UFL expression not implemented for {type(self).__name__}')
+        msg = f'Conversion to UFL expression not implemented for {type(self).__name__}'
+        raise NotImplementedError(msg)
 
     def _add_sub(self, other, sign):
         if isinstance(other, Number) and other == 0:
@@ -394,7 +395,8 @@ class BitmapFunction(Function):
         try:
             from PIL import Image
         except ImportError as e:
-            raise ImportError("PIL is needed for loading images. Try 'pip install pillow'") from e
+            msg = "PIL is needed for loading images. Try 'pip install pillow'"
+            raise ImportError(msg) from e
         img = Image.open(filename)
         if not img.mode == 'L':
             self.logger.warning('Image ' + filename + ' not in grayscale mode. Converting to grayscale.')

@@ -719,7 +719,8 @@ class ConstantOperator(Operator):
 
     def apply_inverse(self, V, mu=None, initial_guess=None, least_squares=False):
         if not least_squares:
-            raise InversionError('ConstantOperator is not invertible.')
+            msg = 'ConstantOperator is not invertible.'
+            raise InversionError(msg)
         return self.source.zeros(len(V))
 
 
@@ -1376,7 +1377,8 @@ class InducedNorm(ParametricObject):
             norm_squared = np.where(np.logical_and(0 > norm_squared, norm_squared > - self.tol),
                                     0, norm_squared)
         if self.raise_negative and np.any(norm_squared < 0):
-            raise ValueError(f'norm is negative (square = {norm_squared})')
+            msg = f'norm is negative (square = {norm_squared})'
+            raise ValueError(msg)
         return np.sqrt(norm_squared)
 
 

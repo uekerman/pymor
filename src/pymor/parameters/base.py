@@ -119,12 +119,13 @@ class Parameters(SortedFrozenDict):
         """
         from pymor.analyticalproblems.functions import ExpressionFunction, Function
 
-        def fail(msg):
+        def fail(message):
             if isinstance(mu, dict):
                 mu_str = '{' + ', '.join([f'{k}: {v}' for k, v in mu.items()]) + '}'
             else:
                 mu_str = str(mu)
-            raise ValueError(f'{mu_str} is incompatible with Parameters {self} ({msg})')
+            msg = f'{mu_str} is incompatible with Parameters {self} ({message})'
+            raise ValueError(msg)
 
         if mu is None:
             sum(self.values()) == 0 or fail('no parameter values provided')
@@ -214,7 +215,8 @@ class Parameters(SortedFrozenDict):
             mu[parameter].size == self[parameter]
         """
         if mu is not None and not isinstance(mu, Mu):
-            raise TypeError('mu is not a Mu instance. (Use parameters.parse?)')
+            msg = 'mu is not a Mu instance. (Use parameters.parse?)'
+            raise TypeError(msg)
         return not self or \
             mu is not None and all(getattr(mu.get(k), 'size', None) == v for k, v in self.items())
 

@@ -162,7 +162,8 @@ class SymplecticBasis(BasicObject):
         if error_matrix.size > 0:
             err = np.max(np.abs(error_matrix))
             if err >= check_tol:
-                raise AccuracyError(f'result not symplectic (max err={err})')
+                msg = f'result not symplectic (max err={err})'
+                raise AccuracyError(msg)
 
     def __getitem__(self, ind):
         assert self.E.check_ind(ind)

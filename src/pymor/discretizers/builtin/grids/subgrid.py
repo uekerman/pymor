@@ -91,7 +91,8 @@ class SubGrid(Grid):
         # TODO Find better implementation of the following
         R = np.argmax(ind[:, np.newaxis] - self.__parent_indices[codim][np.newaxis, :] == 0, axis=1)
         if not np.all(self.__parent_indices[codim][R] == ind):
-            raise ValueError('Not all parent indices found')
+            msg = 'Not all parent indices found'
+            raise ValueError(msg)
         return np.array(R, dtype=np.int32)
 
     def size(self, codim):

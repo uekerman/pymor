@@ -72,9 +72,11 @@ def main(
 ):
     """Thermalblock demo."""
     if fenics and cache_region != 'none':
-        raise ValueError('Caching of high-dimensional solutions is not supported for FEniCS model.')
+        msg = 'Caching of high-dimensional solutions is not supported for FEniCS model.'
+        raise ValueError(msg)
     if not fenics and order != 1:
-        raise ValueError('Higher-order finite elements only supported for FEniCS model.')
+        msg = 'Higher-order finite elements only supported for FEniCS model.'
+        raise ValueError(msg)
 
     pool = new_parallel_pool(ipython_num_engines=ipython_engines, ipython_profile=ipython_profile)
 

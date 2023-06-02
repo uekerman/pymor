@@ -277,7 +277,8 @@ class FenicsMatrixOperator(LinearComplexifiedListVectorArrayOperatorBase):
             try:
                 matrix = self._matrix_transpose
             except AttributeError as e:
-                raise RuntimeError('_create_solver called before _matrix_transpose has been initialized.') from e
+                msg = '_create_solver called before _matrix_transpose has been initialized.'
+                raise RuntimeError(msg) from e
         else:
             matrix = self.matrix
         method = options.get('solver')
@@ -404,7 +405,8 @@ class FenicsOperator(Operator):
     def restricted(self, dofs):
         from pymor.tools.mpi import parallel
         if parallel:
-            raise NotImplementedError('SubMesh does not work in parallel')
+            msg = 'SubMesh does not work in parallel'
+            raise NotImplementedError(msg)
         with self.logger.block(f'Restricting operator to {len(dofs)} dofs ...'):
             if len(dofs) == 0:
                 return ZeroOperator(NumpyVectorSpace(0), NumpyVectorSpace(0)), np.array([], dtype=int)

@@ -146,7 +146,8 @@ def run_mor(fom, U_fom, method, red_dims):
         elif method == 'svd_like':
             MAX_RB = psd_svd_like_decomp(U_fom, max_red_dim)
         else:
-            raise NotImplementedError(f'Unknown method: {method}')
+            msg = f'Unknown method: {method}'
+            raise NotImplementedError(msg)
     else:
         assert method == 'pod'
         MAX_RB, svals = pod(U_fom, modes=max_red_dim)

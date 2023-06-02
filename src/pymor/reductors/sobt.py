@@ -76,7 +76,8 @@ class GenericSOBTpvReductor(BasicObject):
         gramians = self._gramians()
 
         if r > min(len(g) for g in gramians):
-            raise ValueError('r needs to be smaller than the sizes of Gramian factors.')
+            msg = 'r needs to be smaller than the sizes of Gramian factors.'
+            raise ValueError(msg)
 
         # compute projection matrices
         self.V, self.W, singular_values = self._projection_matrices_and_singular_values(r, gramians)
@@ -264,7 +265,8 @@ class SOBTfvReductor(BasicObject):
         pof = self.fom.gramian('po_lrcf', mu=self.mu)
 
         if r > min(len(pcf), len(pof)):
-            raise ValueError('r needs to be smaller than the sizes of Gramian factors.')
+            msg = 'r needs to be smaller than the sizes of Gramian factors.'
+            raise ValueError(msg)
 
         # find necessary SVDs
         _, sp, Vp = spla.svd(pof.inner(pcf), lapack_driver='gesvd')
@@ -352,7 +354,8 @@ class SOBTReductor(BasicObject):
         vof = self.fom.gramian('vo_lrcf', mu=self.mu)
 
         if r > min(len(pcf), len(pof), len(vcf), len(vof)):
-            raise ValueError('r needs to be smaller than the sizes of Gramian factors.')
+            msg = 'r needs to be smaller than the sizes of Gramian factors.'
+            raise ValueError(msg)
 
         # find necessary SVDs
         Up, sp, Vp = spla.svd(pof.inner(pcf), lapack_driver='gesvd')
@@ -412,4 +415,5 @@ class SOBTReductor(BasicObject):
 
     def reconstruct(self, u):
         """Reconstruct high-dimensional vector from reduced vector `u`."""
-        raise TypeError(f'The reconstruct method is not available for {self.__class__.__name__}.')
+        msg = f'The reconstruct method is not available for {self.__class__.__name__}.'
+        raise TypeError(msg)

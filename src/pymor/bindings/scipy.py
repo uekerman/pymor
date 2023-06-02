@@ -200,10 +200,11 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
                                   tol=options['tol'], maxiter=options['maxiter'], atol='legacy')
             if info != 0:
                 if info > 0:
-                    raise InversionError(f'bicgstab failed to converge after {info} iterations')
+                    msg = f'bicgstab failed to converge after {info} iterations'
+                    raise InversionError(msg)
                 else:
-                    raise InversionError('bicgstab failed with error code {} (illegal input or breakdown)'.
-                                         format(info))
+                    msg = f'bicgstab failed with error code {info} (illegal input or breakdown)'
+                    raise InversionError(msg)
     elif options['type'] == 'scipy_bicgstab_spilu':
         ilu = spilu(matrix, drop_tol=options['spilu_drop_tol'], fill_factor=options['spilu_fill_factor'],
                     drop_rule=options['spilu_drop_rule'], permc_spec=options['spilu_permc_spec'])
@@ -213,10 +214,11 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
                                   tol=options['tol'], maxiter=options['maxiter'], M=precond, atol='legacy')
             if info != 0:
                 if info > 0:
-                    raise InversionError(f'bicgstab failed to converge after {info} iterations')
+                    msg = f'bicgstab failed to converge after {info} iterations'
+                    raise InversionError(msg)
                 else:
-                    raise InversionError('bicgstab failed with error code {} (illegal input or breakdown)'.
-                                         format(info))
+                    msg = f'bicgstab failed with error code {info} (illegal input or breakdown)'
+                    raise InversionError(msg)
     elif options['type'] == 'scipy_spsolve':
         try:
             # maybe remove unusable factorization:
@@ -253,7 +255,8 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
                                 inner_m=options['inner_m'],
                                 outer_k=options['outer_k'])
             if info > 0:
-                raise InversionError(f'lgmres failed to converge after {info} iterations')
+                msg = f'lgmres failed to converge after {info} iterations'
+                raise InversionError(msg)
             assert info == 0
     elif options['type'] == 'scipy_least_squares_lsmr':
         from scipy.sparse.linalg import lsmr
@@ -268,7 +271,8 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
                                                   x0=initial_guess[i] if initial_guess is not None else None)
             assert 0 <= info <= 7
             if info == 7:
-                raise InversionError(f'lsmr failed to converge after {itn} iterations')
+                msg = f'lsmr failed to converge after {itn} iterations'
+                raise InversionError(msg)
     elif options['type'] == 'scipy_least_squares_lsqr':
         for i, VV in enumerate(V):
             R[i], info, itn, _, _, _, _, _, _, _ = lsqr(matrix, VV,
@@ -281,13 +285,16 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
                                                         x0=initial_guess[i] if initial_guess is not None else None)
             assert 0 <= info <= 7
             if info == 7:
-                raise InversionError(f'lsmr failed to converge after {itn} iterations')
+                msg = f'lsmr failed to converge after {itn} iterations'
+                raise InversionError(msg)
     else:
-        raise ValueError('Unknown solver type')
+        msg = 'Unknown solver type'
+        raise ValueError(msg)
 
     if check_finite:
         if not np.isfinite(np.sum(R)):
-            raise InversionError('Result contains non-finite values')
+            msg = 'Result contains non-finite values'
+            raise InversionError(msg)
 
     return op.source.from_numpy(R)
 
@@ -422,7 +429,8 @@ def solve_lyap_dense(A, E, B, trans=False, cont_time=True, options=None):
         else:
             X = solve_discrete_lyapunov(A, B @ B.T)
     else:
-        raise ValueError(f"Unexpected Lyapunov equation solver ({options['type']}).")
+        msg = f'Unexpected Lyapunov equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     return X
 
@@ -477,7 +485,8 @@ def solve_ricc_lrcf(A, E, B, C, R=None, trans=False, options=None):
     _solve_ricc_check_args(A, E, B, C, R, trans)
     options = _parse_options(options, ricc_lrcf_solver_options(), 'scipy', None, False)
     if options['type'] != 'scipy':
-        raise ValueError(f"Unexpected Riccati equation solver ({options['type']}).")
+        msg = f'Unexpected Riccati equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     A_source = A.source
     A = to_matrix(A, format='dense')
@@ -535,7 +544,8 @@ def solve_ricc_dense(A, E, B, C, R=None, trans=False, options=None):
     _solve_ricc_dense_check_args(A, E, B, C, R, trans)
     options = _parse_options(options, ricc_dense_solver_options(), 'scipy', None, False)
     if options['type'] != 'scipy':
-        raise ValueError(f"Unexpected Riccati equation solver ({options['type']}).")
+        msg = f'Unexpected Riccati equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     if R is None:
         R = np.eye(C.shape[0] if not trans else B.shape[1])
@@ -600,7 +610,8 @@ def solve_pos_ricc_lrcf(A, E, B, C, R=None, trans=False, options=None):
     _solve_ricc_check_args(A, E, B, C, R, trans)
     options = _parse_options(options, pos_ricc_lrcf_solver_options(), 'scipy', None, False)
     if options['type'] != 'scipy':
-        raise ValueError(f"Unexpected positive Riccati equation solver ({options['type']}).")
+        msg = f'Unexpected positive Riccati equation solver ({options["type"]}).'
+        raise ValueError(msg)
 
     if R is None:
         R = np.eye(len(C) if not trans else len(B))

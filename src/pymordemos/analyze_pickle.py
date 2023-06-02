@@ -148,7 +148,8 @@ def histogram(
         plt.show()
 
     else:
-        raise ValueError('Nothing to plot!')
+        msg = 'Nothing to plot!'
+        raise ValueError(msg)
 
 
 @app.command()

@@ -69,7 +69,8 @@ class DefaultContainer:
     def __new__(cls):
         global _default_container
         if _default_container is not None:
-            raise ValueError('DefaultContainer is a singleton! Use pymor.core.defaults._default_container.')
+            msg = 'DefaultContainer is a singleton! Use pymor.core.defaults._default_container.'
+            raise ValueError(msg)
         else:
             return object.__new__(cls)
 
@@ -97,14 +98,17 @@ Defaults
         for n in args:
             p = params.get(n, None)
             if p is None:
-                raise ValueError(f"Decorated function has no argument '{n}'")
+                msg = f"Decorated function has no argument '{n}'"
+                raise ValueError(msg)
             if p.default is p.empty:
-                raise ValueError(f"Decorated function has no default for argument '{n}'")
+                msg = f"Decorated function has no default for argument '{n}'"
+                raise ValueError(msg)
             defaultsdict[n] = p.default
 
         path = func.__module__ + '.' + getattr(func, '__qualname__', func.__name__)
         if path in self.registered_functions:
-            raise ValueError(f'Function with name {path} already registered for default values!')
+            msg = f'Function with name {path} already registered for default values!'
+            raise ValueError(msg)
         self.registered_functions.add(path)
         for k, v in defaultsdict.items():
             self._data[path + '.' + k]['func'] = func
@@ -167,7 +171,8 @@ Defaults
         elif 'code' in values:
             return values['code'], 'code'
         else:
-            raise ValueError('No default value matching the specified criteria')
+            msg = 'No default value matching the specified criteria'
+            raise ValueError(msg)
 
     def __getitem__(self, key):
         assert isinstance(key, str)
@@ -222,7 +227,8 @@ def defaults(*args):
         def set_default_values(*wrapper_args, **wrapper_kwargs):
             for k, v in zip(decorated_function.argnames, wrapper_args):
                 if k in wrapper_kwargs:
-                    raise TypeError(f"{decorated_function.__name__} got multiple values for argument '{k}'")
+                    msg = f"{decorated_function.__name__} got multiple values for argument '{k}'"
+                    raise TypeError(msg)
                 wrapper_kwargs[k] = v
             wrapper_kwargs = {k: v if v is not None else decorated_function.defaultsdict.get(k, None)
                               for k, v in wrapper_kwargs.items()}
@@ -367,7 +373,8 @@ def load_defaults_from_file(filename='./pymor_defaults.py'):
     try:
         _default_container.update(env['d'], type='file')
     except KeyError as e:
-        raise KeyError(f'Error loading defaults from file. Key {e} does not correspond to a default') from e
+        msg = f'Error loading defaults from file. Key {e} does not correspond to a default'
+        raise KeyError(msg) from e
 
 
 def _set_defaults(defaults):
@@ -396,7 +403,8 @@ def set_defaults(defaults):
     try:
         _default_container.update(defaults, type='user')
     except KeyError as e:
-        raise KeyError(f'Error setting defaults. Key {e} does not correspond to a default') from e
+        msg = f'Error setting defaults. Key {e} does not correspond to a default'
+        raise KeyError(msg) from e
 
 
 def get_defaults(user=True, file=True, code=True):

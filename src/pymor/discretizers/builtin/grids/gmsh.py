@@ -29,7 +29,8 @@ def load_gmsh(filename):
         The generated :class:`GmshBoundaryInfo`.
     """
     if not config.HAVE_MESHIO:
-        raise MeshioMissingError('meshio (>=4) is required for reading Gmsh files.')
+        msg = 'meshio (>=4) is required for reading Gmsh files.'
+        raise MeshioMissingError(msg)
     import meshio
 
     logger = getLogger('pymor.discretizers.builtin.grids.gmsh.load_gmsh')
