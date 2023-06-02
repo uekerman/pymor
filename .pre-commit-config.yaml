@@ -32,5 +32,9 @@ repos:
   hooks:
   - id: pretty-format-toml
     args: [--autofix, --trailing-commas, --no-sort]
+- repo: https://github.com/jumanjihouse/pre-commit-hooks
+  rev: 3.0.0
+  hooks:
+  - id: check-mailmap
 ci:
   autofix_prs: false
