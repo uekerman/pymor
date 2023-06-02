@@ -231,7 +231,13 @@ ignore = [
 [tool.ruff.flake8-import-conventions]
 
 [tool.ruff.flake8-import-conventions.extend-aliases]
+scipy = "sp"
+"scipy.integrate" = "spint"
+"scipy.io" = "spio"
 "scipy.linalg" = "spla"
+"scipy.sparse" = "sps"
+"scipy.sparse.linalg" = "spsla"
+"scipy.stats" = "spst"
 
 [tool.ruff.flake8-quotes]
 inline-quotes = "single"
