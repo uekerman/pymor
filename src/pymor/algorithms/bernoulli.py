@@ -93,8 +93,8 @@ def solve_bernoulli(A, E, B, trans=False, maxiter=100, after_maxiter=3, tol=1e-8
             after_iter += 1
 
     if rnorm > tol:
-        logger.warning(f'Prescribed tolerance for relative change of iterates not achieved '
-                       f'({rnorm:e} > {tol:e}) after ' f'{maxiter} steps.')
+        logger.warning('Prescribed tolerance for relative change of iterates not achieved '
+                       f'({rnorm:e} > {tol:e}) after {maxiter} steps.')
 
     Q, R, _ = spla.qr(E.conj() - A.conj(), pivoting=True)
     nsp_rk = 0

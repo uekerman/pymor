@@ -221,6 +221,7 @@ select = [
   "ASYNC",  # flake8-async
   "EM",  # flake8-errmsg
   "EXE",  # flake8-executable
+  "ISC",  # flake8-implicit-str-concat
   "ICN",  # flake8-import-conventions
   "Q",  # flake8-quotes
 ]

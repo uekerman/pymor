@@ -13,14 +13,14 @@ from pymor.basic import *
 
 def main(
     fom_number: int = Argument(..., help='Selects FOMs [0, 1, 2] for elliptic problems and [3, 4] for '
-                                         + 'parabolic problems with scalar and vector valued outputs '),
+                                         'parabolic problems with scalar and vector valued outputs '),
     grid_intervals: int = Argument(..., help='Grid interval count.'),
     training_samples: int = Argument(..., help='Number of samples used for training the reduced basis.'),
     modes: int = Argument(..., help='Number of basis functions for the RB space (generated with POD)'),
-    reductor_count: int = Argument(..., help='Reductor type for elliptic problems: \
-                                   0: SimpleCoerciveReductor \
-                                   1: CoerciveRBReductor. \
-                                   For parabolic FOMs [4, 5] ParabolicRBReductor is used.')):
+    reductor_count: int = Argument(..., help='Reductor type for elliptic problems:'
+                                             '0: SimpleCoerciveReductor'
+                                             '1: CoerciveRBReductor.'
+                                             'For parabolic FOMs [4, 5] ParabolicRBReductor is used.')):
     set_log_levels({'pymor': 'WARN'})
     """Example script for using output error estimation"""
 

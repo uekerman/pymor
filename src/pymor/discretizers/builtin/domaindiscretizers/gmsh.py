@@ -151,13 +151,13 @@ def discretize_gmsh(domain_description=None, geo_file=None, geo_file_path=None, 
             line_loop_ids = list(line_loop_ids)
             # create the surface defined by line loops,
             # starting with the exterior and then the holes.
-            geo_file.write('Plane Surface(' + str(line_loop_ids[0]+1) + ')' + ' = '
+            geo_file.write('Plane Surface(' + str(line_loop_ids[0]+1) + ') = '
                            + str(line_loop_ids).replace('[', '{').replace(']', '}') + ';\n')
             geo_file.write('Physical Surface("boundary") = {'+str(line_loop_ids[0]+1)+'};\n')
 
             # write boundaries.
             for boundary_type, bs in boundary_types.items():
-                geo_file.write('Physical Line' + '("' + str(boundary_type) + '")' + ' = '
+                geo_file.write('Physical Line("' + str(boundary_type) + '") = '
                                + str([l_id for l_id in bs]).replace('[', '{').replace(']', '}') + ';\n')
 
             geo_file.close()
