@@ -219,9 +219,10 @@ select = [
   "UP",  # pyupgrade
   "YTT",  # flake8-2020
   "ASYNC",  # flake8-async
+  "EM",  # flake8-errmsg
+  "EXE",  # flake8-executable
   "ICN",  # flake8-import-conventions
   "Q",  # flake8-quotes
-  "EM",  # flake8-errmsg
 ]
 ignore = [
   "D10",  # missing docstring in module, function, method, magic, __init__, public nested class
