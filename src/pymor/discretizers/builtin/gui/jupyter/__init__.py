@@ -75,7 +75,7 @@ def progress_bar(sequence, every=None, size=None, name='Parameters'):
                     )
                 else:
                     progress.value = index
-                    label.value = u'{name}: {index} / {size}'.format(
+                    label.value = '{name}: {index} / {size}'.format(
                         name=name,
                         index=index,
                         size=size

@@ -145,14 +145,14 @@ def report(result, parse, data, reference_mu):
         print('\n failed!')
     else:
         print('\n succeeded!')
-        print('  mu_min:    {}'.format(parse(result.x)))
-        print('  J(mu_min): {}'.format(result.fun))
-        print('  absolute error w.r.t. reference solution: {:.2e}'.format(np.linalg.norm(result.x-reference_mu)))
-        print('  num iterations:        {}'.format(result.nit))
-        print('  num function calls:    {}'.format(data['num_evals']))
-        print('  time:                  {:.5f} seconds'.format(data['time']))
+        print(f'  mu_min:    {parse(result.x)}')
+        print(f'  J(mu_min): {result.fun}')
+        print(f'  absolute error w.r.t. reference solution: {np.linalg.norm(result.x-reference_mu):.2e}')
+        print(f'  num iterations:        {result.nit}')
+        print(f'  num function calls:    {data["num_evals"]}')
+        print(f'  time:                  {data["time"]:.5f} seconds')
         if 'offline_time' in data:
-            print('  offline time:          {:.5f} seconds'.format(data['offline_time']))
+            print(f'  offline time:          {data["offline_time"]:.5f} seconds')
     print('')
 
 
