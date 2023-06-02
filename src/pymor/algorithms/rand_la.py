@@ -3,8 +3,7 @@
 # License: BSD 2-Clause License (https://opensource.org/licenses/BSD-2-Clause)
 
 import numpy as np
-import scipy as sp
-from scipy.linalg import lu_factor, lu_solve
+import scipy.linalg as spla
 from scipy.sparse.linalg import LinearOperator, eigsh
 from scipy.special import erfinv
 
@@ -242,7 +241,7 @@ def random_generalized_svd(A, range_product=None, source_product=None, modes=6, 
     Q = rrf(A, source_product=source_product, range_product=range_product, q=q, l=modes+p)
     B = A.apply_adjoint(range_product.apply(Q))
     Q_B, R_B = gram_schmidt(source_product.apply_inverse(B), product=source_product, return_R=True)
-    U_b, s, Vh_b = sp.linalg.svd(R_B.T, full_matrices=False)
+    U_b, s, Vh_b = spla.svd(R_B.T, full_matrices=False)
 
     with logger.block(f'Computing generalized left-singular vectors ({modes} vectors) ...'):
         U = Q.lincomb(U_b.T)
@@ -324,15 +323,15 @@ def random_ghep(A, E=None, modes=6, p=20, q=2, single_pass=False):
         Y = E.apply_inverse(Y_bar)
         Q, R = gram_schmidt(Y, product=E, return_R=True)
         X = E.apply2(Omega, Q)
-        X_lu = lu_factor(X)
-        T = lu_solve(X_lu, lu_solve(X_lu, Omega.inner(Y_bar)).T).T
+        X_lu = spla.lu_factor(X)
+        T = spla.lu_solve(X_lu, spla.lu_solve(X_lu, Omega.inner(Y_bar)).T).T
     else:
         C = InverseOperator(E) @ A
         Y, Omega = rrf(C, q=q, l=modes+p, return_rand=True)
         Q = gram_schmidt(Y, product=E)
         T = A.apply2(Q, Q)
 
-    w, S = sp.linalg.eigh(T)
+    w, S = spla.eigh(T)
     w = w[::-1]
     S = S[:, ::-1]
 

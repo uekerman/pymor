@@ -231,7 +231,7 @@ ignore = [
 [tool.ruff.flake8-import-conventions]
 
 [tool.ruff.flake8-import-conventions.extend-aliases]
-scipy = "sp"
+scipy = ""  # don't import scipy directly
 "scipy.integrate" = "spint"
 "scipy.io" = "spio"
 "scipy.linalg" = "spla"
