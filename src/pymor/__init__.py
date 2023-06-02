@@ -6,17 +6,6 @@ __version__ = '2023.1.0.dev0'
 
 import os
 import platform
-import sys
-
-if sys.version_info.major < 3:
-    raise RuntimeError('pyMOR requires Python 3.6 or newer')
-elif sys.version_info.major == 3:
-    if sys.version_info.minor < 6:
-        raise RuntimeError('pyMOR requires Python 3.6 or newer.')
-    if sys.version_info.minor == 6 and platform.python_implementation() != 'CPython':
-        # dicts are only guaranteed to be insertion ordered for Python 3.7 or newer.
-        # For CPython this is already the case for Python 3.6.
-        raise RuntimeError('pyMOR requires Python 3.7 or newer for non-CPython interpreters.')
 
 
 def _init_mpi():
