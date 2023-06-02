@@ -210,7 +210,7 @@ def implicit_euler(A, F, M, U0, t0, t1, nt, mu=None, num_values=None, solver_opt
     if mu is None:
         mu = Mu()
 
-    for n in range(nt):
+    for _n in range(nt):
         t += dt
         mu = mu.with_(t=t)
         rhs = M.apply(U)
@@ -261,14 +261,14 @@ def explicit_euler(A, F, U0, t0, t1, nt, mu=None, num_values=None):
         mu = Mu()
 
     if F is None:
-        for n in range(nt):
+        for _n in range(nt):
             t += dt
             mu = mu.with_(t=t)
             U.axpy(-dt, A.apply(U, mu=mu))
             while t - t0 + (min(dt, DT) * 0.5) >= len(R) * DT:
                 R.append(U)
     else:
-        for n in range(nt):
+        for _n in range(nt):
             t += dt
             mu = mu.with_(t=t)
             if F_time_dep:
@@ -334,7 +334,7 @@ def implicit_midpoint_rule(A, F, M, U0, t0, t1, nt, mu=None, num_values=None, so
     if mu is None:
         mu = Mu()
 
-    for n in range(nt):
+    for _n in range(nt):
         mu = mu.with_(t=t + dt/2)
         t += dt
         rhs = M_dt_A_expl.apply(U, mu=mu)

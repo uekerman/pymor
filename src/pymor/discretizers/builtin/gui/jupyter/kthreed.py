@@ -55,7 +55,7 @@ class VectorArrayPlot(k3dPlot):
 
     def _goto_idx(self, idx):
         if idx > len(self.data) or idx < 0:
-            warnings.warn(f'Index {idx} outside data range for VectorArrayPlot', RuntimeWarning)
+            warnings.warn(f'Index {idx} outside data range for VectorArrayPlot', RuntimeWarning, stacklevel=2)
             return
         self.idx = idx
         self.mesh.attribute = self.data[self.idx]

@@ -50,7 +50,8 @@ def _get_fenics_version():
     import dolfin as df
     if parse(df.__version__) < parse('2019.1.0'):
         warnings.warn(f'FEniCS bindings have been tested for version 2019.1.0 and greater '
-                      f'(installed: {df.__version__}).')
+                      f'(installed: {df.__version__}).',
+                      stacklevel=2)
 
     if 'linux' in sys.platform:
         sys.setdlopenflags(orig_dlopenflags)
@@ -68,10 +69,12 @@ def _get_dunegdt_version():
             version = module.__version__
             if parse(version) < parse(min_version) or parse(version) >= parse(max_version):
                 warnings.warn(f'{dep_name} bindings have been tested for versions between '
-                              f'{min_version} and {max_version} (installed: {version}).')
+                              f'{min_version} and {max_version} (installed: {version}).',
+                              stacklevel=2)
         except AttributeError:
             warnings.warn(f'{dep_name} bindings have been tested for versions between '
-                          f'{min_version} and {max_version} (installed unknown version).')
+                          f'{min_version} and {max_version} (installed unknown version).',
+                          stacklevel=2)
             version = None
         return version
 
@@ -103,9 +106,9 @@ def _get_ipython_version():
 
 def _get_slycot_version():
     from slycot.version import version
-    if list(map(int, version.split('.'))) < [0, 3, 1]:
+    if list(map(int, version.split('.'))) < [0, 5, 4]:
         import warnings
-        warnings.warn('Slycot support disabled (version 0.3.1 or higher required).')
+        warnings.warn('Slycot support disabled (version 0.5.4 or higher required).', stacklevel=2)
         return False
     else:
         return version

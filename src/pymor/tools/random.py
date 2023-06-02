@@ -185,13 +185,15 @@ def _get_rng_state():
         import warnings
         warnings.warn(
             'get_rng called but _rng_state not initialized. (Call spawn_rng when creating new thread.) '
-            'Initializing a new RNG from the default seed. This may lead to correlated data.')
+            'Initializing a new RNG from the default seed. This may lead to correlated data.',
+            stacklevel=2)
         new_rng().install()
         rng_state = _rng_state.get()
     if rng_state[0]:
         import warnings
         warnings.warn('You are using the same RNG in concurrent code paths.\n'
-                      'This may lead to truly random, irreproducible behavior')
+                      'This may lead to truly random, irreproducible behavior',
+                      stacklevel=2)
     return rng_state
 
 

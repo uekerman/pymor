@@ -152,7 +152,7 @@ def rrf(A, source_product=None, range_product=None, q=2, l=8, return_rand=False,
     Q = A.apply(R)
     gram_schmidt(Q, range_product, atol=0, rtol=0, copy=False)
 
-    for i in range(q):
+    for _i in range(q):
         Q = A.apply_adjoint(range_product.apply(Q))
         Q = source_product.apply_inverse(Q)
         gram_schmidt(Q, source_product, atol=0, rtol=0, copy=False)

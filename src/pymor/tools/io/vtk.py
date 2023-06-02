@@ -58,7 +58,7 @@ def _get_vtk_type(path):
     with open(path, 'rb') as xml:
         for lines in xml.readlines():
             parser.feed(lines)
-            for action, element in parser.read_events():
+            for _action, element in parser.read_events():
                 if element.tag == 'VTKFile':
                     return element.get('type')
     return None

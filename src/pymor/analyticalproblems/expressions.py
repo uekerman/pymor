@@ -148,7 +148,7 @@ class TransformChainedComparison(ast.NodeTransformer):
         operators = node.ops
         comparisons = []
         # transform chained comparisons to sequence of simple comparisons
-        for i, op in enumerate(operators):
+        for i, _op in enumerate(operators):
             comparisons.append(ast.Compare(self.generic_visit(comparators[i]),
                                            [self.generic_visit(operators[i])],
                                            [self.generic_visit(comparators[i+1])]))

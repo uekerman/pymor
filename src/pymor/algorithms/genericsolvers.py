@@ -235,7 +235,7 @@ def lgmres(A, b, x0=None, tol=1e-5, maxiter=1000, M=None, callback=None,
     if b_norm == 0:
         b_norm = 1
 
-    for k_outer in range(maxiter):
+    for k_outer in range(maxiter):  # noqa: B007
         r_outer = A.apply(x) - b
 
         # -- callback

@@ -58,21 +58,23 @@ def check_results(test_name, params, results, *args):
         with resource_stream('pymortests', f'testdata/check_results/{test_name}/{arg_id}') as f:
             f.readline()
             old_results = load(f)
-    except FileNotFoundError:
+    except FileNotFoundError as e:
         if not os.path.exists(testname_dir):
             os.mkdir(testname_dir)
         _dump_results(filename, results)
-        raise NoResultDataError(msg=f'No results found for test {test_name} ({params}), saved current results.'
-                                        f'Remember to check in {filename}.')
+        msg = (f'No results found for test {test_name} ({params}), saved current results.'
+               f'Remember to check in {filename}.')
+        raise NoResultDataError(msg=msg) from e
 
     for k, (atol, rtol) in keys.items():
         if not np.all(np.allclose(old_results[k], results[k], atol=atol, rtol=rtol)):
             abs_errs = np.abs(results[k] - old_results[k])
             rel_errs = abs_errs / np.abs(old_results[k])
             _dump_results(filename + '_changed', results)
-            assert False, (f'Results for test {test_name}({params}, key: {k}) have changed.\n'
-                           f'(maximum error: {np.max(abs_errs)} abs / {np.max(rel_errs)} rel).\n'
-                           f'Saved new results in {filename}_changed')
+            msg = (f'Results for test {test_name}({params}, key: {k}) have changed.\n'
+                   f'(maximum error: {np.max(abs_errs)} abs / {np.max(rel_errs)} rel).\n'
+                   f'Saved new results in {filename}_changed')
+            raise AssertionError(msg)
 
 
 def assert_all_almost_equal(U, V, product=None, sup_norm=False, rtol=1e-14, atol=1e-14):

@@ -219,6 +219,7 @@ select = [
   "UP",  # pyupgrade
   "YTT",  # flake8-2020
   "ASYNC",  # flake8-async
+  "B",  # flake8-bugbear
   "EM",  # flake8-errmsg
   "EXE",  # flake8-executable
   "ISC",  # flake8-implicit-str-concat
@@ -226,6 +227,13 @@ select = [
   "Q",  # flake8-quotes
 ]
 ignore = [
+  "F722",  # syntax error in forward annotation
+  "E402",  # module level import not at top of file (due to config.require("PKG") syntax)
+  "E731",  # do not assign a lambda expression, use a def
+  "E741",  # do not use variables named 'l', 'O', or 'I'
+  "N802",  # function name should be lowercase
+  "N803",  # argument name should be lowercase (we use single capital letters everywhere for vectorarrays)
+  "N806",  # same for variables in function
   "D10",  # missing docstring in module, function, method, magic, __init__, public nested class
   "D401",  # first line of docstring should be in imperative mood
   "D404",  # first word of the docstring should not be "This"
@@ -234,13 +242,9 @@ ignore = [
   "D410",  # same as above
   "D411",  # same as above
   "D414",  # same as above
-  "E402",  # module level import not at top of file (due to config.require("PKG") syntax)
-  "E731",  # do not assign a lambda expression, use a def
-  "E741",  # do not use variables named 'l', 'O', or 'I'
-  "F722",  # syntax error in forward annotation
-  "N802",  # function name should be lowercase
-  "N803",  # argument name should be lowercase (we use single capital letters everywhere for vectorarrays)
-  "N806",  # same for variables in function
+  "B006",  # do not use mutable data structures for argument defaults
+  "B008",  # do not perform function call in argument defaults
+  "B017",  # `pytest.raises(Exception)` should be considered evil
 ]
 
 [tool.ruff.flake8-import-conventions]

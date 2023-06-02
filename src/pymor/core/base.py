@@ -104,7 +104,7 @@ class UberMeta(abc.ABCMeta):
             if attr in classdict:
                 raise ValueError(attr + ' is a reserved class attribute for subclasses of BasicObject')
 
-        for attr, item in classdict.items():
+        for item in classdict.values():
             if isinstance(item, FunctionType):
                 # first copy docs
                 base_doc = None

@@ -168,7 +168,8 @@ def quit():
     if _managed_objects:
         from warnings import warn
         warn('Leaving MPI event loop while not all managed objects have been removed. '
-             'This might be caused by a resource leak.')
+             'This might be caused by a resource leak.',
+             stacklevel=2)
         for obj_id in list(_managed_objects):
             call(remove_object, obj_id)
     comm.bcast(('QUIT', None, None))

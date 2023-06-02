@@ -352,7 +352,7 @@ def interpolate_operators(fom, operator_names, parameter_sample, error_norm=None
                 dofs, basis, data = deim(evaluations, modes=max_interpolation_dofs,
                                          atol=atol, rtol=rtol, pod_options=pod_options, product=product)
         else:
-            assert False
+            raise AssertionError()
 
     ei_operators = {name: EmpiricalInterpolatedOperator(operator, dofs, basis, triangular=(alg == 'ei_greedy'))
                     for name, operator in zip(operator_names, operators)}

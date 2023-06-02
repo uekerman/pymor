@@ -192,7 +192,7 @@ def projection_shifts_init(A, E, B, shift_options):
         A |NumPy array| containing a set of stable shift parameters.
     """
     rng = new_rng(0)
-    for i in range(shift_options['init_maxiter']):
+    for _i in range(shift_options['init_maxiter']):
         Q = gram_schmidt(B, atol=0, rtol=0)
         shifts = spla.eigvals(A.apply2(Q, Q), E.apply2(Q, Q))
         shifts = shifts[shifts.real < 0]

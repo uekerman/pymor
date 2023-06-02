@@ -669,7 +669,7 @@ class Model(CacheableObject, ParametricObject):
             Additional keyword arguments to customize the visualization.
             See the docstring of `self.visualizer.visualize`.
         """
-        if getattr(self, 'visualizer') is not None:
+        if getattr(self, 'visualizer', None) is not None:
             return self.visualizer.visualize(U, **kwargs)
         else:
             msg = 'Model has no visualizer.'

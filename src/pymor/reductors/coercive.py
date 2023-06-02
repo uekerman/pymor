@@ -196,8 +196,7 @@ class SimpleCoerciveRBReductor(StationaryRBReductor):
             R_Os = [space.empty(reserve=len(RB)) for _ in range(len(fom.operator.operators))]
             RR_Os = [space.empty(reserve=len(RB)) for _ in range(len(fom.operator.operators))]
             if old_RB_size > 0:
-                for op, R_O, RR_O, old_R_O, old_RR_O in zip(fom.operator.operators, R_Os, RR_Os,
-                                                            old_data['R_Os'], old_data['RR_Os']):
+                for R_O, RR_O, old_R_O, old_RR_O in zip(R_Os, RR_Os, old_data['R_Os'], old_data['RR_Os']):
                     R_O.append(old_R_O)
                     RR_O.append(old_RR_O)
             for op, R_O, RR_O in zip(fom.operator.operators, R_Os, RR_Os):

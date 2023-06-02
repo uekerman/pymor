@@ -250,7 +250,7 @@ class NeuralNetworkReductor(BasicObject):
         # compute snapshots for POD and training of neural networks
         if not self.fom:
             U = self.training_set[0][1].empty()
-            for mu, u in self.training_set:
+            for _, u in self.training_set:
                 U.append(u)
         else:
             with self.logger.block('Computing training snapshots ...'):
@@ -560,7 +560,7 @@ class NeuralNetworkInstationaryReductor(NeuralNetworkReductor):
         # compute snapshots for POD and training of neural networks
         if not self.fom:
             U = self.training_set[0][1].empty()
-            for mu, u in self.training_set:
+            for _, u in self.training_set:
                 if hasattr(self, 'nt'):
                     assert self.nt == len(u)
                 else:
@@ -1155,7 +1155,7 @@ def train_neural_network(training_data, validation_data, neural_network,
                     targets = batch[1]
 
                 with torch.set_grad_enabled(phase == 'train'):
-                    def closure():
+                    def closure(inputs=inputs, targets=targets):
                         if torch.is_grad_enabled():
                             optimizer.zero_grad()
                         outputs = neural_network(inputs)

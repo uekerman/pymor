@@ -71,7 +71,7 @@ class Node:
 
     def __str__(self):
         lines = []
-        for node, level in self.traverse(True):
+        for node, _level in self.traverse(True):
             line = ''
             if node.parent:
                 p = node.parent

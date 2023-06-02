@@ -454,13 +454,13 @@ class AdaptiveSampleSet(BasicObject):
                 plt.show()
 
         else:
-            assert False
+            raise AssertionError()
 
     def _iter_leafs(self):
         def walk(node):
             if node.children:
-                for node in node.children:
-                    for leaf in walk(node):
+                for child in node.children:
+                    for leaf in walk(child):
                         yield leaf
             else:
                 yield node

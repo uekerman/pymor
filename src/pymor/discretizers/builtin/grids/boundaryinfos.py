@@ -15,7 +15,8 @@ class EmptyBoundaryInfo(BoundaryInfo):
         self.boundary_types = frozenset()
 
     def mask(self, boundary_type, codim):
-        assert False, f'Has no boundary_type "{boundary_type}"'
+        msg = f'Has no boundary_type "{boundary_type}"'
+        raise AssertionError(msg)
 
 
 class GenericBoundaryInfo(BoundaryInfo):

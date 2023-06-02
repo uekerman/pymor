@@ -92,7 +92,7 @@ def dmd(X, Y=None, modes=None, atol=None, rtol=None, cont_time_dt=None, type='ex
     elif order == 'phase':
         sort_idx = np.argsort(np.abs(np.angle(evals)))
     else:
-        assert False
+        raise AssertionError()
     evecs = evecs[:, sort_idx]
     evals = evals[sort_idx]
 
@@ -102,7 +102,7 @@ def dmd(X, Y=None, modes=None, atol=None, rtol=None, cont_time_dt=None, type='ex
     elif type == 'exact':
         Wk = Y.lincomb((((V / s) @ evecs) / evals).T)
     else:
-        assert False
+        raise AssertionError()
 
     retval = [Wk]
 

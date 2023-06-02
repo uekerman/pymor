@@ -435,7 +435,8 @@ class ParametricObject(ImmutableObject):
             import warnings
             warnings.warn(f'Class {type(self).__name__} takes *arg/**kwargs. '
                           f'Parameters of objects passed via these arguments will not be inherited. '
-                          f'To silence this warning set {type(self).__name__}._parameters_varargs_warning = False')
+                          f'To silence this warning set {type(self).__name__}._parameters_varargs_warning = False',
+                          stacklevel=2)
         if self.parameters_own:
             params = params | self.parameters_own
         if self.parameters_internal:
