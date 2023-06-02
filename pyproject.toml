@@ -212,7 +212,7 @@ line-length = 120
 select = ["D", "E", "F", "I", "ICN", "N", "Q", "W"]
 ignore = [
   "D10",  # missing docstring in module, function, method, magic, __init__, public nested class
-  "D401",
+  "D401",  # first line of docstring should be in imperative mood
   "D404",  # first word of the docstring should not be "This"
   "D405",  # the linter thinks the argument name 'parameters' is a docstring section
   "D407",  # same as above
