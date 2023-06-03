@@ -67,7 +67,6 @@ class DefaultContainer:
     """
 
     def __new__(cls):
-        global _default_container
         if _default_container is not None:
             msg = 'DefaultContainer is a singleton! Use pymor.core.defaults._default_container.'
             raise ValueError(msg)
@@ -221,7 +220,7 @@ def defaults(*args):
         if not args:
             return decorated_function
 
-        global _default_container
+        global _default_container  # noqa: PLW0602
         _default_container._add_defaults_for_function(decorated_function, args=args)
 
         def set_default_values(*wrapper_args, **wrapper_kwargs):

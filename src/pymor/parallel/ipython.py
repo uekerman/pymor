@@ -196,7 +196,6 @@ class RemoteId(int):
 
 
 def _worker_call_function(function, loop, args, kwargs):
-    global _remote_objects
     kwargs = {k: (_remote_objects[v] if isinstance(v, RemoteId) else v)
               for k, v in kwargs.items()}
     if loop:
@@ -215,10 +214,10 @@ def _setup_worker(seed_seq):
 
 
 def _push_object(remote_id, obj):
-    global _remote_objects
+    global _remote_objects  # noqa: PLW0602
     _remote_objects[remote_id] = obj
 
 
 def _remove_object(remote_id):
-    global _remote_objects
+    global _remote_objects  # noqa: PLW0602
     del _remote_objects[remote_id]

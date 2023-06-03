@@ -314,7 +314,7 @@ if __name__ == '__main__':
             sys.argv = sys.argv[:1] + sys.argv[2:]
             with open(filename) as f:
                 exec(compile(f.read(), filename, 'exec'))
-            import pymor.tools.mpi  # this is different from __main__
+            import pymor.tools.mpi  # this is different from __main__  # noqa: PLW0406
             pymor.tools.mpi.quit()  # change global state in the right module
         else:
             try:

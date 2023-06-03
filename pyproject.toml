@@ -237,6 +237,7 @@ select = [
   "PLC",  # Pylint Convention
   "PLE",  # Pylint Error
   "PLR",  # Pylint Refactor
+  "PLW",  # Pylint Warning
 ]
 ignore = [
   "F722",  # syntax error in forward annotation
@@ -270,6 +271,8 @@ ignore = [
   "PLR0913",  # too many arguments to function call
   "PLR0915",  # too many statements
   "PLR2004",  # magic value used in comparison
+  "PLW0603",  # using the global statement to update is discouraged
+  "PLW2901",  # `for` loop variable overwritten by assignment target
 ]
 
 [tool.ruff.flake8-import-conventions]

@@ -309,7 +309,6 @@ class LogIndenter:
 
     def __enter__(self):
         global INDENT
-        global BLOCK_TIMINGS
         if BLOCK_TIMINGS:
             self.tic = time.perf_counter()
         if self.doit:
@@ -317,7 +316,6 @@ class LogIndenter:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         global INDENT
-        global BLOCK_TIMINGS
         if self.doit:
             if BLOCK_TIMINGS:
                 duration = time.perf_counter() - self.tic
@@ -326,7 +324,6 @@ class LogIndenter:
 
 
 def _block(self, msg, *args, **kwargs):
-    global INDENT_BLOCKS
     self.log(BLOCK, msg, *args, **kwargs)
     return LogIndenter(self, self.isEnabledFor(BLOCK) and INDENT_BLOCKS)
 
