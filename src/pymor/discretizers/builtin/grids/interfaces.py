@@ -487,7 +487,7 @@ class Grid(CacheableObject):
         return np.reshape(self.reference_element(codim).mapped_diameter(self.embeddings(codim)[0]), (-1,))
 
     def quadrature_points(self, codim, order=None, npoints=None, quadrature_type='default'):
-        """Returns the quadrature points.
+        r"""Returns the quadrature points.
 
         `retval[e]` is an array of quadrature points in global coordinates for the codim-`codim`
         entity with global index `e`.
@@ -496,8 +496,8 @@ class Grid(CacheableObject):
         function `f` over `e` one has to form ::
 
             np.dot(f(quadrature_points(codim, order)[e]),
-                reference_element(codim).quadrature(order)[1]) *
-            integration_elements(codim)[e].  # NOQA
+                   reference_element(codim).quadrature(order)[1]) \
+            * integration_elements(codim)[e]
         """
         return self._quadrature_points(codim, order, npoints, quadrature_type)
 

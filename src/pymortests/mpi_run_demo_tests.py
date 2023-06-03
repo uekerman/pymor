@@ -28,7 +28,7 @@ if __name__ == '__main__':
         with contextlib.suppress(RuntimeError):
             # for MPI runs we need to import qtgui before pyplot
             # otherwise, if both pyside and pyqt5 are installed we'll get an error later
-            from qtpy import QtGui  # noqa F401
+            from qtpy import QtGui  # noqa: F401
 
         try:
             from matplotlib import pyplot as plt

@@ -2,11 +2,8 @@
 # Copyright pyMOR developers and contributors. All rights reserved.
 # License: BSD 2-Clause License (https://opensource.org/licenses/BSD-2-Clause)
 
-# flake8: noqa
-
 # define substitutions for all important interface classes
-interfaces = '''
-
+interfaces = """
 .. |BasicObject| replace:: :class:`~pymor.core.base.BasicObject`
 .. |BoundaryInfo| replace:: :class:`BoundaryInfo <pymor.discretizers.builtin.grids.interfaces.BoundaryInfo>`
 .. |BoundaryInfos| replace:: :class:`BoundaryInfos <pymor.discretizers.builtin.grids.interfaces.BoundaryInfo>`
@@ -38,11 +35,10 @@ interfaces = '''
 .. |BlockVectorSpace| replace:: :class:`BlockVectorSpace <pymor.vectorarrays.block.BlockVectorSpace>`
 .. |WorkerPool| replace:: :class:`WorkerPool <pymor.parallel.interface.WorkerPool>`
 .. |WorkerPools| replace:: :class:`WorkerPools <pymor.parallel.interface.WorkerPool>`
-
-'''
+"""
 
 # substitutions for the most important classes and methods in pyMOR
-common = '''
+common = """
 .. |analytical problem| replace:: :mod:`analytical problem <pymor.analyticalproblems>`
 .. |analytical problems| replace:: :mod:`analytical problems <pymor.analyticalproblems>`
 
@@ -166,14 +162,14 @@ common = '''
 .. |CanonicalSymplecticFormOperator| replace:: :class:`~pymor.operators.symplectic.CanonicalSymplecticFormOperator`
 
 .. |RNG| replace:: :class:`random number generator <pymor.tools.random.RNG>`
-'''
+"""
 
 substitutions = interfaces + common
 
 # list of (key, jinja_safe_key, substitution_value)
 jinja_subst = []
 for line in substitutions.split('\n'):
-    if line == "":
+    if line == '':
         continue
     key, subst = line.split(' replace:: ')
     key = key.strip()
@@ -184,7 +180,7 @@ for line in substitutions.split('\n'):
 inline_directives = ['math', 'meth', 'class', 'ref', 'mod', 'attr', 'doc', ]
 
 if __name__ == '__main__':
-    with open('rst_to_myst.sed', 'wt') as out:
+    with open('rst_to_myst.sed', 'w') as out:
         for dr in inline_directives:
             out.write(f's;:{dr}:;{{{dr}}};g\n')
         l = '{{\\ '
