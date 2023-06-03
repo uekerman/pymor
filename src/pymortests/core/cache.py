@@ -85,10 +85,9 @@ def test_runtime(class_type):
 def _close_cache(backend):
     """This avoids the tmp dir trying to rm still open files with the disk backend."""
     yield
-    try:
+    with contextlib.suppress(AttributeError):
         backend._cache.close()
-    except AttributeError:
-        pass
+
 
 
 def test_region_api():

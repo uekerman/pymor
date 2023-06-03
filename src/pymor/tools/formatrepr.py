@@ -3,6 +3,7 @@
 # License: BSD 2-Clause License (https://opensource.org/licenses/BSD-2-Clause)
 
 
+import contextlib
 import inspect
 import textwrap
 
@@ -99,10 +100,9 @@ def _recurse(obj, max_width, verbosity):
 
     handler = None
     for cls in type(obj).__mro__:
-        try:
+        with contextlib.suppress(KeyError):
             handler = _format_handlers[cls]
-        except KeyError:
-            pass
+
 
     if handler:
         return handler(obj, max_width, verbosity)

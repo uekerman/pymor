@@ -397,7 +397,7 @@ class BitmapFunction(Function):
             msg = "PIL is needed for loading images. Try 'pip install pillow'"
             raise ImportError(msg) from e
         img = Image.open(filename)
-        if not img.mode == 'L':
+        if img.mode != 'L':
             self.logger.warning('Image ' + filename + ' not in grayscale mode. Converting to grayscale.')
             img = img.convert('L')
         self.__auto_init(locals())

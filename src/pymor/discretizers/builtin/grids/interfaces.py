@@ -185,7 +185,7 @@ class Grid(CacheableObject):
     @cached
     def _subentities(self, codim, subentity_codim):
         assert 0 <= codim <= self.dim, 'Invalid codimension'
-        assert 0 < codim, 'Not implemented'
+        assert codim > 0, 'Not implemented'
         P = self.superentities(codim, codim - 1)[:, 0]  # we assume here that superentities() is sorted by global index
         I = self.superentity_indices(codim, codim - 1)[:, 0]
         SE = self.subentities(codim - 1, subentity_codim)[P]
@@ -376,7 +376,7 @@ class Grid(CacheableObject):
         A = np.zeros((E.shape[0], A0.shape[1], A1.shape[2]))
         B = np.zeros((E.shape[0], A0.shape[1]))
         for i in range(A1.shape[0]):
-            INDS = np.where(I == i)[0]
+            INDS = np.where(i == I)[0]
             A[INDS] = np.dot(A0[INDS], A1[i])
             B[INDS] = np.dot(A0[INDS], B1[i]) + B0[INDS]
         return A, B

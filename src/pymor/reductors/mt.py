@@ -108,9 +108,9 @@ class MTReductor(BasicObject):
             if fom.order >= sparse_min_size():
                 if not isinstance(fom.A, NumpyMatrixOperator) or fom.A.sparse:
                     self.logger.warning('Converting operator A to a NumPy array.')
-                if not isinstance(fom.E, IdentityOperator):
-                    if not isinstance(fom.E, NumpyMatrixOperator) or fom.E.sparse:
-                        self.logger.warning('Converting operator E to a NumPy array.')
+                if (not isinstance(fom.E, IdentityOperator)
+                        and (not isinstance(fom.E, NumpyMatrixOperator) or fom.E.sparse)):
+                    self.logger.warning('Converting operator E to a NumPy array.')
             A = to_matrix(fom.A, format='dense')
             E = None if isinstance(fom.E, IdentityOperator) else to_matrix(fom.E, format='dense')
 

@@ -9,14 +9,7 @@ config.require('FENICS')
 import numpy as np
 from dolfin import DOLFIN_EPS, MeshFunction, Point, RectangleMesh, SubDomain
 
-from pymor.analyticalproblems.domaindescriptions import (
-    CircleDomain,
-    CylindricalDomain,
-    LineDomain,
-    PolygonalDomain,
-    RectDomain,
-    TorusDomain,
-)
+from pymor.analyticalproblems.domaindescriptions import RectDomain
 
 
 def discretize_domain(domain_description, diameter=1 / 100):
@@ -62,15 +55,4 @@ def discretize_domain(domain_description, diameter=1 / 100):
 
     if isinstance(domain_description, RectDomain):
         return discretize_RectDomain()
-    elif isinstance(domain_description, CylindricalDomain):
-        raise NotImplementedError
-    elif isinstance(domain_description, TorusDomain):
-        raise NotImplementedError
-    elif isinstance(domain_description, PolygonalDomain):
-        raise NotImplementedError
-    elif isinstance(domain_description, LineDomain):
-        return NotImplementedError
-    elif isinstance(domain_description, CircleDomain):
-        raise NotImplementedError
-    else:
-        raise NotImplementedError
+    raise NotImplementedError

@@ -67,9 +67,8 @@ class BlockVectorArrayImpl(VectorArrayImpl):
 
     def scal_copy(self, alpha, ind):
         assert self._blocks_are_valid()
-        if isinstance(alpha, Number):
-            if alpha == -1:
-                return type(self)([-_indexed(block, ind) for block in self._blocks], self.space)
+        if isinstance(alpha, Number) and alpha == -1:
+            return type(self)([-_indexed(block, ind) for block in self._blocks], self.space)
         return super().scal_copy(alpha, ind)
 
     def axpy(self, alpha, x, ind, xind):

@@ -35,7 +35,7 @@ class Parameters(SortedFrozenDict):
     __slots__ = ()
 
     def _post_init(self):
-        assert all(type(k) is str and type(v) is int and 0 <= v
+        assert all(type(k) is str and type(v) is int and v >= 0
                    for k, v in self.items())
         assert self.get('t', 1) == 1, 'time parameter must have length 1'
 
@@ -485,9 +485,8 @@ class ParametricObject(ImmutableObject):
                 assert self._parameters.keys().isdisjoint(self._parameters_internal)
             if self._parameters_own is not None:
                 assert self._parameters_own.keys().isdisjoint(self._parameters_internal)
-        if self._parameters_own is not None:
-            if self._parameters is not None:
-                assert self._parameters >= self._parameters_own
+        if self._parameters_own is not None and self._parameters is not None:
+            assert self._parameters >= self._parameters_own
         return True
 
     _parameters = None

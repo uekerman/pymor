@@ -312,7 +312,8 @@ if __name__ == '__main__':
         if len(sys.argv) >= 2:
             filename = sys.argv[1]
             sys.argv = sys.argv[:1] + sys.argv[2:]
-            exec(compile(open(filename).read(), filename, 'exec'))
+            with open(filename) as f:
+                exec(compile(f.read(), filename, 'exec'))
             import pymor.tools.mpi  # this is different from __main__
             pymor.tools.mpi.quit()  # change global state in the right module
         else:

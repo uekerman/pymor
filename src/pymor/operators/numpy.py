@@ -15,6 +15,7 @@ This module provides the following |NumPy|-based |Operators|:
   Markov parameters.
 """
 
+import contextlib
 from functools import reduce
 
 import numpy as np
@@ -189,10 +190,8 @@ class NumpyMatrixOperator(NumpyMatrixBasedOperator):
         assert matrix.ndim <= 2
         if matrix.ndim == 1:
             matrix = np.reshape(matrix, (1, -1))
-        try:
+        with contextlib.suppress(AttributeError):
             matrix.setflags(write=False)  # make numpy arrays read-only
-        except AttributeError:
-            pass
 
         self.__auto_init(locals())
         self.source = NumpyVectorSpace(matrix.shape[1], source_id)
@@ -340,10 +339,9 @@ class NumpyMatrixOperator(NumpyMatrixBasedOperator):
                                             'result may not be accurate.')
                 R = lu_solve(self._lu_factor, V.to_numpy().T).T
 
-            if check_finite:
-                if not np.isfinite(np.sum(R)):
-                    msg = 'Result contains non-finite values'
-                    raise InversionError(msg)
+            if check_finite and not np.isfinite(np.sum(R)):
+                msg = 'Result contains non-finite values'
+                raise InversionError(msg)
 
             return self.source.make_array(R)
 

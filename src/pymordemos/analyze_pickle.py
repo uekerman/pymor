@@ -3,6 +3,7 @@
 # Copyright pyMOR developers and contributors. All rights reserved.
 # License: BSD 2-Clause License (https://opensource.org/licenses/BSD-2-Clause)
 
+import contextlib
 import sys
 import time
 
@@ -37,7 +38,8 @@ def histogram(
     error_norm: str = ERROR_NORM
 ):
     print('Loading reduced model ...')
-    rom, parameter_space = load(open(reduced_data, 'rb'))
+    with open(reduced_data, 'rb') as f:
+        rom, parameter_space = load(f)
 
     mus = parameter_space.sample_randomly(samples)
     us = []
@@ -59,7 +61,8 @@ def histogram(
 
     if detailed_data:
         print('Loading high-dimensional data ...')
-        fom, reductor = load(open(detailed_data, 'rb'))
+        with open(detailed_data, 'rb') as f:
+            fom, reductor = load(f)
 
         errs = []
         for u, mu in zip(us, mus):
@@ -74,10 +77,8 @@ def histogram(
 
         print()
 
-    try:
+    with contextlib.suppress(AttributeError):  # plt.style is only available in newer matplotlib versions
         plt.style.use('ggplot')
-    except AttributeError:
-        pass  # plt.style is only available in newer matplotlib versions
 
     if hasattr(rom, 'estimate_error') and detailed_data:
 
@@ -162,10 +163,12 @@ def convergence(
     ndim: int = Option(None, help='Number of reduced basis dimensions for which to estimate the error.')
 ):
     print('Loading reduced model ...')
-    rom, parameter_space = load(open(reduced_data, 'rb'))
+    with open(reduced_data, 'rb') as f:
+        rom, parameter_space = load(f)
 
     print('Loading high-dimensional data ...')
-    fom, reductor = load(open(detailed_data, 'rb'))
+    with open(detailed_data, 'rb') as f:
+        fom, reductor = load(f)
     fom.enable_caching('disk')
 
     dim = rom.solution_space.dim
@@ -218,10 +221,8 @@ def convergence(
 
     print()
 
-    try:
+    with contextlib.suppress(AttributeError):  # plt.style is only available in newer matplotlib versions
         plt.style.use('ggplot')
-    except AttributeError:
-        pass  # plt.style is only available in newer matplotlib versions
 
     plt.subplot(1, 2, 1)
     if hasattr(rom, 'estimate'):

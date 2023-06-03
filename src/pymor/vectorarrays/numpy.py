@@ -46,10 +46,10 @@ class NumpyVectorArrayImpl(VectorArrayImpl):
         if type(ind) is slice:
             ind = set(range(*ind.indices(self._len)))
         elif not hasattr(ind, '__len__'):
-            ind = {ind if 0 <= ind else self._len + ind}
+            ind = {ind if ind >= 0 else self._len + ind}
         else:
             l = self._len
-            ind = {i if 0 <= i else l+i for i in ind}
+            ind = {i if i >= 0 else l+i for i in ind}
         remaining = sorted(set(range(len(self))) - ind)
         self._array = self._array[remaining]
         self._len = len(self._array)

@@ -1,4 +1,6 @@
 # This file is part of the pyMOR project (https://www.pymor.org).
+import contextlib
+
 # Copyright pyMOR developers and contributors. All rights reserved.
 # License: BSD 2-Clause License (https://opensource.org/licenses/BSD-2-Clause)
 
@@ -14,22 +16,19 @@ if __name__ == '__main__':
     pymor_root_dir = (this_dir / '..' / '..').resolve()
 
     result_file_fn = pymor_root_dir / f'.mpirun_{mpi.rank}' / 'pytest.mpirun.success'
-    try:
+    with contextlib.suppress(FileNotFoundError):
         os.unlink(result_file_fn)
-    except FileNotFoundError:
-        pass
+
 
     # ensure that FEniCS visualization does nothing on all MPI ranks
     def monkey_plot():
         def nop(*args, **kwargs):
             pass
 
-        try:
+        with contextlib.suppress(RuntimeError):
             # for MPI runs we need to import qtgui before pyplot
             # otherwise, if both pyside and pyqt5 are installed we'll get an error later
             from qtpy import QtGui  # noqa F401
-        except RuntimeError:
-            pass
 
         try:
             from matplotlib import pyplot as plt

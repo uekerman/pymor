@@ -68,7 +68,7 @@ class FenicsVector(CopyOnWriteVector):
         dof_indices = np.array(dof_indices, dtype=np.intc)
         if len(dof_indices) == 0:
             return np.array([], dtype=np.intc)
-        assert 0 <= np.min(dof_indices)
+        assert np.min(dof_indices) >= 0
         assert np.max(dof_indices) < self.impl.size()
         dofs = self.impl.gather(dof_indices)
         # in the mpi distributed case, gather returns the values

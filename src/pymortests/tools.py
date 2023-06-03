@@ -98,7 +98,7 @@ def test_quadrature_points():
     for order in GaussQuadratures.orders:
         P, _ = GaussQuadratures.quadrature(order)
         assert float_cmp_all(P, np.sort(P))
-        assert 0.0 < P[0]
+        assert P[0] > 0.0
         assert P[-1] < 1.0
 
 
@@ -116,11 +116,11 @@ def test_float_cmp():
 
         assert not float_cmp(nan, nan, rtol, atol), msg
         assert nan != nan
-        assert not (nan == nan)
+        assert not (nan == nan)  # noqa: SIM201
         assert not float_cmp(-nan, nan, rtol, atol), msg
 
         assert not float_cmp(inf, inf, rtol, atol), msg
-        assert not (inf != inf)
+        assert not (inf != inf)  # noqa: SIM202
         assert inf == inf
         if rtol > 0:
             assert float_cmp(-inf, inf, rtol, atol), msg
@@ -139,8 +139,7 @@ def test_almost_less():
         assert almost_less(0., 1, rtol, atol), msg
         assert almost_less(-1., 1., rtol, atol), msg
         assert almost_less(atol, 0., rtol, atol), msg
-        assert (rtol == 0.0 and not almost_less(0., inf, rtol, atol), msg) or \
-               almost_less(0., inf, rtol, atol), msg
+        assert rtol == 0.0 and not almost_less(0., inf, rtol, atol) or almost_less(0., inf, rtol, atol), msg
 
 
 @pytest.mark.skipif(not config.HAVE_VTKIO, reason='VTKIO support libraries missing')

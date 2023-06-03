@@ -140,11 +140,7 @@ class Square(ReferenceElement):
         assert 0 <= codim <= 2, f'Invalid codimension (must be between 0 and 2 but was {codim})'
         if codim == 0:
             return 1
-        elif codim == 1:
-            return 4
-        elif codim == 2:
-            return 4
-        raise AssertionError
+        return 4
 
     def subentities(self, codim, subentity_codim):
         assert 0 <= codim <= 2, f'Invalid codimension (must be between 0 and 2 but was {codim})'
@@ -229,11 +225,7 @@ class Triangle(ReferenceElement):
         assert 0 <= codim <= 2, f'Invalid codimension (must be between 0 and 2 but was {codim})'
         if codim == 0:
             return 1
-        elif codim == 1:
-            return 3
-        elif codim == 2:
-            return 3
-        raise AssertionError
+        return 3
 
     def subentities(self, codim, subentity_codim):
         assert 0 <= codim <= 2, f'Invalid codimension (must be between 0 and 2 but was {codim})'

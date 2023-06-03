@@ -10,14 +10,7 @@ config.require('SCIKIT_FEM')
 import numpy as np
 import skfem
 
-from pymor.analyticalproblems.domaindescriptions import (
-    CircleDomain,
-    CylindricalDomain,
-    LineDomain,
-    PolygonalDomain,
-    RectDomain,
-    TorusDomain,
-)
+from pymor.analyticalproblems.domaindescriptions import LineDomain, RectDomain
 
 
 def discretize_domain(domain_description, diameter=1 / 100, mesh_type=None):
@@ -66,17 +59,6 @@ def discretize_domain(domain_description, diameter=1 / 100, mesh_type=None):
 
     if isinstance(domain_description, RectDomain):
         return discretize_RectDomain()
-    elif isinstance(domain_description, CylindricalDomain):
-        raise NotImplementedError
-    elif isinstance(domain_description, TorusDomain):
-        raise NotImplementedError
-    elif isinstance(domain_description, PolygonalDomain):
-        # from pymor.discretizers.builtin.domaindiscretizers.gmsh import discretize_gmsh
-        # return discretize_gmsh(domain_description, clscale=diameter)
-        raise NotImplementedError
     elif isinstance(domain_description, LineDomain):
         return discretize_LineDomain()
-    elif isinstance(domain_description, CircleDomain):
-        raise NotImplementedError
-    else:
-        raise NotImplementedError
+    raise NotImplementedError

@@ -879,9 +879,8 @@ class LTIModel(Model):
         if self.order >= sparse_min_size():
             if not isinstance(A, NumpyMatrixOperator) or A.sparse:
                 self.logger.warning('Converting operator A to a NumPy array.')
-            if not isinstance(E, IdentityOperator):
-                if not isinstance(E, NumpyMatrixOperator) or E.sparse:
-                    self.logger.warning('Converting operator E to a NumPy array.')
+            if not isinstance(E, IdentityOperator) and (not isinstance(E, NumpyMatrixOperator) or E.sparse):
+                self.logger.warning('Converting operator E to a NumPy array.')
 
         A = to_matrix(A, format='dense')
         E = None if isinstance(E, IdentityOperator) else to_matrix(E, format='dense')
@@ -1393,9 +1392,8 @@ class LTIModel(Model):
             if self.order >= sparse_min_size():
                 if not isinstance(A, NumpyMatrixOperator) or A.sparse:
                     self.logger.warning('Converting operator A to a NumPy array.')
-                if not isinstance(E, IdentityOperator):
-                    if not isinstance(E, NumpyMatrixOperator) or E.sparse:
-                        self.logger.warning('Converting operator E to a NumPy array.')
+                if not isinstance(E, IdentityOperator) and (not isinstance(E, NumpyMatrixOperator) or E.sparse):
+                    self.logger.warning('Converting operator E to a NumPy array.')
 
             A = to_matrix(A, format='dense')
             E = None if isinstance(E, IdentityOperator) else to_matrix(E, format='dense')

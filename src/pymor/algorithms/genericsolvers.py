@@ -181,10 +181,9 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
         msg = 'Unknown solver type'
         raise ValueError(msg)
 
-    if check_finite:
-        if not np.isfinite(np.all(R.norm())):
-            msg = 'Result contains non-finite values'
-            raise InversionError(msg)
+    if check_finite and not np.isfinite(np.all(R.norm())):
+        msg = 'Result contains non-finite values'
+        raise InversionError(msg)
 
     return R
 
@@ -688,13 +687,12 @@ def lsqr(A, b, damp=0.0, atol=1e-8, btol=1e-8, conlim=1e8,
         if istop != 0:
             prnt = True
 
-        if prnt:
-            if show:
-                str1 = f'{itn:6g} {x.dofs([0])[0]:12.5e}'
-                str2 = f' {r1norm:10.3e} {r2norm:10.3e}'
-                str3 = f'  {test1:8.1e} {test2:8.1e}'
-                str4 = f' {anorm:8.1e} {acond:8.1e}'
-                print(str1, str2, str3, str4)
+        if prnt and show:
+            str1 = f'{itn:6g} {x.dofs([0])[0]:12.5e}'
+            str2 = f' {r1norm:10.3e} {r2norm:10.3e}'
+            str3 = f'  {test1:8.1e} {test2:8.1e}'
+            str4 = f' {anorm:8.1e} {acond:8.1e}'
+            print(str1, str2, str3, str4)
 
         if istop != 0:
             break
@@ -973,22 +971,21 @@ def lsmr(A, b, damp=0.0, atol=1e-6, btol=1e-6, conlim=1e8,
 
         # See if it is time to print something.
 
-        if show:
-            if (n <= 40) or (itn <= 10) or (itn >= maxiter - 10) or \
+        if show and ((n <= 40) or (itn <= 10) or (itn >= maxiter - 10) or \
                (itn % 10 == 0) or (test3 <= 1.1 * ctol) or \
                (test2 <= 1.1 * atol) or (test1 <= 1.1 * rtol) or \
-               (istop != 0):
+               (istop != 0)):
 
-                if pcount >= pfreq:
-                    pcount = 0
-                    print(' ')
-                    print(hdg1, hdg2)
-                pcount = pcount + 1
-                str1 = f'{itn:6g} {x.dofs([0])[0]:12.5e}'
-                str2 = f' {normr:10.3e} {normar:10.3e}'
-                str3 = f'  {test1:8.1e} {test2:8.1e}'
-                str4 = f' {normA:8.1e} {condA:8.1e}'
-                print(''.join([str1, str2, str3, str4]))
+            if pcount >= pfreq:
+                pcount = 0
+                print(' ')
+                print(hdg1, hdg2)
+            pcount = pcount + 1
+            str1 = f'{itn:6g} {x.dofs([0])[0]:12.5e}'
+            str2 = f' {normr:10.3e} {normar:10.3e}'
+            str3 = f'  {test1:8.1e} {test2:8.1e}'
+            str4 = f' {normA:8.1e} {condA:8.1e}'
+            print(''.join([str1, str2, str3, str4]))
 
         if istop > 0:
             break

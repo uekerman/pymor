@@ -291,10 +291,9 @@ def apply_inverse(op, V, initial_guess=None, options=None, least_squares=False, 
         msg = 'Unknown solver type'
         raise ValueError(msg)
 
-    if check_finite:
-        if not np.isfinite(np.sum(R)):
-            msg = 'Result contains non-finite values'
-            raise InversionError(msg)
+    if check_finite and not np.isfinite(np.sum(R)):
+        msg = 'Result contains non-finite values'
+        raise InversionError(msg)
 
     return op.source.from_numpy(R)
 

@@ -2,6 +2,8 @@
 # Copyright pyMOR developers and contributors. All rights reserved.
 # License: BSD 2-Clause License (https://opensource.org/licenses/BSD-2-Clause)
 
+import contextlib
+
 import numpy as np
 import pytest
 
@@ -446,25 +448,21 @@ def test_InverseOperator(operator_with_arrays):
     op, mu, U, V = operator_with_arrays
     inv = InverseOperator(op)
     rtol = atol = 1e-12
-    try:
+    with contextlib.suppress(InversionError):
         assert np.all(almost_equal(inv.apply(V, mu=mu), op.apply_inverse(V, mu=mu), rtol=rtol, atol=atol))
-    except InversionError:
-        pass
-    try:
+
+    with contextlib.suppress(InversionError):
         assert np.all(almost_equal(inv.apply_inverse(U, mu=mu), op.apply(U, mu=mu), rtol=rtol, atol=atol))
-    except InversionError:
-        pass
+
     if op.linear:
-        try:
+        with contextlib.suppress(InversionError, NotImplementedError):
             assert np.all(almost_equal(inv.apply_adjoint(U, mu=mu), op.apply_inverse_adjoint(U, mu=mu),
                                        rtol=rtol, atol=atol))
-        except (InversionError, NotImplementedError):
-            pass
-        try:
+
+        with contextlib.suppress(InversionError, LinAlgError, NotImplementedError):
             assert np.all(almost_equal(inv.apply_inverse_adjoint(V, mu=mu), op.apply_adjoint(V, mu=mu),
                                        rtol=rtol, atol=atol))
-        except (InversionError, LinAlgError, NotImplementedError):
-            pass
+
 
 
 def test_InverseAdjointOperator(operator_with_arrays):
@@ -473,26 +471,22 @@ def test_InverseAdjointOperator(operator_with_arrays):
         return
     inv = InverseAdjointOperator(op)
     rtol = atol = 1e-12
-    try:
+    with contextlib.suppress(InversionError, LinAlgError, NotImplementedError):
         assert np.all(almost_equal(inv.apply(U, mu=mu), op.apply_inverse_adjoint(U, mu=mu),
                                    rtol=rtol, atol=atol))
-    except (InversionError, LinAlgError, NotImplementedError):
-        pass
-    try:
+
+    with contextlib.suppress(InversionError, LinAlgError, NotImplementedError):
         assert np.all(almost_equal(inv.apply_inverse(V, mu=mu), op.apply_adjoint(V, mu=mu),
                                    rtol=rtol, atol=atol))
-    except (InversionError, LinAlgError, NotImplementedError):
-        pass
-    try:
+
+    with contextlib.suppress(InversionError, LinAlgError, NotImplementedError):
         assert np.all(almost_equal(inv.apply_adjoint(V, mu=mu), op.apply_inverse(V, mu=mu),
                                    rtol=rtol, atol=atol))
-    except (InversionError, LinAlgError, NotImplementedError):
-        pass
-    try:
+
+    with contextlib.suppress(InversionError, LinAlgError, NotImplementedError):
         assert np.all(almost_equal(inv.apply_inverse_adjoint(U, mu=mu), op.apply(U, mu=mu),
                                    rtol=rtol, atol=atol))
-    except (InversionError, LinAlgError, NotImplementedError):
-        pass
+
 
 
 @pytest.mark.builtin()

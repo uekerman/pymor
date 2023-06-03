@@ -185,9 +185,8 @@ class ProjectRules(RuleTable):
     @match_class(AdjointOperator)
     def action_AdjointOperator(self, op):
         range_basis, source_basis = self.range_basis, self.source_basis
-        if range_basis is not None:
-            if op.source_product:
-                range_basis = op.source_product.apply_inverse(range_basis)
+        if range_basis is not None and op.source_product:
+            range_basis = op.source_product.apply_inverse(range_basis)
 
         if source_basis is not None and op.range_product:
             source_basis = op.range_product.apply(source_basis)

@@ -237,7 +237,7 @@ class VectorArray(BasicObject):
         else:
             assert isinstance(ind, (list, np.ndarray))
             assert all(-l <= i < l for i in ind)
-            ind = [i if 0 <= i else l+i for i in ind]
+            ind = [i if i >= 0 else l+i for i in ind]
             view_len = len(ind)
 
         if self.is_view:

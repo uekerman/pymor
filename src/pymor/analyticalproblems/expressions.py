@@ -502,7 +502,7 @@ class Indexed(Expression):
             raise ValueError(msg)
         if isinstance(index, int):
             index = (index,)
-        if not len(index) == len(base.shape):
+        if len(index) != len(base.shape):
             msg = (f'Wrong number of indices for index expression {base}[{index}] '
                    f'(given {len(index)} indices for expression of shape {base.shape}).')
             raise ValueError(msg)

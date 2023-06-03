@@ -1375,7 +1375,7 @@ class InducedNorm(ParametricObject):
     def __call__(self, U, mu=None):
         norm_squared = self.product.pairwise_apply2(U, U, mu=mu).real
         if self.tol > 0:
-            norm_squared = np.where(np.logical_and(0 > norm_squared, norm_squared > - self.tol),
+            norm_squared = np.where(np.logical_and(norm_squared < 0, norm_squared > - self.tol),
                                     0, norm_squared)
         if self.raise_negative and np.any(norm_squared < 0):
             msg = f'norm is negative (square = {norm_squared})'

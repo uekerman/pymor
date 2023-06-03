@@ -2,6 +2,8 @@
 # Copyright pyMOR developers and contributors. All rights reserved.
 # License: BSD 2-Clause License (https://opensource.org/licenses/BSD-2-Clause)
 
+import contextlib
+
 import numpy as np
 
 from pymor.core.base import BasicObject, abstractclassmethod, abstractmethod, classinstancemethod
@@ -136,10 +138,9 @@ class CopyOnWriteVector(Vector):
         self._axpy(alpha, x)
 
     def __del__(self):
-        try:
+        with contextlib.suppress(AttributeError):
             self._refcount[0] -= 1
-        except AttributeError:
-            pass
+
 
     def _copy_data_if_needed(self):
         try:
@@ -376,7 +377,7 @@ class ListVectorArrayImpl(VectorArrayImpl):
         elif hasattr(ind, '__len__'):
             thelist = self._list
             l = len(thelist)
-            remaining = sorted(set(range(l)) - {i if 0 <= i else l+i for i in ind})
+            remaining = sorted(set(range(l)) - {i if i >= 0 else l+i for i in ind})
             self._list = [thelist[i] for i in remaining]
         else:
             del self._list[ind]

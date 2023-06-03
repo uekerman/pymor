@@ -47,9 +47,8 @@ def almost_equal(U, V, product=None, sup_norm=False, rtol=1e-14, atol=1e-14):
     X = V.copy()
 
     # broadcast if necessary
-    if len(X) == 1:
-        if len(U) > 1:
-            X.append(X[np.zeros(len(U) - 1, dtype=int)])
+    if len(X) == 1 and len(U) > 1:
+        X.append(X[np.zeros(len(U) - 1, dtype=int)])
 
     X -= U
     ERR_norm = X.sup_norm() if sup_norm else X.norm(product)

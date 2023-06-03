@@ -33,7 +33,7 @@ def test_log_levels():
     logger.setLevel(before_name)
     before = logger.level
     with log_levels({logger.name: 'DEBUG'}):
-        assert 'DEBUG' == logging.getLevelName(logger.level)
+        assert logging.getLevelName(logger.level) == 'DEBUG'
         assert logger.level != before
     assert logger.level == before
     assert before_name == logging.getLevelName(logger.level)

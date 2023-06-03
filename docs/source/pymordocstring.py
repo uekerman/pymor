@@ -5,6 +5,7 @@
 # This file was originally based upon sphinxcontrib-napoleon
 # Copyright 2013 Rob Ruana
 
+import contextlib
 import functools
 import re
 from collections import OrderedDict, defaultdict, deque
@@ -98,9 +99,7 @@ def get_min_indent(lines):
     for line in lines:
         if line:
             indent = get_indent(line)
-            if min_indent is None:
-                min_indent = indent
-            elif indent < min_indent:
+            if min_indent is None or indent < min_indent:
                 min_indent = indent
     return min_indent or 0
 
@@ -416,10 +415,9 @@ def format_docstring(obj, lines=None, dont_recurse=False):
         if 'attributes' in fields:
             obj._sphinx_documented_attributes = [n for n, _, _ in fields['attributes']]
         else:
-            try:
+            with contextlib.suppress(TypeError):
                 obj._sphinx_documented_attributes = []
-            except TypeError:
-                pass
+
         if not dont_recurse:
             sections['_methods'], sections['_attributes'] = inspect_class(obj)
 

@@ -24,7 +24,7 @@ from pymor.discretizers.builtin.grids.constructions import flatten_grid
 class VectorArrayPlot(k3dPlot):
     def __init__(self, U, grid, codim, color_map, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if 'transform' in kwargs.keys():
+        if 'transform' in kwargs:
             msg = 'supplying transforms is currently not supported for time series Data'
             raise RuntimeError(msg)
 
