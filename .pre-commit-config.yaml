@@ -46,5 +46,9 @@ repos:
   hooks:
   - id: GbibClean
     args: [--sort-entries]
+- repo: https://github.com/pre-commit/mirrors-autopep8
+  rev: v2.0.2
+  hooks:
+  - id: autopep8
 ci:
   autofix_prs: false

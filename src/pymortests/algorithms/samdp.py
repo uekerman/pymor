@@ -70,4 +70,4 @@ def test_samdp(n, m, k, wanted, with_E, which):
     else:
         assert np.sum((Aop.apply(dom_rev) - dom_poles * Eop.apply(dom_rev)).norm() / dom_rev.norm()) < 1e-3
         assert np.sum((Aop.apply_adjoint(dom_lev)
-               - dom_poles * Eop.apply_adjoint(dom_lev)).norm() / dom_lev.norm()) < 1e-3
+                       - dom_poles * Eop.apply_adjoint(dom_lev)).norm() / dom_lev.norm()) < 1e-3

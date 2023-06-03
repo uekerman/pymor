@@ -286,3 +286,9 @@ max-doc-length = 100
 
 [tool.ruff.pydocstyle]
 convention = "numpy"
+
+[tool.autopep8]
+max_line_length = 120
+select = [
+  "E1",  # fix indentation
+]

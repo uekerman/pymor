@@ -972,9 +972,9 @@ def lsmr(A, b, damp=0.0, atol=1e-6, btol=1e-6, conlim=1e8,
         # See if it is time to print something.
 
         if show and ((n <= 40) or (itn <= 10) or (itn >= maxiter - 10) or \
-               (itn % 10 == 0) or (test3 <= 1.1 * ctol) or \
-               (test2 <= 1.1 * atol) or (test1 <= 1.1 * rtol) or \
-               (istop != 0)):
+                     (itn % 10 == 0) or (test3 <= 1.1 * ctol) or \
+                     (test2 <= 1.1 * atol) or (test1 <= 1.1 * rtol) or \
+                     (istop != 0)):
 
             if pcount >= pfreq:
                 pcount = 0

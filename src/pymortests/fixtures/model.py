@@ -37,8 +37,8 @@ def model(request):
 
 
 @pytest.fixture(params=[] if BUILTIN_DISABLED else
-                       ([lambda p=p, d=d: discretize_stationary_cg(p, diameter=d)[0]
-                        for p, d in product(non_picklable_thermalblock_problems, [1./20., 1./30.])]))
+                ([lambda p=p, d=d: discretize_stationary_cg(p, diameter=d)[0]
+                  for p, d in product(non_picklable_thermalblock_problems, [1./20., 1./30.])]))
 def stationary_models(request):
     return request.param()
 

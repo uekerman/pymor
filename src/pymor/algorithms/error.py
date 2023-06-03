@@ -207,8 +207,8 @@ def reduction_error_analysis(rom, fom, reductor, test_mus,
         result['max_rel_errors'] = np.max(rel_errors, axis=0)
         result['max_rel_error_mus'] = test_mus[np.argmax(rel_errors, axis=0)]
         for name, norm, _norm_mu, error, error_mu in zip(error_norm_names,
-                                                        max_norms, max_norm_mus,
-                                                        max_errors[:, -1], max_error_mus[:, -1]):
+                                                         max_norms, max_norm_mus,
+                                                         max_errors[:, -1], max_error_mus[:, -1]):
             summary.append((f'maximum {name}-norm',
                             f'{norm:.7e} (mu = {error_mu})'))
             summary.append((f'maximum {name}-error',

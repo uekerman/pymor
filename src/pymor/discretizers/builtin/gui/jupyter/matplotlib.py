@@ -49,9 +49,9 @@ def visualize_patch(grid, U, bounding_box=None, codim=2, title=None, legend=None
         at the same time.
     """
     assert isinstance(U, VectorArray) \
-           or (isinstance(U, tuple)
-               and all(isinstance(u, VectorArray) for u in U)
-               and all(len(u) == len(U[0]) for u in U))
+        or (isinstance(U, tuple)
+            and all(isinstance(u, VectorArray) for u in U)
+            and all(len(u) == len(U[0]) for u in U))
 
     U = (U.to_numpy().astype(np.float64, copy=False),) if isinstance(U, VectorArray) else \
         tuple(u.to_numpy().astype(np.float64, copy=False) for u in U)
@@ -137,9 +137,9 @@ def visualize_matplotlib_1d(grid, U, codim=1, title=None, legend=None, separate_
     assert codim in (0, 1)
 
     assert isinstance(U, VectorArray) \
-           or (isinstance(U, tuple)
-               and all(isinstance(u, VectorArray) for u in U)
-               and all(len(u) == len(U[0]) for u in U))
+        or (isinstance(U, tuple)
+            and all(isinstance(u, VectorArray) for u in U)
+            and all(len(u) == len(U[0]) for u in U))
     U = (U.to_numpy().astype(np.float64, copy=False),) if isinstance(U, VectorArray) else \
         tuple(u.to_numpy().astype(np.float64, copy=False) for u in U)
 
