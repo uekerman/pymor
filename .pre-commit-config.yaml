@@ -36,5 +36,10 @@ repos:
   rev: 3.0.0
   hooks:
   - id: check-mailmap
+- repo: https://github.com/tdegeus/GooseBib
+  rev: v0.8.1
+  hooks:
+  - id: GbibClean
+    args: [--sort-entries]
 ci:
   autofix_prs: false
