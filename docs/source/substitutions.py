@@ -169,7 +169,7 @@ substitutions = interfaces + common
 # list of (key, jinja_safe_key, substitution_value)
 jinja_subst = []
 for line in substitutions.split('\n'):
-    if line == '':
+    if line == '':  # noqa: PLC1901
         continue
     key, subst = line.split(' replace:: ')
     key = key.strip()

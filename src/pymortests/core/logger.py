@@ -51,7 +51,7 @@ def test_once(verb, capsys):
     func(msg)
     second = capsys.readouterr()
     # same log call must result in no output
-    assert second.out == second.err == ''
+    assert second.out == second.err == ''  # noqa: PLC1901
 
 
 if __name__ == '__main__':

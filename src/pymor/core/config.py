@@ -238,9 +238,16 @@ class Config:
         return list(keys)
 
     def __repr__(self):
-        status = {p: 'disabled' if p in self.disabled else
-                     (lambda v: 'missing' if not v else 'present' if v is True else v)(getattr(self, p + '_VERSION'))
-                  for p in _PACKAGES}
+        def package_status(p):
+            if p in self.disabled:
+                return 'disabled'
+            v = getattr(self, p + '_VERSION')
+            if not v:
+                return 'missing'
+            if v is True:
+                return 'present'
+            return v
+        status = {p: package_status(p) for p in _PACKAGES}
         key_width = max(len(p) for p in _PACKAGES) + 2
         package_info = [f"{p+':':{key_width}} {v}" for p, v in sorted(status.items())]
         separator = '-' * max(map(len, package_info))

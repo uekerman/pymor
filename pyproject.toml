@@ -234,6 +234,7 @@ select = [
   "TD",  # flake8-todos
   "ERA",  # eradicate
   "PGH",  # pygrep-hooks
+  "PLC",  # Pylint Convention
 ]
 ignore = [
   "F722",  # syntax error in forward annotation
