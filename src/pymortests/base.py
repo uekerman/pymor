@@ -10,8 +10,8 @@ from pickle import dump, load
 from pprint import pformat
 
 import numpy as np
+import pytest
 from pkg_resources import resource_filename, resource_stream
-from pytest import skip
 
 from pymor.algorithms.basic import almost_equal, relative_error
 from pymor.core import config
@@ -21,8 +21,6 @@ BUILTIN_DISABLED = bool(os.environ.get('PYMOR_FIXTURES_DISABLE_BUILTIN', False))
 
 
 def runmodule(filename):
-    import pytest
-
     sys.exit(pytest.main(sys.argv[1:] + [filename]))
 
 
@@ -105,7 +103,7 @@ def skip_if_missing(config_name):
                 # skip does not return
                 if config_name in str(dm.dependency):
                     skip_string = 'skipped test due to missing dependency ' + config_name
-                    skip(skip_string)
+                    pytest.skip(skip_string)
                 raise dm
             func(*args, **kwargs)
         return _inner_wrapper

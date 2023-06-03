@@ -122,7 +122,7 @@ def relative_residual(A, E, B, X, cont_time, trans=False):
 @pytest.mark.parametrize('m', m_list)
 @pytest.mark.parametrize('with_E', [False, True])
 @pytest.mark.parametrize('trans', [False, True])
-@pytest.mark.parametrize('n,lyap_solver', chain(product(n_list_small, cont_lyap_dense_solver_list),
+@pytest.mark.parametrize(('n', 'lyap_solver'), chain(product(n_list_small, cont_lyap_dense_solver_list),
                                                 product(n_list_big, cont_lyap_lrcf_solver_list)))
 @skip_if_missing('SLYCOT')
 @skip_if_missing('PYMESS')

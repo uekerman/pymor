@@ -29,7 +29,7 @@ test_data = [
 ]
 
 
-@pytest.mark.parametrize('r,mt_kwargs', test_data)
+@pytest.mark.parametrize(('r', 'mt_kwargs'), test_data)
 def test_mt(r, mt_kwargs):
     n = 10
     A1 = np.array([[-1, 100], [-100, -1]])
@@ -44,4 +44,5 @@ def test_mt(r, mt_kwargs):
     mt = MTReductor(fom)
 
     rom = mt.reduce(r, **mt_kwargs)
-    assert isinstance(rom, LTIModel) and rom.order == r
+    assert isinstance(rom, LTIModel)
+    assert rom.order == r

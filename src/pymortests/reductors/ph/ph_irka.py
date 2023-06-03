@@ -16,15 +16,18 @@ def test_irka():
     phirka = PHIRKAReductor(fom)
 
     rom = phirka.reduce(1)
-    assert isinstance(rom, PHLTIModel) and rom.order == 1
+    assert isinstance(rom, PHLTIModel)
+    assert rom.order == 1
 
     rom = phirka.reduce(np.array([1]))
-    assert isinstance(rom, PHLTIModel) and rom.order == 1
+    assert isinstance(rom, PHLTIModel)
+    assert rom.order == 1
 
     rom = phirka.reduce({'sigma': np.array([1]),
                          'b': np.array([[1]]),
                          'c': np.array([[1]])})
-    assert isinstance(rom, PHLTIModel) and rom.order == 1
+    assert isinstance(rom, PHLTIModel)
+    assert rom.order == 1
 
     Ar = np.array([-1])
     Br = np.array([1])
@@ -32,4 +35,5 @@ def test_irka():
     initial_rom = LTIModel.from_matrices(Ar, Br, Cr)
 
     rom = phirka.reduce(initial_rom)
-    assert isinstance(rom, PHLTIModel) and rom.order == 1
+    assert isinstance(rom, PHLTIModel)
+    assert rom.order == 1

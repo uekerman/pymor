@@ -57,7 +57,11 @@ class DWRCoerciveRBReductor(BasicObject):
 
         if dual_RBs is not None:
             assert len(dual_RBs) == fom.dim_output
-        assert (fom.output_functional is not None and fom.output_functional.linear), (
+        assert fom.output_functional is not None, (
+            'DWRCoerciveRBReductor requires an output functional. '
+            'Please use CoerciveRBReductor instead.'
+        )
+        assert fom.output_functional.linear, (
             'DWRCoerciveRBReductor requires a linear output functional. '
             'Please use CoerciveRBReductor instead.'
         )

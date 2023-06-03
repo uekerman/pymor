@@ -390,8 +390,8 @@ def test_del(vectors_and_indices):
 def test_scal(vectors_and_indices):
     v, ind = vectors_and_indices
     if v.len_ind(ind) != v.len_ind_unique(ind):
+        c = v.copy()
         with pytest.raises(Exception):
-            c = v.copy()
             c[ind].scal(1.)
         return
     ind_complement_ = ind_complement(v, ind)
@@ -434,8 +434,8 @@ def test_scal_imaginary(vector_array):
 def test_axpy(vectors_and_indices, scalar):
     (v1, v2), (ind1, ind2) = vectors_and_indices
     if v1.len_ind(ind1) != v1.len_ind_unique(ind1):
+        c1, c2 = v1.copy(), v2.copy()
         with pytest.raises(Exception):
-            c1, c2 = v1.copy(), v2.copy()
             c1[ind1].axpy(0., c2[ind2])
         return
     # ind2 is used for axpy args
@@ -482,8 +482,8 @@ def test_axpy_one_x(vectors_and_indices, scalar):
         assert v1.check_ind(ind1)
         assert v2.check_ind(ind2)
         if v1.len_ind(ind1) != v1.len_ind_unique(ind1):
+            c1, c2 = v1.copy(), v2.copy()
             with pytest.raises(Exception):
-                c1, c2 = v1.copy(), v2.copy()
                 c1[ind1].axpy(0., c2[ind2])
             continue
 
@@ -530,8 +530,8 @@ def test_axpy_one_x(vectors_and_indices, scalar):
 def test_axpy_self(vectors_and_indices, scalar):
     v, (ind1, ind2) = vectors_and_indices
     if v.len_ind(ind1) != v.len_ind_unique(ind1):
+        c, = v.copy()
         with pytest.raises(Exception):
-            c, = v.copy()
             c[ind1].axpy(0., c[ind2])
         return
 

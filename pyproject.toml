@@ -226,6 +226,7 @@ select = [
   "ICN",  # flake8-import-conventions
   "PIE",  # flake8-pie
   "Q",  # flake8-quotes
+  "PT",  # flake8-pytest-style
 ]
 ignore = [
   "F722",  # syntax error in forward annotation
@@ -246,6 +247,8 @@ ignore = [
   "B006",  # do not use mutable data structures for argument defaults
   "B008",  # do not perform function call in argument defaults
   "B017",  # `pytest.raises(Exception)` should be considered evil
+  "PT004",  # fixture does not return anything, add leading underscore
+  "PT011",  # `pytest.raises(Exception)` is too broad
 ]
 
 [tool.ruff.flake8-import-conventions]

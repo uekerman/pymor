@@ -191,7 +191,7 @@ def test_mul(n1, n2, sampling_time, param1, param2):
 
 @pytest.mark.parametrize('param2', [False, True])
 @pytest.mark.parametrize('param1', [False, True])
-@pytest.mark.parametrize('n,ph_first', chain(((n, True) for n in name_list + ['PHLTIModel']),
+@pytest.mark.parametrize(('n', 'ph_first'), chain(((n, True) for n in name_list + ['PHLTIModel']),
                                              ((n, False) for n in name_list)))
 def test_add_ph(n, ph_first, param1, param2):
     if ph_first:
@@ -212,7 +212,7 @@ def test_add_ph(n, ph_first, param1, param2):
 
 @pytest.mark.parametrize('param2', [False, True])
 @pytest.mark.parametrize('param1', [False, True])
-@pytest.mark.parametrize('n,ph_first', chain(((n, True) for n in name_list + ['PHLTIModel']),
+@pytest.mark.parametrize(('n', 'ph_first'), chain(((n, True) for n in name_list + ['PHLTIModel']),
                                              ((n, False) for n in name_list)))
 def test_sub_ph(n, ph_first, param1, param2):
     if ph_first:
@@ -231,7 +231,7 @@ def test_sub_ph(n, ph_first, param1, param2):
 
 @pytest.mark.parametrize('param2', [False, True])
 @pytest.mark.parametrize('param1', [False, True])
-@pytest.mark.parametrize('n,ph_first', chain(((n, True) for n in name_list + ['PHLTIModel']),
+@pytest.mark.parametrize(('n', 'ph_first'), chain(((n, True) for n in name_list + ['PHLTIModel']),
                                              ((n, False) for n in name_list)))
 def test_mul_ph(n, ph_first, param1, param2):
     if ph_first:
