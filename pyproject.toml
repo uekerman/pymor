@@ -240,6 +240,7 @@ select = [
   "PLW",  # Pylint Warning
   "TRY",  # tryceratops
   "FLY",  # flynt
+  "NPY",  # NumPy-specific rules
 ]
 ignore = [
   "F722",  # syntax error in forward annotation
@@ -275,6 +276,7 @@ ignore = [
   "PLR2004",  # magic value used in comparison
   "PLW0603",  # using the global statement to update is discouraged
   "PLW2901",  # `for` loop variable overwritten by assignment target
+  "NPY002",  # replace legacy `np.random` method call with `np.random.Generator`
 ]
 
 [tool.ruff.flake8-import-conventions]
