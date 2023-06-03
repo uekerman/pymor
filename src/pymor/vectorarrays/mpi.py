@@ -212,6 +212,7 @@ def _MPIVectorSpace_check_local_spaces(local_spaces, obj_id):
     results = mpi.comm.gather(U in local_space, root=0)
     if mpi.rank0:
         return np.all(results)
+    return None
 
 
 def _MPIVectorArray_append(self, other, remove_from_other, oind):
@@ -396,6 +397,7 @@ def _MPIVectorSpaceAutoComm_dim(local_spaces):
     dims = mpi.comm.gather(local_space, root=0)
     if mpi.rank0:
         return dims
+    return None
 
 
 def _MPIVectorArrayAutoComm_inner(self, other, ind, oind):
@@ -405,6 +407,7 @@ def _MPIVectorArrayAutoComm_inner(self, other, ind, oind):
     mpi.comm.Gather(local_results, results, root=0)
     if mpi.rank0:
         return np.sum(results, axis=0)
+    return None
 
 
 def _MPIVectorArrayAutoComm_pairwise_inner(self, other, ind, oind):
@@ -414,6 +417,7 @@ def _MPIVectorArrayAutoComm_pairwise_inner(self, other, ind, oind):
     mpi.comm.Gather(local_results, results, root=0)
     if mpi.rank0:
         return np.sum(results, axis=0)
+    return None
 
 
 def _MPIVectorArrayAutoComm_norm2(self, ind):
@@ -423,6 +427,7 @@ def _MPIVectorArrayAutoComm_norm2(self, ind):
     mpi.comm.Gather(local_results, results, root=0)
     if mpi.rank0:
         return np.sum(results, axis=0)
+    return None
 
 
 def _MPIVectorArrayAutoComm_dofs(self, offsets, dof_indices, ind):
@@ -437,6 +442,7 @@ def _MPIVectorArrayAutoComm_dofs(self, offsets, dof_indices, ind):
     mpi.comm.Gather(local_results, results, root=0)
     if mpi.rank0:
         return np.sum(results, axis=0)
+    return None
 
 
 def _MPIVectorArrayAutoComm_amax(self, ind):
@@ -450,6 +456,7 @@ def _MPIVectorArrayAutoComm_amax(self, ind):
     mpi.comm.Gather(local_vals, vals, root=0)
     if mpi.rank0:
         return inds, vals
+    return None
 
 
 def _indexed(array, ind):

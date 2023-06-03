@@ -57,14 +57,14 @@ def assert_is_equal(first, second):
 
         for x in seen:
             if x is first:
-                return
+                return None
 
         seen.append(first)
 
         for c, m in is_equal_dispatch_table.items():
             if type(first) == c:
                 assert m(first, second)
-                return
+                return None
 
         ignored_attributes = set()
         for c, v in is_equal_ignored_attributes:
@@ -78,39 +78,49 @@ def assert_is_equal(first, second):
             if first.dtype == object:
                 assert first.shape == second.shape
                 [_assert_is_equal(f, s) for f, s in zip(first.ravel(), second.ravel())]
+                return None
             else:
                 assert np.all(first == second)
+                return None
         elif issparse(first):
             ne = first != second
             if isinstance(ne, bool):
                 return not ne
             else:
                 assert not np.any(ne.data)
+                return None
         elif isinstance(first, (list, tuple)):
             assert len(first) == len(second)
             for u, v in zip(first, second):
                 _assert_is_equal(u, v)
+            return None
         elif isinstance(first, dict):
             assert set(first.keys()) == set(second.keys())
             for k, u in first.items():
                 _assert_is_equal(u, second.get(k))
+            return None
         elif isinstance(first, FunctionType):
             for k in ['__closure__', '__code__', '__dict__', '__doc__', '__name__',
                       '__qualname__', '__kwdefaults__', '__annotations__']:
                 _assert_is_equal(getattr(first, k), getattr(second, k))
+            return None
         elif isinstance(first, MethodType):
             _assert_is_equal(first.__func__, second.__func__)
             _assert_is_equal(first.__self__, second.__self__)
+            return None
         elif isinstance(first, cell_type):
             _assert_is_equal(first.cell_contents, second.cell_contents)
+            return None
         elif not isinstance(first, BasicObject):
             assert first == second
+            return None
         else:
             assert ((set(first.__dict__.keys()) - ignored_attributes)
                     == (set(second.__dict__.keys()) - ignored_attributes))
             for k, v in first.__dict__.items():
                 if k not in ignored_attributes:
                     _assert_is_equal(v, second.__dict__.get(k))
+            return None
 
     _assert_is_equal(first, second)
 

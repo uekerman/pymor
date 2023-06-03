@@ -437,7 +437,7 @@ def _process_docstring(app, what, name, obj, options, lines):
 def setup(app):
     from sphinx.application import Sphinx
     if not isinstance(app, Sphinx):
-        return  # probably called by tests
+        return None  # probably called by tests
 
     app.connect('autodoc-process-docstring', _process_docstring)
 

@@ -973,6 +973,7 @@ class LTIModel(Model):
                                           if typ[1] != 1
                                           else None),
                                        trans=True, options=options_ricc_pos_lrcf)
+        return AssertionError
 
     def gramian(self, typ, mu=None):
         """Compute a Gramian.
@@ -1386,7 +1387,8 @@ class LTIModel(Model):
             elif type(ast_pole_data) == tuple:
                 return ast_pole_data
             else:
-                TypeError(f'ast_pole_data is of wrong type ({type(ast_pole_data)}).')
+                msg = f'ast_pole_data is of wrong type ({type(ast_pole_data)}).'
+                raise TypeError(msg)
         else:
             if self.order >= sparse_min_size():
                 if not isinstance(A, NumpyMatrixOperator) or A.sparse:

@@ -94,6 +94,7 @@ def get_model(name, sampling_time, parametric):
         dD = lambda s: NumpyMatrixOperator(np.array([[0]]))
         return FactorizedTransferFunction(1, 1, K, B, C, D, dK, dB, dC, dD, sampling_time=sampling_time,
                                           parameters={'mu': 1} if parametric else {})
+    raise AssertionError
 
 
 def expected_return_type(m1, m2):

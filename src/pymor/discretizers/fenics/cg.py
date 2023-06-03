@@ -187,6 +187,7 @@ def _assemble_operator(function, factory,
         if ops is not None:
             ops.extend(operators)
             coeffs.extend(cfs)
+            return None
         else:
             return LincombOperator(operators, cfs, name=name)
     elif function is not None:
@@ -194,5 +195,7 @@ def _assemble_operator(function, factory,
         if ops is not None:
             ops.append(operator)
             coeffs.append(-1 if negative else 1.)
+            return None
         else:
             return -operator if negative else operator
+    return None

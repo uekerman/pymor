@@ -122,8 +122,7 @@ def event_loop():
             if method == 'QUIT':
                 assert not _managed_objects
                 break
-            else:
-                method(*args, **kwargs)
+            method(*args, **kwargs)
         except BaseException:
             import traceback
             print(f'Caught exception on MPI rank {rank}:')
@@ -153,7 +152,7 @@ def call(method, *args, **kwargs):
     """
     assert rank0
     if finished:
-        return
+        return None
     comm.bcast((method, args, kwargs), root=0)
     return method(*args, **kwargs)
 

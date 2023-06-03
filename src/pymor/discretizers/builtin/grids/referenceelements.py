@@ -144,6 +144,7 @@ class Square(ReferenceElement):
             return 4
         elif codim == 2:
             return 4
+        raise AssertionError
 
     def subentities(self, codim, subentity_codim):
         assert 0 <= codim <= 2, f'Invalid codimension (must be between 0 and 2 but was {codim})'
@@ -158,6 +159,7 @@ class Square(ReferenceElement):
                 return np.array(([0, 1], [1, 2], [2, 3], [3, 0]), dtype='int32')
         elif codim == 2:
             return np.array(([0], [1], [2], [3]), dtype='int32')
+        raise AssertionError
 
     def subentity_embedding(self, subentity_codim):
         assert 0 <= subentity_codim <= 2,\
@@ -231,6 +233,7 @@ class Triangle(ReferenceElement):
             return 3
         elif codim == 2:
             return 3
+        raise AssertionError
 
     def subentities(self, codim, subentity_codim):
         assert 0 <= codim <= 2, f'Invalid codimension (must be between 0 and 2 but was {codim})'
@@ -245,6 +248,7 @@ class Triangle(ReferenceElement):
                 return np.array(([1, 2], [2, 0], [0, 1]), dtype='int32')
         elif codim == 2:
             return np.array(([0], [1], [2]), dtype='int32')
+        raise AssertionError
 
     def subentity_embedding(self, subentity_codim):
         assert 0 <= subentity_codim <= 2,\

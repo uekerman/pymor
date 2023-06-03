@@ -517,7 +517,7 @@ class Operator(ParametricObject):
         -------
         The assembled |Operator| if assembly is possible, otherwise `None`.
         """
-        return None
+        return
 
     def restricted(self, dofs):
         """Restrict the operator range to a given set of degrees of freedom.

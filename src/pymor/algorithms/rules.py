@@ -52,6 +52,7 @@ class rule:
                 return True
             else:
                 return self.next_rule.matches(obj)
+        return False
 
     condition_description = None
     condition_type = None

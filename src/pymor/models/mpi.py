@@ -183,6 +183,7 @@ def _mpi_wrap_model_manage_operators(obj_id, mpi_spaces, use_with, base_type):
                           for k, v in sorted(attributes.items()) if k not in {'cache_region', 'visualizer'}}
     if mpi.rank0:
         return managed_attributes
+    return None
 
 
 def _map_children(f, obj):

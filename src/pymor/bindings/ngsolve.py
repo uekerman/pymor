@@ -129,6 +129,7 @@ class NGSolveMatrixOperator(LinearComplexifiedListVectorArrayOperatorBase):
             solver = self.solver_options.get('inverse', default_solver) if self.solver_options else default_solver
             inv = self.matrix.Inverse(self.source.V.FreeDofs(), inverse=solver)
             return inv
+        return None
 
     def _real_apply_one_vector(self, u, mu=None, prepare_data=None):
         r = self.range.real_zero_vector()

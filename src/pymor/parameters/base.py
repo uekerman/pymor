@@ -180,6 +180,7 @@ class Parameters(SortedFrozenDict):
                 return v
             else:
                 fail(f"invalid value type '{type(v)}' for parameter {k}")
+                return None
 
         return Mu({k: parse_value(k, v) for k, v in mu.items()})
 

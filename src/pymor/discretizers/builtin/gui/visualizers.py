@@ -82,9 +82,11 @@ class PatchVisualizer(ImmutableObject):
             from pymor.discretizers.builtin.grids.vtkio import write_vtk
             if not isinstance(U, tuple):
                 write_vtk(self.grid, U, filename, codim=self.codim)
+                return None
             else:
                 for i, u in enumerate(U):
                     write_vtk(self.grid, u, f'{filename}-{i}', codim=self.codim)
+                return None
         else:
             if self.backend == 'jupyter':
                 from pymor.discretizers.builtin.gui.jupyter import get_visualizer

@@ -100,6 +100,7 @@ def visualize_patch(grid, U, bounding_box=None, codim=2, title=None, legend=None
         return anim
     else:
         plt.show()
+        return None
 
 
 def visualize_matplotlib_1d(grid, U, codim=1, title=None, legend=None, separate_plots=False,
@@ -182,3 +183,4 @@ def visualize_matplotlib_1d(grid, U, codim=1, title=None, legend=None, separate_
                  [vmin[0] for vmin in vmins],
                  [vmax[0] for vmax in vmaxs])
         plt.show()
+        return None

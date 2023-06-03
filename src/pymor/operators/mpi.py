@@ -211,6 +211,7 @@ def _MPIOperator_get_local_spaces(self, source, pickle_local_spaces):
     local_spaces = mpi.comm.gather(local_space, root=0)
     if mpi.rank0:
         return tuple(local_spaces)
+    return None
 
 
 def _MPIOperator_apply(self, U, U_ind, mu):
@@ -306,6 +307,7 @@ def _mpi_wrap_operator_LincombOperator_manage_operators(obj_id):
     mpi.remove_object(obj_id)
     if mpi.rank0:
         return obj_ids
+    return None
 
 
 def _mpi_wrap_operator_VectorArrayOperator_manage_array(obj_id, pickle_local_spaces):
@@ -318,3 +320,4 @@ def _mpi_wrap_operator_VectorArrayOperator_manage_array(obj_id, pickle_local_spa
     mpi.remove_object(obj_id)
     if mpi.rank0:
         return array_obj_id, tuple(local_spaces)
+    return None
