@@ -69,7 +69,6 @@ class TimeStepper(ImmutableObject):
         -------
         |VectorArray| containing the solution trajectory.
         """
-        pass
 
 
 class ImplicitEulerTimeStepper(TimeStepper):

@@ -22,7 +22,6 @@ class ParameterFunctional(ParametricObject):
     @abstractmethod
     def evaluate(self, mu=None):
         """Evaluate the functional for given |parameter values| `mu`."""
-        pass
 
     def d_mu(self, parameter, index=0):
         """Return the functionals's derivative with respect to a given parameter.

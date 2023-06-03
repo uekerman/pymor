@@ -850,7 +850,6 @@ class VectorSpace(ImmutableObject):
         The exact signature of this method depends on the wrapped
         solver backend.
         """
-        pass
 
     @abstractmethod
     def zeros(self, count=1, reserve=0):
@@ -867,7 +866,6 @@ class VectorSpace(ImmutableObject):
         -------
         A |VectorArray| containing `count` vectors with each component zero.
         """
-        pass
 
     def ones(self, count=1, reserve=0):
         """Create a |VectorArray| of vectors with all DOFs set to one.

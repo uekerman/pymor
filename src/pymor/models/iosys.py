@@ -1012,7 +1012,7 @@ class LTIModel(Model):
         assert (typ in ('c_lrcf', 'o_lrcf', 'c_dense', 'o_dense', 'bs_c_lrcf', 'bs_o_lrcf', 'lqg_c_lrcf', 'lqg_o_lrcf')
                 or isinstance(typ, tuple) and len(typ) == 2 and typ[0] in ('br_c_lrcf', 'br_o_lrcf'))
 
-        if ((isinstance(typ, str) and (typ.startswith('bs') or typ.startswith('lqg')) or isinstance(typ, tuple))
+        if ((isinstance(typ, str) and (typ.startswith(('bs', 'lqg'))) or isinstance(typ, tuple))
                 and self.sampling_time > 0):
             raise NotImplementedError
 

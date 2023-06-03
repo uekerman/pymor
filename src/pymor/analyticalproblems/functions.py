@@ -48,7 +48,6 @@ class Function(ParametricObject):
     @abstractmethod
     def evaluate(self, x, mu=None):
         """Evaluate the function for given argument `x` and |parameter values| `mu`."""
-        pass
 
     def __call__(self, x, mu=None):
         """Shorthand for :meth:`~Function.evaluate`."""

@@ -44,7 +44,6 @@ class rule:
     @abstractmethod
     def _matches(self, obj):
         """Returns True if given object matches the condition."""
-        pass
 
     def matches(self, obj):
         """Returns True if given object matches the condition."""

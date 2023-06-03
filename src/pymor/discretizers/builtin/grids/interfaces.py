@@ -43,7 +43,6 @@ class ReferenceElement(CacheableObject):
         reference element, the index of the `j`-th codim-`subentity_codim`
         subentity of the `i`-th codim-`codim` subentity of the reference element.
         """
-        pass
 
     @abstractmethod
     def subentity_embedding(self, subentity_codim):
@@ -98,12 +97,10 @@ class ReferenceElement(CacheableObject):
     @abstractmethod
     def unit_outer_normals(self):
         """`retval[e]` is the unit outer-normal vector to the codim-1 subentity with index `e`."""
-        pass
 
     @abstractmethod
     def center(self):
         """Coordinates of the barycenter."""
-        pass
 
     @abstractmethod
     def mapped_diameter(self, A):
@@ -112,7 +109,6 @@ class ReferenceElement(CacheableObject):
         The diameter of the reference element after transforming it with the matrix `A`
         (vectorized).
         """
-        pass
 
     @abstractmethod
     def quadrature(self, order=None, npoints=None, quadrature_type='default'):
@@ -123,7 +119,6 @@ class ReferenceElement(CacheableObject):
 
         The quadrature is of order `order` or has `npoints` integration points.
         """
-        pass
 
     @abstractmethod
     def quadrature_info(self):
@@ -133,7 +128,6 @@ class ReferenceElement(CacheableObject):
         of orders which are implemented for `quadrature_type` and `N[quadrature_type]`
         is a list of the corresponding numbers of integration points.
         """
-        pass
 
     def quadrature_types(self):
         o, _ = self.quadrature_info()
@@ -162,7 +156,6 @@ class Grid(CacheableObject):
     @abstractmethod
     def size(self, codim):
         """The number of entities of codimension `codim`."""
-        pass
 
     @abstractmethod
     def subentities(self, codim, subentity_codim):
@@ -357,7 +350,6 @@ class Grid(CacheableObject):
     @abstractmethod
     def reference_element(self, codim):
         """The |ReferenceElement| of the codim-`codim` entities."""
-        pass
 
     @abstractmethod
     def embeddings(self, codim):
@@ -555,7 +547,6 @@ class GridWithOrthogonalCenters(Grid):
 
         (This is mainly useful for gradient approximation in finite volume schemes.)
         """
-        pass
 
 
 class BoundaryInfo(CacheableObject):

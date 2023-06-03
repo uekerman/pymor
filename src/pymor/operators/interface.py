@@ -88,7 +88,6 @@ class Operator(ParametricObject):
         -------
         |VectorArray| of the operator evaluations.
         """
-        pass
 
     def apply2(self, V, U, mu=None):
         """Treat the operator as a 2-form and apply it to V and U.

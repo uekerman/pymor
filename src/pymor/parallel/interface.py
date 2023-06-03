@@ -26,7 +26,6 @@ class WorkerPool(BasicObject):
     @abstractmethod
     def __len__(self):
         """The number of workers in the pool."""
-        pass
 
     @abstractmethod
     def push(self, obj):
@@ -53,7 +52,6 @@ class WorkerPool(BasicObject):
         -------
         A |RemoteObject| referring to the pushed data.
         """
-        pass
 
     @abstractmethod
     def scatter_array(self, U, copy=True):
@@ -74,7 +72,6 @@ class WorkerPool(BasicObject):
         -------
         A |RemoteObject| referring to the scattered data.
         """
-        pass
 
     @abstractmethod
     def scatter_list(self, l):
@@ -93,7 +90,6 @@ class WorkerPool(BasicObject):
         -------
         A |RemoteObject| referring to the scattered data.
         """
-        pass
 
     @abstractmethod
     def apply(self, function, *args, **kwargs):
@@ -122,7 +118,6 @@ class WorkerPool(BasicObject):
         List of return values of the function executions, ordered by
         worker number (from `0` to `len(pool) - 1`).
         """
-        pass
 
     @abstractmethod
     def apply_only(self, function, worker, *args, **kwargs):
@@ -153,7 +148,6 @@ class WorkerPool(BasicObject):
         -------
         Return value of the function execution.
         """
-        pass
 
     @abstractmethod
     def map(self, function, *args, **kwargs):
@@ -183,7 +177,6 @@ class WorkerPool(BasicObject):
         List of return values of the function executions, ordered by
         the sequence of positional arguments.
         """
-        pass
 
 
 class RemoteObject:
@@ -209,7 +202,6 @@ class RemoteObject:
     @abstractmethod
     def _remove(self):
         """Actual implementation of 'remove'."""
-        pass
 
     def remove(self):
         """Remove the remote object from the workers.

@@ -134,7 +134,6 @@ class WeakGreedySurrogate(BasicObject):
         If `return_all_values` is `False`, the maximum estimated error as first
         return value and the corresponding parameter as second return value.
         """
-        pass
 
     @abstractmethod
     def extend(self, mu):
