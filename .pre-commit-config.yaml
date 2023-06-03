@@ -2,27 +2,27 @@
 # See https://pre-commit.com/hooks.html for more hooks
 exclude: .ci/gitlab/ci.yml
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-    -   id: check-added-large-files
-    -   id: check-json
-    -   id: check-shebang-scripts-are-executable
-    -   id: check-symlinks
-    -   id: check-yaml
-    -   id: debug-statements
-        exclude: "src/pymor/algorithms/rules.py"
-    -   id: end-of-file-fixer
-    -   id: file-contents-sorter
-        files: ^\.mailmap$
-    -   id: pretty-format-json
-        args: [--autofix]
-    -   id: trailing-whitespace
-- repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: 'v0.0.270'
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
   hooks:
-    - id: ruff
-      args: ["--fix"]
+  - id: check-added-large-files
+  - id: check-json
+  - id: check-shebang-scripts-are-executable
+  - id: check-symlinks
+  - id: check-yaml
+  - id: debug-statements
+    exclude: src/pymor/algorithms/rules.py
+  - id: end-of-file-fixer
+  - id: file-contents-sorter
+    files: ^\.mailmap$
+  - id: pretty-format-json
+    args: [--autofix]
+  - id: trailing-whitespace
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: v0.0.270
+  hooks:
+  - id: ruff
+    args: [--fix]
 - repo: https://github.com/DavidAnson/markdownlint-cli2
   rev: v0.7.1
   hooks:
@@ -30,6 +30,8 @@ repos:
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   rev: 5f67571
   hooks:
+  - id: pretty-format-yaml
+    args: [--autofix]
   - id: pretty-format-toml
     args: [--autofix, --trailing-commas, --no-sort]
 - repo: https://github.com/jumanjihouse/pre-commit-hooks

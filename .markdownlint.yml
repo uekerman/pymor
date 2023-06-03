@@ -1,4 +1,3 @@
----
 # Markdown linter rules
 # linter rules doc: https://github.com/DavidAnson/markdownlint
 
@@ -8,7 +7,7 @@ MD013:
   line_length: 120 # line length 80 is far too short
 MD033:
   allowed_elements: # allowed HTML tags
-    - img
+  - img
 MD034: false # allow bare URLs
 MD040: false # ``` fenced code must have language set
 MD041: false # require heading as first line in file

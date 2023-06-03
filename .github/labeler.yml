@@ -1,12 +1,12 @@
 infrastructure:
-  - .ci/**/*
-  - .github/**/*
-  - Makefile
-  - requirements*
-  - pyproject.toml
-  - dependencies.py
-  - versioneer.py
+- .ci/**/*
+- .github/**/*
+- Makefile
+- requirements*
+- pyproject.toml
+- dependencies.py
+- versioneer.py
 
 management:
-  - CONTRIBUTING.md
-  - LICENSE.txt
+- CONTRIBUTING.md
+- LICENSE.txt
