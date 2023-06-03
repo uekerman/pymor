@@ -238,6 +238,7 @@ select = [
   "PLE",  # Pylint Error
   "PLR",  # Pylint Refactor
   "PLW",  # Pylint Warning
+  "TRY",  # tryceratops
 ]
 ignore = [
   "F722",  # syntax error in forward annotation

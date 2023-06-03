@@ -83,7 +83,7 @@ class GenericIRKAReductor(BasicObject):
             assert rom0_params.dim_output == self.fom.dim_output
         else:
             msg = f'rom0_params is of wrong type ({type(rom0_params)}).'
-            raise ValueError(msg)
+            raise TypeError(msg)
 
     @staticmethod
     def _check_common_args(tol, maxit, num_prev, conv_crit):

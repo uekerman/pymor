@@ -110,7 +110,7 @@ Malformed expression
 \t{expression}
 evaluates to {type(expression).__name__} instead of Expression object.
 """
-        raise ValueError(msg)
+        raise TypeError(msg)
 
     return expression
 
@@ -316,7 +316,7 @@ class Constant(BaseConstant):
             value = value.item()
         if not isinstance(value, Number):
             msg = f'Invalid Constant "{value}" of type {type(value).__name__} (expected Number).'
-            raise ValueError(msg)
+            raise TypeError(msg)
         self.value = value
         self.numpy_symbol = repr(value)
 
@@ -345,10 +345,10 @@ class Parameter(Expression):
     def __init__(self, name, dim):
         if not isinstance(name, str):
             msg = f'Invalid name "{name}" for Parameter (must by string given {type(name).__name__}).'
-            raise ValueError(msg)
+            raise TypeError(msg)
         if not isinstance(dim, int):
             msg = f'Invalid dimension "{dim}" for Parameter {name} (must by int given {type(dim).__name__}).'
-            raise ValueError(msg)
+            raise TypeError(msg)
         self.name, self.dim = name, dim
         self.shape = (dim,)
         self.parameters_own = {name: dim}
@@ -373,10 +373,10 @@ class Array(Expression):
         for i, v in np.ndenumerate(A):
             if isinstance(v, (np.ndarray, list)):
                 msg = f'Malformed Array construction {array} does not give ndarray of Expressions.'
-                raise ValueError(msg)
+                raise TypeError(msg)
             if not isinstance(v, Expression):
                 msg = f'Entry "{v}" at index {i} of Array {array} is not an Expression (type: {type(v).__name__}).'
-                raise ValueError(msg)
+                raise TypeError(msg)
             if v.shape != ():
                 msg = f'Entry "{v}" at index {i} of Array {array} is not scalar valued (shape: {v.shape}).'
                 raise ValueError(msg)
@@ -414,11 +414,11 @@ class BinaryOp(Expression):
         if not isinstance(first, Expression):
             msg = (f'First operand of {type(self).__name__}({first}, {second}) must be Expression '
                    f'(given: {type(first).__name__}).')
-            raise ValueError(msg)
+            raise TypeError(msg)
         if not isinstance(second, Expression):
             msg = (f'Second operand of {type(self).__name__}({first}, {second}) must be Expression '
                    f'(given: {type(second).__name__}).')
-            raise ValueError(msg)
+            raise TypeError(msg)
         if not _broadcastable_shapes(first.shape, second.shape):
             msg = (f'Operands of {type(self).__name__}({first}, {second}) have incompatible shapes '
                    f'({first.shape} and {second.shape}).')
@@ -473,7 +473,7 @@ class Neg(Expression):
         if not isinstance(operand, Expression):
             msg = (f'Operand of {type(self).__name__}({operand}) must be Expression '
                    f'(given: {type(operand).__name__}).')
-            raise ValueError(msg)
+            raise TypeError(msg)
         self.operand = operand
         self.shape = operand.shape
 
@@ -494,12 +494,12 @@ class Indexed(Expression):
         if not isinstance(base, Expression):
             msg = (f'Base of index expression {base}[{index}] must be Expression '
                    f'(given: {type(base).__name__}).')
-            raise ValueError(msg)
+            raise TypeError(msg)
         if not isinstance(index, int) and \
                 not (isinstance(index, tuple) and all(isinstance(i, int) for i in index)):
             msg = (f'Index of index expression {base}[{index}] must be int or tuple of ints '
                    f'(given: "{index}" of type {type(index).__name__}).')
-            raise ValueError(msg)
+            raise TypeError(msg)
         if isinstance(index, int):
             index = (index,)
         if len(index) != len(base.shape):
@@ -545,7 +545,7 @@ class UnaryFunctionCall(Expression):
         if not isinstance(arg, Expression):
             msg = (f'Argument of function call {self.numpy_symbol}({arg}) must be Expression '
                    f'(given: {type(arg).__name__}).')
-            raise ValueError(msg)
+            raise TypeError(msg)
         self.arg = arg
         self.shape = self.arg.shape
 

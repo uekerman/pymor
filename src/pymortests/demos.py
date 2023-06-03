@@ -240,7 +240,7 @@ def _test_demo(demo):
     except (DependencyMissingError, GmshMissingError, MeshioMissingError) as e:
         if os.environ.get('DOCKER_PYMOR', False):
             # these are all installed in our CI env so them missing is a grave error
-            raise e
+            raise
         else:
             if isinstance(e, DependencyMissingError):
                 miss = e.dependency

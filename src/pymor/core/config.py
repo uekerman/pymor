@@ -17,9 +17,10 @@ def _can_import(module):
     def _can_import_single(m):
         try:
             import_module(m)
-            return True
         except ImportError:
             pass
+        else:
+            return True
         return False
     if not isinstance(module, (list, tuple)):
         module = [module]
@@ -99,10 +100,11 @@ def _get_matplotib_version():
 def _get_ipython_version():
     try:
         import ipyparallel
-        return ipyparallel.__version__
     except ImportError:
         import IPython.parallel
         return getattr(IPython.parallel, '__version__', True)
+    else:
+        return ipyparallel.__version__
 
 
 def _get_slycot_version():

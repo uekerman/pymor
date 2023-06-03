@@ -54,12 +54,13 @@ def _mmread(path, key=None):
         matrix = mmread(path)
         if issparse(matrix):
             matrix = matrix.tocsc()
-        return matrix
     except AttributeError:
         # fallback for older scipys that do not accept pathlib.Path
         return _mmread(path=str(path), key=key)
     except Exception as e:
         raise OSError(e) from e
+    else:
+        return matrix
 
 
 def _mmwrite(path, matrix, key=None):

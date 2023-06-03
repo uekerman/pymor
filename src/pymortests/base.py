@@ -104,7 +104,7 @@ def skip_if_missing(config_name):
                 if config_name in str(dm.dependency):
                     skip_string = 'skipped test due to missing dependency ' + config_name
                     pytest.skip(skip_string)
-                raise dm
+                raise
             func(*args, **kwargs)
         return _inner_wrapper
     return _outer_wrapper

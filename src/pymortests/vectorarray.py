@@ -166,10 +166,10 @@ def _test_random_uniform(vector_array, realizations, low, high):
         return
     try:
         v = vector_array.random(c, low=low, high=high)
-    except ValueError as e:
+    except ValueError:
         if high <= low:
             return
-        raise e
+        raise
     assert v.space == vector_array.space
     assert len(v) == c
     if min(v.dim, c) > 0:
@@ -196,10 +196,10 @@ def test_random_normal(vector_array, realizations, loc, scale):
         return
     try:
         v = vector_array.random(c, 'normal', loc=loc, scale=scale)
-    except ValueError as e:
+    except ValueError:
         if scale <= 0:
             return
-        raise e
+        raise
     assert v.space == vector_array.space
     assert len(v) == c
     try:

@@ -316,9 +316,10 @@ class RuleTable(BasicObject, metaclass=RuleTableMeta):
             try:
                 result = r.action(self, obj)
                 self._cache[obj] = result
-                return result
             except RuleNotMatchingError:
                 failed_rules.append(r)
+            else:
+                return result
 
         raise NoMatchingRuleError(obj)
 
