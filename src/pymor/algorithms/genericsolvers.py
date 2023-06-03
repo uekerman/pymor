@@ -291,7 +291,7 @@ def lgmres(A, b, x0=None, tol=1e-5, maxiter=1000, M=None, callback=None,
             #    solves a minimization problem in the smaller subspace
             #    spanned by W (range) and V (image).
             #
-            #    XXX: Below, I'm lazy and use `lstsq` to solve the
+            #    TODO: Below, I'm lazy and use `lstsq` to solve the
             #    small least squares problem. Performance-wise, this
             #    is in practice acceptable, but it could be nice to do
             #    it on the fly with Givens etc.
@@ -336,10 +336,10 @@ def lgmres(A, b, x0=None, tol=1e-5, maxiter=1000, M=None, callback=None,
             hs.append(hcur)
             ws.append(z)
 
-            # XXX: Ugly: should implement the GMRES iteration properly,
-            #      with Givens rotations and not using lstsq. Instead, we
-            #      spare some work by solving the LSQ problem only every 5
-            #      iterations.
+            # TODO: Ugly: should implement the GMRES iteration properly,
+            #       with Givens rotations and not using lstsq. Instead, we
+            #       spare some work by solving the LSQ problem only every 5
+            #       iterations.
             if not bailout and j % 5 != 1 and j < inner_m + len(outer_v) - 1:
                 continue
 

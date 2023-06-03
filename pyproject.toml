@@ -231,6 +231,7 @@ select = [
   "RET",  # flake8-return
   "SIM",  # flake8-simplify
   "TID",  # flake8-tidy-imports
+  "TD",  # flake8-todos
 ]
 ignore = [
   "F722",  # syntax error in forward annotation
@@ -257,6 +258,8 @@ ignore = [
   "RET505",  # unnecessary `else` after `return` statement
   "RET506",  # unnecessary `else` after `raise` statement
   "SIM108",  # use ternary operator instead of `if`-`else`-block
+  "TD002",  # missing author in TODO
+  "TD003",  # missing issue link on the line following this TODO
 ]
 
 [tool.ruff.flake8-import-conventions]

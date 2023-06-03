@@ -20,8 +20,8 @@ methods = ['method_of_snapshots', 'qr_svd']
 @given_vector_arrays(method=sampled_from(methods))
 def test_pod(vector_array, method):
     A = vector_array
-    # TODO assumption here masks a potential issue with the algorithm
-    #      where it fails in internal lapack instead of a proper error
+    # TODO: assumption here masks a potential issue with the algorithm
+    #       where it fails in internal lapack instead of a proper error
     # assumptions also necessitate the health check exemptions
     assume(len(A) > 1 or A.dim > 1)
     assume(not contains_zero_vector(A, rtol=1e-13, atol=1e-13))

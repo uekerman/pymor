@@ -371,7 +371,7 @@ class Model(CacheableObject, ParametricObject):
                 data['solution'] = retval
 
         if output and 'output' not in data:
-            # TODO use caching here (requires skipping args in key generation)
+            # TODO: use caching here (requires skipping args in key generation)
             retval = self._compute_output(data['solution'], mu=mu, **kwargs)
             if isinstance(retval, dict):
                 assert 'output' in retval
@@ -392,7 +392,7 @@ class Model(CacheableObject, ParametricObject):
                 data['solution_d_mu'] = retval
 
         if output_d_mu and 'output_d_mu' not in data:
-            # TODO use caching here (requires skipping args in key generation)
+            # TODO: use caching here (requires skipping args in key generation)
             retval = self._compute_output_d_mu(data['solution'], mu=mu,
                                                return_array=output_d_mu_return_array,
                                                **kwargs)
@@ -403,7 +403,7 @@ class Model(CacheableObject, ParametricObject):
                 data['output_d_mu'] = retval
 
         if solution_error_estimate and 'solution_error_estimate' not in data:
-            # TODO use caching here (requires skipping args in key generation)
+            # TODO: use caching here (requires skipping args in key generation)
             retval = self._compute_solution_error_estimate(data['solution'], mu=mu, **kwargs)
             if isinstance(retval, dict):
                 assert 'solution_error_estimate' in retval
@@ -412,7 +412,7 @@ class Model(CacheableObject, ParametricObject):
                 data['solution_error_estimate'] = retval
 
         if output_error_estimate and 'output_error_estimate' not in data:
-            # TODO use caching here (requires skipping args in key generation)
+            # TODO: use caching here (requires skipping args in key generation)
             retval = self._compute_output_error_estimate(
                 data['solution'], mu=mu,
                 return_vector=output_error_estimate_return_vector, **kwargs)
