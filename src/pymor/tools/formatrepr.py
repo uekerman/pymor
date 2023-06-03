@@ -103,7 +103,6 @@ def _recurse(obj, max_width, verbosity):
         with contextlib.suppress(KeyError):
             handler = _format_handlers[cls]
 
-
     if handler:
         return handler(obj, max_width, verbosity)
     else:

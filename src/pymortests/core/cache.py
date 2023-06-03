@@ -89,7 +89,6 @@ def _close_cache(backend):
         backend._cache.close()
 
 
-
 def test_region_api():
     key = 'mykey'
     with tempfile.TemporaryDirectory() as tmpdir:

@@ -302,6 +302,8 @@ inline-quotes = "single"
 "src/pymor/algorithms/genericsolvers.py" = ["ERA001"]  # commented-out code
 "src/pymor/algorithms/rules.py" = ["N801", "N805"]  # class name CapWords convention, first argument should be `self`
 "src/pymor/analyticalproblems/expressions.py" = [
+  "E701",  # multiple statements on one line (colon)
+  "E702",  # multiple statements on one line (semicolon)
   "N801",  # class name CapWords convention
   "PGH001",  # no builtin `eval()` allowed
 ]
@@ -319,4 +321,40 @@ convention = "numpy"
 max_line_length = 120
 select = [
   "E1",  # fix indentation
+  "E20",  # remove extraneous whitespace
+  "E21",  # remove extraneous whitespace
+  # "E221",  # fix extraneous whitespace around keywords
+  "E222",  # fix extraneous whitespace around keywords
+  "E223",  # fix extraneous whitespace around keywords
+  "E224",  # remove extraneous whitespace around operator
+  "E225",  # fix missing whitespace around operator
+  # "E226",  # fix missing whitespace around operator
+  "E227",  # fix missing whitespace around operator
+  "E228",  # fix missing whitespace around operator
+  "E23",  # add missing whitespace
+  # "E241",  # fix extraneous whitespace around keywords.
+  "E242",  # remove extraneous whitespace around operator
+  "E25",  # fix whitespace around '=' sign
+  "E26",  # fix spacing after comment hash
+  "E27",  # fix extraneous whitespace around keywords
+  "E3",  # fix blank lines
+  "E401",  # put imports on separate lines
+  "E501",  # try to make lines fit within --max-line-length characters
+  "E502",  # remove extraneous escape of newline
+  # "E701",  # put colon-separated compound statement on separate lines
+  # "E702",  # put semicolon-separated compound statement on separate lines
+  # "E703",  # put semicolon-separated compound statement on separate lines
+  # "E704",  # fix multiple statements on one line def
+  "E711",  # fix comparison with None
+  "E712",  # fix (trivial case of) comparison with boolean
+  "E713",  # fix (trivial case of) non-membership check
+  "E714",  # fix object identity should be 'is not' case
+  "E721",  # fix various deprecated code (via lib2to3)
+  "E722",  # fix bare except
+  # "E731",  # fix do not assign a lambda expression check
+  "W291",  # remove trailing whitespace
+  "W292",  # remove trailing whitespace
+  "W293",  # remove trailing whitespace
+  "W391",  # remove trailing blank lines
+  "W690",  # fix various deprecated code (via lib2to3)
 ]

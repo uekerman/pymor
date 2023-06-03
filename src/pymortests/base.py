@@ -81,6 +81,7 @@ def assert_all_almost_equal(U, V, product=None, sup_norm=False, rtol=1e-14, atol
                                      for i, (u, v, f) in enumerate(zip(U, V, cmp_array)) if not f)
     assert np.all(cmp_array), f'Relative errors for not-equal elements:{pformat(too_large_relative_errors)}'
 
+
 def skip_if_missing(config_name):
     """Wrapper for requiring certain module dependencies on tests.
 

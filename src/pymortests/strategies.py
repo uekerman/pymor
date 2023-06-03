@@ -208,7 +208,7 @@ def given_vector_arrays(which='all', count=1, dtype=None, length=None, compatibl
     @functools.wraps(given)
     def inner_backend_decorator(func):
         try:
-            use_imps = {'all': _picklable_vector_space_types  + _other_vector_space_types,
+            use_imps = {'all': _picklable_vector_space_types + _other_vector_space_types,
                         'picklable': _picklable_vector_space_types}[which]
         except KeyError:
             use_imps = which
@@ -451,7 +451,7 @@ def base_vector_arrays(draw, count=1, dtype=None, max_dim=100):
     """
     dtype = dtype or np.float_
     # simplest way currently of getting a |VectorSpace| to construct our new arrays from
-    space_types = _picklable_vector_space_types  + _other_vector_space_types
+    space_types = _picklable_vector_space_types + _other_vector_space_types
     space = draw(vector_arrays(count=1, dtype=dtype, length=hyst.just((1,)), compatible=True, space_types=space_types)
                  .filter(lambda x: x[0].space.dim > 0 and x[0].space.dim < max_dim)).space
     length = space.dim

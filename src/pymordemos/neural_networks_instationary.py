@@ -237,7 +237,7 @@ def _discretize_navier_stokes(n, nt):
 
     # define no slip boundary conditions on all but the top wall
     bcu_noslip_const = df.Constant((0., 0.))
-    bcu_noslip  = df.DirichletBC(W_u, bcu_noslip_const, walls)
+    bcu_noslip = df.DirichletBC(W_u, bcu_noslip_const, walls)
     # define Dirichlet boundary condition for the velocity on the top wall
     bcu_lid_const = df.Constant((1., 0.))
     bcu_lid = df.DirichletBC(W_u, bcu_lid_const, top_wall)
@@ -288,7 +288,7 @@ def _discretize_navier_stokes(n, nt):
     def plot_fenics(w, title=''):
         v = df.Function(W)
         v.leaf_node().vector()[:] = (w.to_numpy()[-1, :]).squeeze()
-        p, u  = v.split()
+        p, u = v.split()
 
         fig_u = df.plot(u)
         plt.title('Velocity vector field ' + title)

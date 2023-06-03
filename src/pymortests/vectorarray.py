@@ -64,7 +64,6 @@ def test_empty(vector_array):
             assert v.to_numpy().shape == (0, v.dim)
 
 
-
 @pyst.given_vector_arrays(index_strategy=pyst.valid_indices)
 def test_print(vectors_and_indices):
     v, ind = vectors_and_indices
@@ -241,7 +240,6 @@ def test_shape(vector_array):
         assert vector_array.to_numpy().shape == (len(vector_array), vector_array.dim)
 
 
-
 @pyst.given_vector_arrays()
 def test_space(vector_array):
     assert isinstance(vector_array.space, VectorSpace)
@@ -278,7 +276,6 @@ def test_copy(vectors_and_indices):
             assert np.allclose(c.to_numpy(), indexed(v.to_numpy(), ind))
 
 
-
 @pyst.given_vector_arrays(index_strategy=pyst.valid_indices)
 @example(vectors_and_indices=(NumpyVectorSpace(1).full(2.22044605e-16, 1), [0]))
 def test_COW(vectors_and_indices):
@@ -297,7 +294,6 @@ def test_COW(vectors_and_indices):
             assert not np.all(almost_equal(c, vi, atol=0, rtol=0))
             with contextlib.suppress(NotImplementedError):
                 assert np.allclose(c.to_numpy(), 2*indexed(v.to_numpy(), ind))
-
 
 
 @pyst.given_vector_arrays()
@@ -321,7 +317,6 @@ def test_copy_repeated_index(vector_array):
             assert indexed(v.to_numpy(), ind).shape == c.to_numpy().shape
 
 
-
 @pyst.given_vector_arrays(count=2, index_strategy=pyst.pairs_both_lengths)
 def test_append(vectors_and_indices):
     (v1, v2), (_, ind) = vectors_and_indices
@@ -343,7 +338,6 @@ def test_append(vectors_and_indices):
     assert np.all(almost_equal(c2, v2[ind_complement_]))
     with contextlib.suppress(NotImplementedError):
         assert np.allclose(c2.to_numpy(), indexed(v2.to_numpy(), ind_complement_))
-
 
 
 @pyst.given_vector_arrays()
@@ -582,7 +576,6 @@ def test_pairwise_inner(vector_arrays):
             assert np.allclose(r, np.sum(indexed(v1.to_numpy(), ind1).conj() * indexed(v2.to_numpy(), ind2), axis=1))
 
 
-
 @pyst.given_vector_arrays(index_strategy=pyst.pairs_same_length)
 def test_pairwise_inner_self(vectors_and_indices):
     v, (ind1, ind2) = vectors_and_indices
@@ -612,7 +605,6 @@ def test_inner(vectors_and_indices):
     assert np.all(r <= (v1[ind1].norm()[:, np.newaxis] * v2[ind2].norm()[np.newaxis, :] * (1. + 1e-10) + 1e-15))
     with contextlib.suppress(NotImplementedError):
         assert np.allclose(r, indexed(v1.to_numpy(), ind1).conj().dot(indexed(v2.to_numpy(), ind2).T))
-
 
 
 @settings(deadline=None)
@@ -772,7 +764,6 @@ def test_dofs(vectors_and_indices, random_count):
     assert np.all(dofs2 == np.hstack((dofs, dofs)))
     with contextlib.suppress(NotImplementedError):
         assert np.all(dofs == indexed(v.to_numpy(), ind)[:, c_ind])
-
 
 
 @pyst.given_vector_arrays(index_strategy=pyst.valid_indices)

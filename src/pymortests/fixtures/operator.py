@@ -603,6 +603,7 @@ builtin_operator_with_arrays_generators = (
     + unpicklable_misc_operator_with_arrays_generators
 )
 
+
 @pytest.fixture(params=(
     builtin_operator_with_arrays_generators
     + fenics_with_arrays_generators
@@ -629,6 +630,7 @@ builtin_operator_generators = (
     + unpicklable_misc_operator_generators
 )
 
+
 @pytest.fixture(params=(
     builtin_operator_generators
 ))
@@ -652,6 +654,7 @@ builtin_picklable_operator_generators = (
     + thermalblock_fixedparam_operator_generators
     + misc_operator_generators
 )
+
 
 @pytest.fixture(params=(
     builtin_picklable_operator_generators

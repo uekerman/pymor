@@ -292,9 +292,9 @@ def discretize_stationary_cg(analytical_problem, diameter=None, mesh_type=None, 
     else:
         output_functional = None
 
-    m  = StationaryModel(L, F, output_functional=output_functional, products=products,
-                         visualizer=SKFemVisualizer(L.source, basis),
-                         name=f'{p.name}_CG')
+    m = StationaryModel(L, F, output_functional=output_functional, products=products,
+                        visualizer=SKFemVisualizer(L.source, basis),
+                        name=f'{p.name}_CG')
 
     data = {
         'mesh': mesh,

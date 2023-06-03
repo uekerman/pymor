@@ -258,7 +258,6 @@ class PlotMainWindow(QWidget):
         with contextlib.suppress(Exception):
             del self.plot.p
 
-
         try:
             self.deleteLater()
             _qt_windows.remove(self)

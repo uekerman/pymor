@@ -19,8 +19,8 @@ if __name__ == '__main__':
     with contextlib.suppress(FileNotFoundError):
         os.unlink(result_file_fn)
 
-
     # ensure that FEniCS visualization does nothing on all MPI ranks
+
     def monkey_plot():
         def nop(*args, **kwargs):
             pass

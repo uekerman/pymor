@@ -464,7 +464,6 @@ def test_InverseOperator(operator_with_arrays):
                                        rtol=rtol, atol=atol))
 
 
-
 def test_InverseAdjointOperator(operator_with_arrays):
     op, mu, U, V = operator_with_arrays
     if not op.linear:
@@ -486,7 +485,6 @@ def test_InverseAdjointOperator(operator_with_arrays):
     with contextlib.suppress(InversionError, LinAlgError, NotImplementedError):
         assert np.all(almost_equal(inv.apply_inverse_adjoint(U, mu=mu), op.apply(U, mu=mu),
                                    rtol=rtol, atol=atol))
-
 
 
 @pytest.mark.builtin()

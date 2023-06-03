@@ -1006,14 +1006,14 @@ def discretize_stationary_cg(analytical_problem, diameter=None, domain_discretiz
     if grid.reference_element is square:
         DiffusionOperator = DiffusionOperatorQ1
         AdvectionOperator = AdvectionOperatorQ1
-        ReactionOperator  = L2ProductQ1
+        ReactionOperator = L2ProductQ1
         L2Functional = L2ProductFunctionalQ1
         BoundaryL2Functional = BoundaryL2ProductFunctional
         L2Product = L2ProductQ1
     else:
         DiffusionOperator = DiffusionOperatorP1
         AdvectionOperator = AdvectionOperatorP1
-        ReactionOperator  = L2ProductP1
+        ReactionOperator = L2ProductP1
         L2Functional = L2ProductFunctionalP1
         BoundaryL2Functional = BoundaryL2ProductFunctional
         L2Product = L2ProductP1
@@ -1212,8 +1212,8 @@ def discretize_stationary_cg(analytical_problem, diameter=None, domain_discretiz
         else:
             products['energy'] = eL
 
-    m  = StationaryModel(L, F, output_functional=output_functional, products=products, visualizer=visualizer,
-                         name=f'{p.name}_CG')
+    m = StationaryModel(L, F, output_functional=output_functional, products=products, visualizer=visualizer,
+                        name=f'{p.name}_CG')
 
     data = {'grid': grid, 'boundary_info': boundary_info}
 

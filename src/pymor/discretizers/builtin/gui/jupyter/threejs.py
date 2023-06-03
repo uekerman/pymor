@@ -99,7 +99,7 @@ class Renderer(widgets.VBox):
                                             uniforms=uniforms)
 
         self.buffer_vertices = p3js.BufferAttribute(vertices.astype(np.float32), normalized=False)
-        self.buffer_faces    = p3js.BufferAttribute(indices.astype(np.uint32).ravel(), normalized=False)
+        self.buffer_faces = p3js.BufferAttribute(indices.astype(np.uint32).ravel(), normalized=False)
         self.meshes = []
         self._setup_scene(bounding_box, render_size)
         if config.is_nbconvert():

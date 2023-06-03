@@ -22,7 +22,7 @@ def format_table(rows, width='AUTO', title=None):
         largest_column = np.argmax(column_widths)
         column_widths[largest_column] = 0
         min_width = max(column_widths)
-        column_widths[largest_column] = max(min_width, width  - 2*(len(column_widths) - 1) - sum(column_widths))
+        column_widths[largest_column] = max(min_width, width - 2*(len(column_widths) - 1) - sum(column_widths))
     total_width = sum(column_widths) + 2*(len(column_widths) - 1)
 
     wrapped_rows = []

@@ -35,6 +35,7 @@ def _init_mpi():
     except ImportError:
         return
 
+
 _init_mpi()
 
 from pymor.core.config import config
@@ -70,6 +71,7 @@ from pymor.tools import mpi
 if mpi.parallel and mpi.event_loop_settings()['auto_launch']:
     if mpi.rank0:
         import atexit
+
         @atexit.register
         def quit_event_loop():
             if not mpi.finished:

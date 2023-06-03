@@ -10,7 +10,6 @@ from pymor.core.exceptions import DependencyMissingError
 pytestmark = pytest.mark.builtin
 
 
-
 def test_repr():
     repr(config)
 

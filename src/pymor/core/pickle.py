@@ -71,6 +71,7 @@ else:
 
 def unpicklable(cls):
     """Class decorator to mark a class as unpicklable."""
+
     def __getstate__(self):  # noqa: N807
         raise UnpicklableError(cls)
 
@@ -90,7 +91,7 @@ def _global_names(code_object):
     if not PYTHON_311_OR_NEWER:
         indices = {i for o, i in _generate_opcode(code_object) if o == LOAD_GLOBAL}
     else:
-        indices = {i>>1 for o, i in _generate_opcode(code_object) if o == LOAD_GLOBAL}
+        indices = {i >> 1 for o, i in _generate_opcode(code_object) if o == LOAD_GLOBAL}
 
     names = code_object.co_names
     result = {names[i] for i in indices}

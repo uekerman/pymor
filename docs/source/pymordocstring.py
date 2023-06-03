@@ -202,7 +202,7 @@ def parse_fields_section(lines):
     def consume_indented_block(indent=1):
         lines = []
         line = line_iter.peek()
-        while(line_iter.has_next() and (not line or is_indented(line, indent))):
+        while line_iter.has_next() and (not line or is_indented(line, indent)):
             lines.append(next(line_iter))
             line = line_iter.peek()
         return lines
