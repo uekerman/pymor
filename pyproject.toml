@@ -233,6 +233,7 @@ select = [
   "TID",  # flake8-tidy-imports
   "TD",  # flake8-todos
   "ERA",  # eradicate
+  "PGH",  # pygrep-hooks
 ]
 ignore = [
   "F722",  # syntax error in forward annotation
@@ -284,8 +285,12 @@ inline-quotes = "single"
 "docs/source/try_on_binder.py" = ["N801"]  # class name CapWords convention
 "src/pymor/algorithms/genericsolvers.py" = ["ERA001"]  # commented-out code
 "src/pymor/algorithms/rules.py" = ["N801", "N805"]  # class name CapWords convention, first argument should be `self`
-"src/pymor/analyticalproblems/expressions.py" = ["N801"]  # class name CapWords convention
+"src/pymor/analyticalproblems/expressions.py" = [
+  "N801",  # class name CapWords convention
+  "PGH001",  # no builtin `eval()` allowed
+]
 "src/pymor/basic.py" = ["F401"]  # module imported but unused
+"src/pymor/reductors/neural_network.py" = ["PGH001"]  # no builtin `eval()` allowed
 "src/pymordemos/*" = ["F403", "F405"]  # undefined import due to pymor.basic functionality
 
 [tool.ruff.pycodestyle]
