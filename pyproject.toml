@@ -239,6 +239,7 @@ select = [
   "PLR",  # Pylint Refactor
   "PLW",  # Pylint Warning
   "TRY",  # tryceratops
+  "FLY",  # flynt
 ]
 ignore = [
   "F722",  # syntax error in forward annotation

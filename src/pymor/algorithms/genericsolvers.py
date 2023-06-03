@@ -839,7 +839,7 @@ def lsmr(A, b, damp=0.0, atol=1e-6, btol=1e-6, conlim=1e8,
         str1 = f'{itn:6g} {x.dofs([0])[0]:12.5e}'
         str2 = f' {normr:10.3e} {normar:10.3e}'
         str3 = f'  {test1:8.1e} {test2:8.1e}'
-        print(''.join([str1, str2, str3]))
+        print(f'{str1}{str2}{str3}')
 
     # Main iteration loop.
     while itn < maxiter:
@@ -985,7 +985,7 @@ def lsmr(A, b, damp=0.0, atol=1e-6, btol=1e-6, conlim=1e8,
             str2 = f' {normr:10.3e} {normar:10.3e}'
             str3 = f'  {test1:8.1e} {test2:8.1e}'
             str4 = f' {normA:8.1e} {condA:8.1e}'
-            print(''.join([str1, str2, str3, str4]))
+            print(f'{str1}{str2}{str3}{str4}')
 
         if istop > 0:
             break
