@@ -227,7 +227,7 @@ class SymplecticBasis(BasicObject):
             )
             symplectic_gram_schmidt(self.E, self.F, offset=basis_length, copy=False)
         else:
-            raise AssertionError()
+            raise AssertionError
 
 
 def psd_svd_like_decomp(U, modes, balance=True):

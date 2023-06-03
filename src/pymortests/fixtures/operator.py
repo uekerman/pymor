@@ -450,7 +450,7 @@ def misc_operator_with_arrays_and_products_factory(n):
         op = NumpyHankelOperator(mp)
         return op, None, op.source.random(), op.range.random(), IdentityOperator(op.source), IdentityOperator(op.range)
     else:
-        raise AssertionError()
+        raise AssertionError
 
 
 num_unpicklable_misc_operators = 1
@@ -465,7 +465,7 @@ def unpicklable_misc_operator_with_arrays_and_products_factory(n):
                                    dim_source=100, dim_range=20, linear=True)
         return op2, _, U, V, sp, rp
     else:
-        raise AssertionError()
+        raise AssertionError
 
 
 misc_operator_generators = \

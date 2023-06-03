@@ -454,7 +454,7 @@ class AdaptiveSampleSet(BasicObject):
                 plt.show()
 
         else:
-            raise AssertionError()
+            raise AssertionError
 
     def _iter_leafs(self):
         def walk(node):

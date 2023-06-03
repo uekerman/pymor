@@ -123,7 +123,7 @@ def main(
         reductor = SimpleCoerciveRBReductor(fom, product=product, coercivity_estimator=coercivity_estimator,
                                             check_orthonormality=False)
     else:
-        raise AssertionError()  # this should never happen
+        raise AssertionError  # this should never happen
 
     if alg == 'naive':
         rom, red_summary = reduce_naive(fom=fom, reductor=reductor, parameter_space=parameter_space,
@@ -152,7 +152,7 @@ def main(
                                       snapshots_per_block=snapshots,
                                       basis_size=rbsize)
     else:
-        raise AssertionError()  # this should never happen
+        raise AssertionError  # this should never happen
 
     if pickle:
         print(f'\nWriting reduced model to file {pickle}_reduced ...')

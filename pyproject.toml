@@ -225,8 +225,9 @@ select = [
   "ISC",  # flake8-implicit-str-concat
   "ICN",  # flake8-import-conventions
   "PIE",  # flake8-pie
-  "Q",  # flake8-quotes
   "PT",  # flake8-pytest-style
+  "Q",  # flake8-quotes
+  "RSE",  # flake8-raise
 ]
 ignore = [
   "F722",  # syntax error in forward annotation

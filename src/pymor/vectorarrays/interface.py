@@ -1008,7 +1008,7 @@ def _create_random_values(shape, distribution, **kwargs):
         scale = kwargs.get('scale', 1.)
         return rng.normal(loc, scale, shape)
     else:
-        raise AssertionError()
+        raise AssertionError
 
 
 class VectorArrayImpl(BasicObject):
