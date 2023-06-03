@@ -85,7 +85,7 @@ class Function(ParametricObject):
 
         if self.name != 'LincombFunction' or not isinstance(self, LincombFunction):
             if other.name == 'LincombFunction' and isinstance(other, LincombFunction):
-                functions = (self,) + other.functions
+                functions = (self, *other.functions)
                 coefficients = (1.,) + (other.coefficients if sign == 1. else tuple(-c for c in other.coefficients))
             else:
                 functions, coefficients = (self, other), (1., sign)
@@ -94,7 +94,7 @@ class Function(ParametricObject):
             coefficients = self.coefficients + (other.coefficients if sign == 1.
                                                 else tuple(-c for c in other.coefficients))
         else:
-            functions, coefficients = self.functions + (other,), self.coefficients + (sign,)
+            functions, coefficients = (*self.functions, other), (*self.coefficients, sign)
 
         return LincombFunction(functions, coefficients)
 
@@ -112,7 +112,7 @@ class Function(ParametricObject):
         if self.name != 'LincombFunction' or not isinstance(self, LincombFunction):
             functions, coefficients = (other, self), (1., sign)
         else:
-            functions = (other,) + self.functions
+            functions = (other, *self.functions)
             coefficients = (1.,) + (self.coefficients if sign == 1. else tuple(-c for c in self.coefficients))
 
         return LincombFunction(functions, coefficients)
@@ -136,14 +136,14 @@ class Function(ParametricObject):
             return LincombFunction([self], [other])
         if self.name != 'ProductFunction' or not isinstance(self, ProductFunction):
             if isinstance(other, ProductFunction) and other.name == 'ProductFunction':
-                return other.with_(functions=other.functions + [self])
+                return other.with_(functions=[*other.functions, self])
             else:
                 return ProductFunction([self, other])
         elif isinstance(other, ProductFunction) and other.name == 'ProductFunction':
             functions = self.functions + other.functions
             return ProductFunction(functions)
         else:
-            return self.with_(functions=self.functions + [other])
+            return self.with_(functions=[*self.functions, other])
 
     __rmul__ = __mul__
 
@@ -476,7 +476,7 @@ class EmpiricalInterpolatedFunction(LincombFunction):
         assert evaluation_points is None or isinstance(evaluation_points, np.ndarray) and \
             evaluation_points.ndim == 2 and evaluation_points.shape[1] == function.dim_domain
         assert basis_evaluations is None or isinstance(basis_evaluations, np.ndarray) and \
-            basis_evaluations.shape == (len(interpolation_points), len(evaluation_points)) + function.shape_range
+            basis_evaluations.shape == (len(interpolation_points), len(evaluation_points), *function.shape_range)
 
         self.__auto_init(locals())
         functions = [EmpiricalInterpolatedFunctionBasisFunction(self, i) for i in range(len(interpolation_points))]

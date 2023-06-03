@@ -104,7 +104,7 @@ class DWRCoerciveRBReductor(BasicObject):
             msg = 'Specified reduced state dimension larger than reduced basis'
             raise ValueError(msg)
 
-        dims = [primal_dim] + dual_dims
+        dims = [primal_dim, *dual_dims]
         if self._last_rom is None or any((dim > last_rom_dim)
                                          for dim, last_rom_dim in zip(dims, self._last_rom_dims)):
             self._last_rom = self._reduce()

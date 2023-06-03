@@ -144,7 +144,7 @@ class TransformLiterals(ast.NodeTransformer):
 class TransformChainedComparison(ast.NodeTransformer):
 
     def visit_Compare(self, node):
-        comparators = [node.left] + node.comparators
+        comparators = [node.left, *node.comparators]
         operators = node.ops
         comparisons = []
         # transform chained comparisons to sequence of simple comparisons
@@ -540,7 +540,7 @@ class UnaryFunctionCall(Expression):
     def __init__(self, arg, *args):
         if args:
             msg = (f'{self.numpy_symbol} takes a single argument '
-                   f'(given: {(arg,) + args})')
+                   f'(given: {(arg, *args)})')
             raise ValueError(msg)
         if not isinstance(arg, Expression):
             msg = (f'Argument of function call {self.numpy_symbol}({arg}) must be Expression '

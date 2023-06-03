@@ -591,7 +591,7 @@ class NonlinearReactionOperator(Operator):
         assert U in self.source
 
         R = U.to_numpy() if ind is None else U.to_numpy()[ind]
-        R = self.reaction_function.evaluate(R.reshape(R.shape + (1,)), mu=mu)
+        R = self.reaction_function.evaluate(R.reshape((*R.shape, 1)), mu=mu)
 
         return self.range.make_array(R)
 
@@ -600,7 +600,7 @@ class NonlinearReactionOperator(Operator):
             raise NotImplementedError
 
         U = U.to_numpy()
-        A = dia_matrix((self.reaction_function_derivative.evaluate(U.reshape(U.shape + (1,)), mu=mu), [0]),
+        A = dia_matrix((self.reaction_function_derivative.evaluate(U.reshape((*U.shape, 1)), mu=mu), [0]),
                        shape=(self.grid.size(0),) * 2)
 
         return NumpyMatrixOperator(A, source_id=self.source.id, range_id=self.range.id)

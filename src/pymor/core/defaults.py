@@ -298,7 +298,7 @@ def print_defaults(import_all=True, shorten_paths=2):
         comments.append(c)
     key_string = 'path (shortened)' if shorten_paths else 'path'
 
-    rows = [[key_string, 'value', 'source']] + list(zip(keys, values, comments))
+    rows = [[key_string, 'value', 'source'], *zip(keys, values, comments)]
     print(format_table(rows, title='pyMOR defaults'))
     print()
 
@@ -331,7 +331,7 @@ def write_defaults_to_file(filename='./pymor_defaults.py', packages=('pymor',)):
         keys.append("'" + k + "'")
         values.append(repr(v))
         as_comment.append(c == 'code')
-    key_width = max(max([0] + list(map(len, ks))) for ks in keys)
+    key_width = max(max([0, *map(len, ks)]) for ks in keys)
 
     with open(filename, 'w') as f:
         print("""

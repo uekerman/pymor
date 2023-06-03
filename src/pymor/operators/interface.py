@@ -561,7 +561,7 @@ class Operator(ParametricObject):
         from pymor.operators.constructions import LincombOperator
         if self.name != 'LincombOperator' or not isinstance(self, LincombOperator):
             if other.name == 'LincombOperator' and isinstance(other, LincombOperator):
-                operators = (self,) + other.operators
+                operators = (self, *other.operators)
                 coefficients = (1.,) + (other.coefficients if sign == 1. else tuple(-c for c in other.coefficients))
             else:
                 operators, coefficients = (self, other), (1., sign)
@@ -570,7 +570,7 @@ class Operator(ParametricObject):
             coefficients = self.coefficients + (other.coefficients if sign == 1.
                                                 else tuple(-c for c in other.coefficients))
         else:
-            operators, coefficients = self.operators + (other,), self.coefficients + (sign,)
+            operators, coefficients = (*self.operators, other), (*self.coefficients, sign)
 
         return LincombOperator(operators, coefficients, solver_options=self.solver_options)
 

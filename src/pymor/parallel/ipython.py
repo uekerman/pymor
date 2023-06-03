@@ -62,7 +62,7 @@ class new_ipcluster_pool(BasicObject):  # noqa: N801
             args.append('--n=' + str(self.num_engines))
         if self.ipython_dir is not None:
             args.append('--ipython-dir=' + self.ipython_dir)
-        cmd = ' '.join(['ipcluster start --daemonize'] + args)
+        cmd = ' '.join(['ipcluster start --daemonize', *args])
         self.logger.info('Staring IPython cluster with "' + cmd + '"')
         os.system(cmd)
 
@@ -123,7 +123,7 @@ class new_ipcluster_pool(BasicObject):  # noqa: N801
             args.append('--cluster-id=' + self.cluster_id)
         if self.ipython_dir is not None:
             args.append('--ipython-dir=' + self.ipython_dir)
-        cmd = ' '.join(['ipcluster stop'] + args)
+        cmd = ' '.join(['ipcluster stop', *args])
         self.logger.info('Stopping IPython cluster with "' + cmd + '"')
         os.system(cmd)
 

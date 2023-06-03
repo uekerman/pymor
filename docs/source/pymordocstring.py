@@ -262,7 +262,7 @@ def format_attributes_section(section, lines):
         if _type:
             formatted_lines.append('   :annotation: ' + _type)
         if _desc:
-            formatted_lines.extend([''] + indent(_desc, 3))
+            formatted_lines.extend(['', *indent(_desc, 3)])
         formatted_lines.append('')
     return formatted_lines
 
@@ -274,7 +274,7 @@ def format_generic_section(section, lines, use_admonition=False):
     else:
         header = '.. rubric:: %s' % section
     if lines:
-        return [header, ''] + lines + ['']
+        return [header, '', *lines, '']
     else:
         return [header, '']
 

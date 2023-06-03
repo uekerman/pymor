@@ -430,7 +430,7 @@ def invalid_indices(draw, array_strategy):
     v = draw(array_strategy)
     assert not isinstance(v, list)
     invalid_inds = (None, len(v), [len(v)], -len(v) - 1, [-len(v) - 1], [0, len(v)],
-                    [-len(v) - 1] + [0, ] * (length - 1), list(range(length - 1)) + [len(v)])
+                    [-len(v) - 1] + [0, ] * (length - 1), [*range(length - 1), len(v)])
     return v, draw(hyst.sampled_from(invalid_inds))
 
 

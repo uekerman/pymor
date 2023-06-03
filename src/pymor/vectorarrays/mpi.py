@@ -403,7 +403,7 @@ def _MPIVectorSpaceAutoComm_dim(local_spaces):
 def _MPIVectorArrayAutoComm_inner(self, other, ind, oind):
     local_results = _indexed(self, ind).inner(_indexed(other, oind))
     assert local_results.dtype == np.float64
-    results = np.empty((mpi.size,) + local_results.shape, dtype=np.float64) if mpi.rank0 else None
+    results = np.empty((mpi.size, *local_results.shape), dtype=np.float64) if mpi.rank0 else None
     mpi.comm.Gather(local_results, results, root=0)
     if mpi.rank0:
         return np.sum(results, axis=0)
@@ -413,7 +413,7 @@ def _MPIVectorArrayAutoComm_inner(self, other, ind, oind):
 def _MPIVectorArrayAutoComm_pairwise_inner(self, other, ind, oind):
     local_results = _indexed(self, ind).pairwise_inner(_indexed(other, oind))
     assert local_results.dtype == np.float64
-    results = np.empty((mpi.size,) + local_results.shape, dtype=np.float64) if mpi.rank0 else None
+    results = np.empty((mpi.size, *local_results.shape), dtype=np.float64) if mpi.rank0 else None
     mpi.comm.Gather(local_results, results, root=0)
     if mpi.rank0:
         return np.sum(results, axis=0)
@@ -423,7 +423,7 @@ def _MPIVectorArrayAutoComm_pairwise_inner(self, other, ind, oind):
 def _MPIVectorArrayAutoComm_norm2(self, ind):
     local_results = _indexed(self, ind).norm2()
     assert local_results.dtype == np.float64
-    results = np.empty((mpi.size,) + local_results.shape, dtype=np.float64) if mpi.rank0 else None
+    results = np.empty((mpi.size, *local_results.shape), dtype=np.float64) if mpi.rank0 else None
     mpi.comm.Gather(local_results, results, root=0)
     if mpi.rank0:
         return np.sum(results, axis=0)
@@ -438,7 +438,7 @@ def _MPIVectorArrayAutoComm_dofs(self, offsets, dof_indices, ind):
     local_results = np.zeros((len(self), len(dof_indices)))
     local_results[:, my_indices] = self.dofs(dof_indices[my_indices] - offset)
     assert local_results.dtype == np.float64
-    results = np.empty((mpi.size,) + local_results.shape, dtype=np.float64) if mpi.rank0 else None
+    results = np.empty((mpi.size, *local_results.shape), dtype=np.float64) if mpi.rank0 else None
     mpi.comm.Gather(local_results, results, root=0)
     if mpi.rank0:
         return np.sum(results, axis=0)
@@ -450,8 +450,8 @@ def _MPIVectorArrayAutoComm_amax(self, ind):
     local_inds, local_vals = self.amax()
     assert local_inds.dtype == np.int64
     assert local_vals.dtype == np.float64
-    inds = np.empty((mpi.size,) + local_inds.shape, dtype=np.int64) if mpi.rank0 else None
-    vals = np.empty((mpi.size,) + local_inds.shape, dtype=np.float64) if mpi.rank0 else None
+    inds = np.empty((mpi.size, *local_inds.shape), dtype=np.int64) if mpi.rank0 else None
+    vals = np.empty((mpi.size, *local_inds.shape), dtype=np.float64) if mpi.rank0 else None
     mpi.comm.Gather(local_inds, inds, root=0)
     mpi.comm.Gather(local_vals, vals, root=0)
     if mpi.rank0:

@@ -217,7 +217,7 @@ def test_volumes_inverse_values(grid):
 def test_unit_outer_normals_shape(grid):
     g = grid
     SE = g.subentities(0, 1)
-    assert g.unit_outer_normals().shape == SE.shape + (g.dim,)
+    assert g.unit_outer_normals().shape == (*SE.shape, g.dim)
 
 
 @settings(deadline=None)

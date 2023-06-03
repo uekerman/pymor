@@ -56,7 +56,7 @@ class ParameterFunctional(ParametricObject):
 
         if self.name != 'LincombParameterFunctional' or not isinstance(self, LincombParameterFunctional):
             if other.name == 'LincombParameterFunctional' and isinstance(other, LincombParameterFunctional):
-                functionals = (self,) + other.functionals
+                functionals = (self, *other.functionals)
                 coefficients = (1.,) + (other.coefficients if sign == 1. else tuple(-c for c in other.coefficients))
             else:
                 functionals, coefficients = (self, other), (1., sign)
@@ -65,7 +65,7 @@ class ParameterFunctional(ParametricObject):
             coefficients = self.coefficients + (other.coefficients if sign == 1.
                                                 else tuple(-c for c in other.coefficients))
         else:
-            functionals, coefficients = self.functionals + (other,), self.coefficients + (sign,)
+            functionals, coefficients = (*self.functionals, other), (*self.coefficients, sign)
 
         return LincombParameterFunctional(functionals, coefficients)
 
@@ -81,7 +81,7 @@ class ParameterFunctional(ParametricObject):
         if self.name != 'LincombParameterFunctional' or not isinstance(self, LincombParameterFunctional):
             functionals, coefficients = (other, self), (1., sign)
         else:
-            functionals = (other,) + self.functionals
+            functionals = (other, *self.functionals)
             coefficients = (1.,) + (self.coefficients if sign == 1. else tuple(-c for c in self.coefficients))
 
         return LincombParameterFunctional(functionals, coefficients)
@@ -103,14 +103,14 @@ class ParameterFunctional(ParametricObject):
             return NotImplemented
         if self.name != 'ProductParameterFunctional' or not isinstance(self, ProductParameterFunctional):
             if isinstance(other, ProductParameterFunctional) and other.name == 'ProductParameterFunctional':
-                return other.with_(factors=(self,) + other.factors)
+                return other.with_(factors=(self, *other.factors))
             else:
                 return ProductParameterFunctional((self, other))
         elif isinstance(other, ProductParameterFunctional) and other.name == 'ProductParameterFunctional':
             factors = self.factors + other.factors
             return ProductParameterFunctional(factors)
         else:
-            return self.with_(factors=self.factors + (other,))
+            return self.with_(factors=(*self.factors, other))
 
     __rmul__ = __mul__
 

@@ -100,8 +100,8 @@ def main(
         for mu in parameter_space.sample_randomly(2):
             print(f'Solving for diffusion = \n{mu["diffusion"]} ... ')
             sys.stdout.flush()
-            Us = Us + (fom.solve(mu),)
-            legend = legend + (str(mu['diffusion']),)
+            Us = (*Us, fom.solve(mu))
+            legend = (*legend, str(mu['diffusion']))
         fom.visualize(Us, legend=legend, title='Detailed Solutions for different parameters',
                       separate_colorbars=False, block=True)
 

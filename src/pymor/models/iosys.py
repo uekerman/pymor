@@ -2826,11 +2826,11 @@ class LinearDelayModel(Model):
         self.dim_output = C.range.dim
         self.q = len(Ad)
 
-        K = lambda s: LincombOperator((E, A) + Ad, (s, -1) + tuple(-np.exp(-taui * s) for taui in self.tau))
+        K = lambda s: LincombOperator((E, A, *Ad), (s, -1, *tuple(-np.exp(-taui * s) for taui in self.tau)))
         B = lambda s: self.B
         C = lambda s: self.C
         D = lambda s: self.D
-        dK = lambda s: LincombOperator((E,) + Ad, (1,) + tuple(taui * np.exp(-taui * s) for taui in self.tau))
+        dK = lambda s: LincombOperator((E, *Ad), (1, *tuple(taui * np.exp(-taui * s) for taui in self.tau)))
         dB = lambda s: ZeroOperator(self.B.range, self.B.source)
         dC = lambda s: ZeroOperator(self.C.range, self.C.source)
         dD = lambda s: ZeroOperator(self.D.range, self.D.source)

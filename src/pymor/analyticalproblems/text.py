@@ -54,7 +54,7 @@ def text_problem(text='pyMOR', font_name=None):
     background = ConstantFunction(1., 2) - LincombFunction(dfs, np.ones(len(dfs)))
 
     # form the linear combination
-    dfs = [background] + dfs
+    dfs = [background, *dfs]
     coefficients = [1] + [ProjectionParameterFunctional('diffusion', len(text), i) for i in range(len(text))]
     diffusion = LincombFunction(dfs, coefficients)
 

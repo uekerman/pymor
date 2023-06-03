@@ -114,7 +114,7 @@ class ExpandRules(RuleTable):
         if any(isinstance(o, LincombOperator) for o in op.operators):
             i = next(iter(i for i, o in enumerate(op.operators) if isinstance(o, LincombOperator)))
             left, right = op.operators[:i], op.operators[i+1:]
-            ops = [ConcatenationOperator(left + (o,) + right) for o in op.operators[i].operators]
+            ops = [ConcatenationOperator((*left, o, *right)) for o in op.operators[i].operators]
             op = op.operators[i].with_(operators=ops)
 
             # there can still be LincombOperators within the summands so we recurse ..

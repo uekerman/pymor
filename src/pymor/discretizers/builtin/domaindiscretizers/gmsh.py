@@ -124,7 +124,7 @@ def discretize_gmsh(domain_description=None, geo_file=None, geo_file_path=None, 
             # assign ids to all points and write them to the GEO-file.
             for id, p in enumerate([p for ps in points for p in ps]):
                 assert len(p) == 2
-                geo_file.write('Point('+str(id+1)+') = '+str(p+[0, 0]).replace('[', '{').replace(']', '}')+';\n')
+                geo_file.write('Point('+str(id+1)+') = '+str([*p, 0, 0]).replace('[', '{').replace(']', '}')+';\n')
 
             # store points and their ids
             point_ids = dict(zip([str(p) for ps in points for p in ps],

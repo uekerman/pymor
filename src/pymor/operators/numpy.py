@@ -322,7 +322,7 @@ class NumpyMatrixOperator(NumpyMatrixBasedOperator):
                 try:
                     R, _, _, _ = np.linalg.lstsq(self.matrix, V.to_numpy().T, rcond=None)
                 except np.linalg.LinAlgError as e:
-                    msg = f'{str(type(e))}: {str(e)}'
+                    msg = f'{type(e)!s}: {str(e)}'
                     raise InversionError(msg) from e
                 R = R.T
             else:
@@ -330,7 +330,7 @@ class NumpyMatrixOperator(NumpyMatrixBasedOperator):
                     try:
                         self._lu_factor = lu_factor(self.matrix)
                     except np.linalg.LinAlgError as e:
-                        msg = f'{str(type(e))}: {str(e)}'
+                        msg = f'{type(e)!s}: {str(e)}'
                         raise InversionError(msg) from e
                     gecon = get_lapack_funcs('gecon', self._lu_factor)
                     rcond, _ = gecon(self._lu_factor[0], np.linalg.norm(self.matrix, ord=1), norm='1')
@@ -354,7 +354,7 @@ class NumpyMatrixOperator(NumpyMatrixBasedOperator):
 
         common_mat_dtype = reduce(np.promote_types,
                                   (op.matrix.dtype for op in operators if hasattr(op, 'matrix')))
-        common_coef_dtype = reduce(np.promote_types, (type(c) for c in coefficients + [identity_shift]))
+        common_coef_dtype = reduce(np.promote_types, (type(c) for c in [*coefficients, identity_shift]))
         common_dtype = np.promote_types(common_mat_dtype, common_coef_dtype)
 
         if coefficients[0] == 1:

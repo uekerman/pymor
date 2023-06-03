@@ -337,7 +337,7 @@ class NeuralNetworkReductor(BasicObject):
         # input and output size of the neural network are prescribed by the
         # dimension of the parameter space and the reduced basis size
         assert isinstance(hidden_layers, list)
-        return [self.parameters_dim, ] + hidden_layers + [len(self.reduced_basis), ]
+        return [self.parameters_dim, *hidden_layers, len(self.reduced_basis)]
 
     def _compute_target_loss(self):
         """Compute target loss depending on value of `ann_mse`."""
@@ -469,7 +469,7 @@ class NeuralNetworkStatefreeOutputReductor(NeuralNetworkReductor):
         # input and output size of the neural network are prescribed by the
         # dimension of the parameter space and the output dimension
         assert isinstance(hidden_layers, list)
-        return [self.parameters_dim, ] + hidden_layers + [self.dim_output, ]
+        return [self.parameters_dim, *hidden_layers, self.dim_output]
 
     def _compute_target_loss(self):
         """Compute target loss depending on value of `ann_mse`."""
@@ -632,7 +632,7 @@ class NeuralNetworkInstationaryReductor(NeuralNetworkReductor):
         # input and output size of the neural network are prescribed by the
         # dimension of the parameter space and the reduced basis size
         assert isinstance(hidden_layers, list)
-        return [self.parameters_dim + 1, ] + hidden_layers + [len(self.reduced_basis), ]
+        return [self.parameters_dim + 1, *hidden_layers, len(self.reduced_basis)]
 
     def _build_rom(self):
         """Construct the reduced order model."""
@@ -841,7 +841,7 @@ class NeuralNetworkInstationaryStatefreeOutputReductor(NeuralNetworkStatefreeOut
         # input and output size of the neural network are prescribed by the
         # dimension of the parameter space and the output dimension
         assert isinstance(hidden_layers, list)
-        return [self.parameters_dim + 1, ] + hidden_layers + [self.dim_output, ]
+        return [self.parameters_dim + 1, *hidden_layers, self.dim_output]
 
     def _build_rom(self):
         """Construct the reduced order model."""

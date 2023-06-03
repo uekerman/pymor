@@ -188,7 +188,7 @@ def _discretize_fenics():
 
     # wrap operators
     ops = [FenicsMatrixOperator(mat0, V, V)] + [FenicsMatrixOperator(m, V, V) for m in mats]
-    op = LincombOperator(ops, [1.] + parameter_functionals)
+    op = LincombOperator(ops, [1.0, *parameter_functionals])
     rhs = VectorOperator(FenicsVectorSpace(V).make_array([F]))
     h1_product = FenicsMatrixOperator(h1_mat, V, V, name='h1_0_semi')
 

@@ -309,7 +309,7 @@ def test_apply_adjoint(operator_with_arrays):
         return
     assert U in op.source
     assert len(V) == len(U)
-    for ind in list(valid_inds(V, 3)) + [[]]:
+    for ind in [*valid_inds(V, 3), []]:
         Uind = op.apply_adjoint(V[ind], mu=mu)
         assert np.all(almost_equal(Uind, U[ind]))
         assert np.all(almost_equal(Uind, op.apply_adjoint(V[ind], mu=mu)))

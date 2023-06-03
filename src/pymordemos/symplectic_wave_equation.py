@@ -19,7 +19,7 @@ from pymor.vectorarrays.interface import VectorArray
 from pymor.vectorarrays.numpy import NumpyVectorSpace
 
 SYMPLECTIC_METHODS = ['cotangent_lift', 'complex_svd', 'svd_like']
-METHODS = ['pod'] + SYMPLECTIC_METHODS
+METHODS = ['pod', *SYMPLECTIC_METHODS]
 
 
 def main(

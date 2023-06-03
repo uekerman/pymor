@@ -304,13 +304,13 @@ class ConcatenationOperator(Operator):
 
         if self.name != 'ConcatenationOperator':
             if isinstance(other, ConcatenationOperator) and other.name == 'ConcatenationOperator':
-                operators = (self,) + other.operators
+                operators = (self, *other.operators)
             else:
                 operators = (self, other)
         elif isinstance(other, ConcatenationOperator) and other.name == 'ConcatenationOperator':
             operators = self.operators + other.operators
         else:
-            operators = self.operators + (other,)
+            operators = (*self.operators, other)
 
         return ConcatenationOperator(operators, solver_options=self.solver_options)
 
@@ -322,7 +322,7 @@ class ConcatenationOperator(Operator):
         if self.name != 'ConcatenationOperator':
             operators = (other, self)
         else:
-            operators = (other,) + self.operators
+            operators = (other, *self.operators)
 
         return ConcatenationOperator(operators, solver_options=other.solver_options)
 

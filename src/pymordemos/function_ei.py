@@ -54,8 +54,8 @@ def main(
         for mu in problem.parameter_space.sample_uniformly(4):
             print(f"Solving for exponent = {mu['exponent']} ... ")
             sys.stdout.flush()
-            Us = Us + (fom.solve(mu),)
-            legend = legend + (f"exponent: {mu['exponent']}",)
+            Us = (*Us, fom.solve(mu))
+            legend = (*legend, f'exponent: {mu["exponent"]}')
         fom.visualize(Us, legend=legend, title='Detailed Solutions', block=True)
 
     diffusion_ei, ei_data = interpolate_function(
@@ -78,8 +78,8 @@ def main(
             U = fom.solve(mu)
             U_EI = fom_ei.solve(mu)
             ERR = U - U_EI
-            ERRs = ERRs + (ERR,)
-            legend = legend + (f"exponent: {mu['exponent']}",)
+            ERRs = (*ERRs, ERR)
+            legend = (*legend, f'exponent: {mu["exponent"]}')
             print(f'Error: {np.max(fom.l2_norm(ERR))}')
         fom.visualize(ERRs, legend=legend, title='EI Errors', separate_colorbars=True)
 

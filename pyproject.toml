@@ -241,6 +241,7 @@ select = [
   "TRY",  # tryceratops
   "FLY",  # flynt
   "NPY",  # NumPy-specific rules
+  "RUF",  # Ruff-specific rules
 ]
 ignore = [
   "F722",  # syntax error in forward annotation
