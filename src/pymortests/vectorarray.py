@@ -798,14 +798,6 @@ def test_amax(vectors_and_indices):
         assert np.allclose(max_val, np.abs(v[[i]].dofs([max_ind])))
 
 
-# def test_amax_zero_dim(zero_dimensional_vector_space):
-#     for count in (0, 10):
-#         v = zero_dimensional_vector_space.zeros(count=count)
-#         for ind in valid_inds(v):
-#             with pytest.raises(Exception):
-#                 v.amax(ind)
-
-
 @pyst.given_vector_arrays(index_strategy=pyst.valid_indices)
 def test_gramian(vectors_and_indices):
     v, ind = vectors_and_indices

@@ -301,7 +301,6 @@ class ColorBarWidget(QOpenGLWidget):
         steps = 40
         for i in range(steps + 1):
             y = i * (1 / steps)
-            # gl.glColor(y, 0, 0)
             gl.glVertex(-0.5, (bar_height*y + bar_start), y)
             gl.glVertex(0.5, (bar_height*y + bar_start), y)
         gl.glEnd()

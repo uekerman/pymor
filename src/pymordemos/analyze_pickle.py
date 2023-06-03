@@ -200,8 +200,6 @@ def convergence(
             ests = []
             start = time.perf_counter()
             for mu in mus:
-                # print('e', end='')
-                # sys.stdout.flush()
                 ests.append(rom.estimate_error(mu))
             ESTS.append(max(ests))
             T_ESTS.append((time.perf_counter() - start) * 1000. / len(mus))

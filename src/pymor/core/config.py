@@ -35,12 +35,13 @@ def _get_fenics_version():
         # to segfaults in the Fortran L-BFGS-B implementatiton.
         #
         # A MWE to trigger the segfault is:
-        #     import sys
-        #     import os
-        #     sys.setdlopenflags(os.RTLD_NOW | os.RTLD_GLOBAL)
-        #     import numpy as np
-        #     from scipy.optimize import minimize
-        #     opt_fom_result = minimize(lambda x: x[0]**2, np.array([0.25]), method='L-BFGS-B')
+        #     import sys                                                      # noqa: ERA001
+        #     import os                                                       # noqa: ERA001
+        #     sys.setdlopenflags(os.RTLD_NOW | os.RTLD_GLOBAL)                # noqa: ERA001
+        #     import numpy as np                                              # noqa: ERA001
+        #     from scipy.optimize import minimize                             # noqa: ERA001
+        #     opt_fom_result = minimize(lambda x: x[0]**2, np.array([0.25]),  # noqa: ERA001
+        #                               method='L-BFGS-B')                    # noqa: ERA001
         #
         # According to the comment in dolfin.__init__, setting RTLD_GLOBAL is required
         # for OpenMPI. According to the discussion in https://github.com/open-mpi/ompi/issues/3705

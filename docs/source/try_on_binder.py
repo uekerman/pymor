@@ -22,8 +22,6 @@ class TryOnBinder(Directive):
         node['target'] = f'https://binderhub.uni-muenster.de/v2/gh/pymor/docs/{slug}?filepath={generated_nb}'
         node['badge'] = 'https://binderhub.uni-muenster.de/badge_logo.svg'
 
-        # node['target'] = f'https://mybinder.org/v2/gh/pymor/docs/{slug}?filepath={generated_nb}'
-        # node['badge'] = 'https://mybinder.org/badge_logo.svg'
 
         return [node]
 

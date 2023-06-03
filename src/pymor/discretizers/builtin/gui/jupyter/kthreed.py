@@ -129,7 +129,7 @@ def visualize_k3d(grid, U, bounding_box=([0, 0], [1, 1]), codim=2, title=None, l
     xhalf = (combined_bounds[0] + combined_bounds[3]) / 2
     yhalf = (combined_bounds[1] + combined_bounds[4]) / 2
     zhalf = (combined_bounds[2] + combined_bounds[5]) / 2
-    # camera[posx, posy, posz, targetx, targety, targetz, upx, upy, upz]
+    # camera -> [posx, posy, posz, targetx, targety, targetz, upx, upy, upz]
     plot.camera = (xhalf, yhalf, zhalf + c_dist,
                    xhalf, yhalf, zhalf,
                    0, 1, 0)

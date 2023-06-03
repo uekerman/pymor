@@ -687,10 +687,8 @@ class AdvectionOperatorP1(NumpyMatrixBasedOperator):
         self.logger.info('Calculate gradients of shape functions transformed by reference map ...')
         SF_GRAD = LagrangeShapeFunctionsGrads[g.reference_element][1]
         SF_GRADS = np.einsum('eij,pj->epi', g.jacobian_inverse_transposed(0), SF_GRAD)
-        # SF_GRADS(element, function, component)
 
         SFQ = np.array(tuple(f(q) for f in SF))
-        # SFQ(function, quadraturepoint)
 
         self.logger.info('Calculate all local scalar products between gradients ...')
         D = self.advection_function(self.grid.centers(0), mu=mu)
@@ -785,11 +783,9 @@ class AdvectionOperatorQ1(NumpyMatrixBasedOperator):
         q, w = g.reference_element.quadrature(order=2)
         SF_GRAD = LagrangeShapeFunctionsGrads[g.reference_element][1](q)
         SF_GRADS = np.einsum('eij,pjc->epic', g.jacobian_inverse_transposed(0), SF_GRAD)
-        # SF_GRADS(element,function,component,quadraturepoint)
 
         SF = LagrangeShapeFunctions[g.reference_element][1]
         SFQ = np.array(tuple(f(q) for f in SF))
-        # SFQ(function, quadraturepoint)
 
         self.logger.info('Calculate all local scalar products between gradients ...')
 
@@ -890,7 +886,6 @@ class RobinBoundaryOperator(NumpyMatrixBasedOperator):
             return csc_matrix(I).copy()
         else:
             xref = g.centers(1)[RI]
-            # xref(robin-index, quadraturepoint-index)
             if self.robin_data[0].shape_range == ():
                 robin_c = self.robin_data[0](xref, mu=mu)
             else:
@@ -900,7 +895,6 @@ class RobinBoundaryOperator(NumpyMatrixBasedOperator):
                 robin_values = self.robin_data[0](xref, mu=mu)
                 robin_c = np.einsum('ei,eqi->eq', normals, robin_values)
 
-            # robin_c(robin-index, quadraturepoint-index)
             q, w = line.quadrature(order=2)
             # remove last dimension of q, as line coordinates are one dimensional
             q = q[:, 0]
