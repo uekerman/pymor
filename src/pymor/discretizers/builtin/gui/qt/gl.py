@@ -144,13 +144,12 @@ class GLPatchWidget(QOpenGLWidget):
             else:
                 self.vertex_data = np.empty(len(subentities) * 3, dtype=buffer_dtype)
                 self.indices = np.arange(len(subentities) * 3, dtype=np.uint32)
+        elif codim == 2:
+            self.vertex_data = np.empty(len(coordinates), dtype=buffer_dtype)
+            self.indices = np.vstack((subentities[:, 0:3], subentities[:, [0, 2, 3]]))
         else:
-            if codim == 2:
-                self.vertex_data = np.empty(len(coordinates), dtype=buffer_dtype)
-                self.indices = np.vstack((subentities[:, 0:3], subentities[:, [0, 2, 3]]))
-            else:
-                self.vertex_data = np.empty(len(subentities) * 6, dtype=buffer_dtype)
-                self.indices = np.arange(len(subentities) * 6, dtype=np.uint32)
+            self.vertex_data = np.empty(len(subentities) * 6, dtype=buffer_dtype)
+            self.indices = np.arange(len(subentities) * 6, dtype=np.uint32)
         self.indices = np.ascontiguousarray(self.indices)
 
         self.vertex_data['color'] = 1

@@ -191,11 +191,10 @@ def run_mor_method(fom, w, reductor, reductor_short_name, r, stable=True, **redu
             else:
                 print('Skipped H_inf-norm calculation due to missing slycot.')
             print(f'{reductor_short_name} relative Hankel-error: {err.hankel_norm() / fom.hankel_norm():e}')
+        elif config.HAVE_SLYCOT:
+            print(f'{reductor_short_name} relative L_inf-error:  {err.linf_norm() / fom.linf_norm():e}')
         else:
-            if config.HAVE_SLYCOT:
-                print(f'{reductor_short_name} relative L_inf-error:  {err.linf_norm() / fom.linf_norm():e}')
-            else:
-                print('Skipped L_inf-norm calculation due to missing slycot.')
+            print('Skipped L_inf-norm calculation due to missing slycot.')
     elif isinstance(rom, LTIModel):
         error = np.sqrt(fom.h2_norm()**2 - 2 * fom.h2_inner(rom).real + rom.h2_norm()**2)
         print(f'{reductor_short_name} relative H_2-error:    {error / fom.h2_norm():e}')

@@ -24,9 +24,8 @@ class BlockOperatorBase(Operator):
         elif self.blocked_source:
             if blocks.ndim == 1:
                 blocks.shape = (1, len(blocks))
-        else:
-            if blocks.ndim == 1:
-                blocks.shape = (len(blocks), 1)
+        elif blocks.ndim == 1:
+            blocks.shape = (len(blocks), 1)
         assert all(isinstance(op, Operator) or op is None for op in self._operators())
 
         # check if every row/column contains at least one operator

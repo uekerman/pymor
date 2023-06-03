@@ -343,10 +343,9 @@ def visualize_patch(grid, U, bounding_box=([0, 0], [1, 1]), codim=2, title=None,
         if backend == 'matplotlib' and not config.HAVE_MATPLOTLIB:
             msg = 'cannot visualize: import of matplotlib failed'
             raise ImportError(msg)
-    else:
-        if not config.HAVE_MATPLOTLIB:
-            msg = 'cannot visualize: import of matplotlib failed'
-            raise ImportError(msg)
+    elif not config.HAVE_MATPLOTLIB:
+        msg = 'cannot visualize: import of matplotlib failed'
+        raise ImportError(msg)
 
     if backend == 'gl':
         from pymor.discretizers.builtin.gui.qt.gl import ColorBarWidget, GLPatchWidget

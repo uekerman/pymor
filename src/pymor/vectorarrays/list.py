@@ -167,16 +167,15 @@ class ComplexifiedVector(Vector):
             if alpha.imag != 0:
                 self.imag_part = self.real_part * alpha.imag
             self.real_part.scal(alpha.real)
+        elif alpha.imag == 0:
+            self.real_part.scal(alpha.real)
+            self.imag_part.scal(alpha.real)
         else:
-            if alpha.imag == 0:
-                self.real_part.scal(alpha.real)
-                self.imag_part.scal(alpha.real)
-            else:
-                old_real_part = self.real_part.copy()
-                self.real_part.scal(alpha.real)
-                self.real_part.axpy(-alpha.imag, self.imag_part)
-                self.imag_part.scal(alpha.real)
-                self.imag_part.axpy(alpha.imag, old_real_part)
+            old_real_part = self.real_part.copy()
+            self.real_part.scal(alpha.real)
+            self.real_part.axpy(-alpha.imag, self.imag_part)
+            self.imag_part.scal(alpha.real)
+            self.imag_part.axpy(alpha.imag, old_real_part)
 
     def axpy(self, alpha, x):
         if x is self:
@@ -417,13 +416,12 @@ class ListVectorArrayImpl(VectorArrayImpl):
             else:
                 for y in self._indexed(ind):
                     y.axpy(alpha, xx)
+        elif type(alpha) is np.ndarray:
+            for a, xx, y in zip(alpha, x_list, self._indexed(ind)):
+                y.axpy(a, xx)
         else:
-            if type(alpha) is np.ndarray:
-                for a, xx, y in zip(alpha, x_list, self._indexed(ind)):
-                    y.axpy(a, xx)
-            else:
-                for xx, y in zip(x_list, self._indexed(ind)):
-                    y.axpy(alpha, xx)
+            for xx, y in zip(x_list, self._indexed(ind)):
+                y.axpy(alpha, xx)
 
     def inner(self, other, ind, oind):
         return (np.array([[a.inner(b) for b in other._indexed(oind)] for a in self._indexed(ind)])

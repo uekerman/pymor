@@ -76,18 +76,17 @@ class Renderer(widgets.VBox):
                 VERTEX_POS = coordinates[subentities]
                 vertices[:, 0:2] = VERTEX_POS.reshape((-1, 2))
                 indices = np.arange(len(subentities) * 3, dtype=np.uint32)
+        elif codim == 2:
+            vertices = np.zeros((len(coordinates), 3))
+            vertices[:, :-1] = coordinates
+            indices = np.vstack((subentities[:, 0:3], subentities[:, [0, 2, 3]]))
         else:
-            if codim == 2:
-                vertices = np.zeros((len(coordinates), 3))
-                vertices[:, :-1] = coordinates
-                indices = np.vstack((subentities[:, 0:3], subentities[:, [0, 2, 3]]))
-            else:
-                num_entities = len(subentities)
-                vertices = np.zeros((num_entities * 6, 3))
-                VERTEX_POS = coordinates[subentities]
-                vertices[0:num_entities * 3, 0:2] = VERTEX_POS[:, 0:3, :].reshape((-1, 2))
-                vertices[num_entities * 3:, 0:2] = VERTEX_POS[:, [0, 2, 3], :].reshape((-1, 2))
-                indices = np.arange(len(subentities) * 6, dtype=np.uint32)
+            num_entities = len(subentities)
+            vertices = np.zeros((num_entities * 6, 3))
+            VERTEX_POS = coordinates[subentities]
+            vertices[0:num_entities * 3, 0:2] = VERTEX_POS[:, 0:3, :].reshape((-1, 2))
+            vertices[num_entities * 3:, 0:2] = VERTEX_POS[:, [0, 2, 3], :].reshape((-1, 2))
+            indices = np.arange(len(subentities) * 6, dtype=np.uint32)
 
         max_tex_size = 512
         cm = color_map(np.linspace(0, 1, max_tex_size)).astype(np.float32)

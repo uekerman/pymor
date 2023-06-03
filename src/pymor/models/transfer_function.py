@@ -164,11 +164,10 @@ class TransferFunction(CacheableObject, ParametricObject):
                     f = lambda w: self.eval_tf(1j * w, mu=mu)
                 else:
                     f = lambda w: self.eval_tf(np.exp(1j * w), mu=mu)
+            elif self.sampling_time == 0:
+                f = lambda w: spla.norm(self.eval_tf(1j * w, mu=mu))
             else:
-                if self.sampling_time == 0:
-                    f = lambda w: spla.norm(self.eval_tf(1j * w, mu=mu))
-                else:
-                    f = lambda w: spla.norm(self.eval_tf(np.exp(1j * w), mu=mu))
+                f = lambda w: spla.norm(self.eval_tf(np.exp(1j * w), mu=mu))
 
             if adaptive_opts is None:
                 adaptive_opts = {}

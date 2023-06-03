@@ -84,38 +84,36 @@ def relative_residual(A, E, B, X, cont_time, trans=False):
                 BBT = B @ B.T
                 res = fro_norm(AXET + AXET.T + BBT)
                 rhs = fro_norm(BBT)
-        else:
-            if E is None:
-                ATX = A.T @ X
-                CTC = B.T @ B
-                res = fro_norm(ATX + ATX.T + CTC)
-                rhs = fro_norm(CTC)
-            else:
-                ATXE = A.T @ X @ E
-                CTC = B.T @ B
-                res = fro_norm(ATXE + ATXE.T + CTC)
-                rhs = fro_norm(CTC)
-    else:
-        if not trans:
-            AXAT = A @ X @ A.T
-            BBT = B @ B.T
-            if E is None:
-                res = fro_norm(AXAT - X + BBT)
-                rhs = fro_norm(BBT)
-            else:
-                EXET = E @ X @ E.T
-                res = fro_norm(AXAT - EXET + BBT)
-                rhs = fro_norm(BBT)
-        else:
-            ATXA = A.T @ X @ A
+        elif E is None:
+            ATX = A.T @ X
             CTC = B.T @ B
-            if E is None:
-                res = fro_norm(ATXA - X + CTC)
-                rhs = fro_norm(CTC)
-            else:
-                ETXE = E.T @ X @ E
-                res = fro_norm(ATXA - ETXE + CTC)
-                rhs = fro_norm(CTC)
+            res = fro_norm(ATX + ATX.T + CTC)
+            rhs = fro_norm(CTC)
+        else:
+            ATXE = A.T @ X @ E
+            CTC = B.T @ B
+            res = fro_norm(ATXE + ATXE.T + CTC)
+            rhs = fro_norm(CTC)
+    elif not trans:
+        AXAT = A @ X @ A.T
+        BBT = B @ B.T
+        if E is None:
+            res = fro_norm(AXAT - X + BBT)
+            rhs = fro_norm(BBT)
+        else:
+            EXET = E @ X @ E.T
+            res = fro_norm(AXAT - EXET + BBT)
+            rhs = fro_norm(BBT)
+    else:
+        ATXA = A.T @ X @ A
+        CTC = B.T @ B
+        if E is None:
+            res = fro_norm(ATXA - X + CTC)
+            rhs = fro_norm(CTC)
+        else:
+            ETXE = E.T @ X @ E
+            res = fro_norm(ATXA - ETXE + CTC)
+            rhs = fro_norm(CTC)
     return res / rhs
 
 

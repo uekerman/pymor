@@ -204,29 +204,27 @@ class GenericParameterFunctional(ParameterFunctional):
             if self.derivative_mappings is None:
                 msg = 'You must provide a dict of expressions for all partial derivatives in self.parameters'
                 raise ValueError(msg)
-            else:
-                if parameter in self.derivative_mappings:
-                    if self.second_derivative_mappings is None:
-                        return GenericParameterFunctional(
-                            self.derivative_mappings[parameter][index],
-                            self.parameters, name=f'{self.name}_d_{parameter}_{index}'
-                        )
-                    else:
-                        if parameter in self.second_derivative_mappings:
-                            return GenericParameterFunctional(
-                                self.derivative_mappings[parameter][index],
-                                self.parameters, name=f'{self.name}_d_{parameter}_{index}',
-                                derivative_mappings=self.second_derivative_mappings[parameter][index]
-                            )
-                        else:
-                            return GenericParameterFunctional(
-                                self.derivative_mappings[parameter][index],
-                                self.parameters, name=f'{self.name}_d_{parameter}_{index}',
-                                derivative_mappings={}
-                            )
+            elif parameter in self.derivative_mappings:
+                if self.second_derivative_mappings is None:
+                    return GenericParameterFunctional(
+                        self.derivative_mappings[parameter][index],
+                        self.parameters, name=f'{self.name}_d_{parameter}_{index}'
+                    )
+                elif parameter in self.second_derivative_mappings:
+                    return GenericParameterFunctional(
+                        self.derivative_mappings[parameter][index],
+                        self.parameters, name=f'{self.name}_d_{parameter}_{index}',
+                        derivative_mappings=self.second_derivative_mappings[parameter][index]
+                    )
                 else:
-                    msg = f'derivative expressions do not contain item {parameter}'
-                    raise ValueError(msg)
+                    return GenericParameterFunctional(
+                        self.derivative_mappings[parameter][index],
+                        self.parameters, name=f'{self.name}_d_{parameter}_{index}',
+                        derivative_mappings={}
+                    )
+            else:
+                msg = f'derivative expressions do not contain item {parameter}'
+                raise ValueError(msg)
         return ConstantParameterFunctional(0, name=f'{self.name}_d_{parameter}_{index}')
 
 

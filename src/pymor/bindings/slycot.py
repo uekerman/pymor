@@ -227,21 +227,20 @@ def solve_ricc_dense(A, E, B, C, R=None, trans=False, options=None):
                             A, E, B, C, R, S)
         X = out[1]
         rcond = out[0]
-    else:
-        if trans:
-            if R is None:
-                G = B @ B.T
-            else:
-                G = B @ spla.solve(R, B.T)
-            Q = C.T @ C
-            X, rcond = slycot.sb02md(n, A, G, Q, dico)[:2]
+    elif trans:
+        if R is None:
+            G = B @ B.T
         else:
-            if R is None:
-                G = C.T @ C
-            else:
-                G = C.T @ spla.solve(R, C)
-            Q = B @ B.T
-            X, rcond = slycot.sb02md(n, A.T, G, Q, dico)[:2]
+            G = B @ spla.solve(R, B.T)
+        Q = C.T @ C
+        X, rcond = slycot.sb02md(n, A, G, Q, dico)[:2]
+    else:
+        if R is None:
+            G = C.T @ C
+        else:
+            G = C.T @ spla.solve(R, C)
+        Q = B @ B.T
+        X, rcond = slycot.sb02md(n, A.T, G, Q, dico)[:2]
     _ricc_rcond_check('slycot.sb02md', rcond)
 
     return X

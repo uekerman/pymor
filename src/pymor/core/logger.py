@@ -142,11 +142,10 @@ class ColoredFormatter(logging.Formatter):
             else:
                 path = BOLD_SEQ + path + RESET_SEQ
                 levelname = (COLOR_SEQ % (30 + COLORS[levelname])) + '|' + levelname + '|' + RESET_SEQ
+        elif levelname in ('INFO', 'BLOCK'):
+            levelname = ''
         else:
-            if levelname in ('INFO', 'BLOCK'):
-                levelname = ''
-            else:
-                levelname = '|' + levelname + '|'
+            levelname = '|' + levelname + '|'
 
         return f'{timestamp} {indent}{levelname}{path}: {msg}'
 

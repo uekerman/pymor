@@ -134,18 +134,17 @@ class ProjectRules(RuleTable):
             else:
                 from pymor.operators.constructions import VectorArrayOperator
                 return VectorArrayOperator(V, adjoint=True, name=op.name)
-        else:
-            if range_basis is None:
-                V = op.apply(source_basis)
-                if isinstance(op.range, NumpyVectorSpace):
-                    from pymor.operators.numpy import NumpyMatrixOperator
-                    return NumpyMatrixOperator(V.to_numpy().T, range_id=op.range.id, name=op.name)
-                else:
-                    from pymor.operators.constructions import VectorArrayOperator
-                    return VectorArrayOperator(V, adjoint=False, name=op.name)
-            else:
+        elif range_basis is None:
+            V = op.apply(source_basis)
+            if isinstance(op.range, NumpyVectorSpace):
                 from pymor.operators.numpy import NumpyMatrixOperator
-                return NumpyMatrixOperator(op.apply2(range_basis, source_basis), name=op.name)
+                return NumpyMatrixOperator(V.to_numpy().T, range_id=op.range.id, name=op.name)
+            else:
+                from pymor.operators.constructions import VectorArrayOperator
+                return VectorArrayOperator(V, adjoint=False, name=op.name)
+        else:
+            from pymor.operators.numpy import NumpyMatrixOperator
+            return NumpyMatrixOperator(op.apply2(range_basis, source_basis), name=op.name)
 
     @match_class(ConcatenationOperator)
     def action_ConcatenationOperator(self, op):

@@ -9,7 +9,7 @@ config.require('TORCH')
 
 import numpy as np
 import torch
-import torch.nn as nn
+from torch import nn
 
 from pymor.core.base import BasicObject
 from pymor.models.interface import Model

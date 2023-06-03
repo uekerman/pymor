@@ -87,19 +87,18 @@ class PatchVisualizer(ImmutableObject):
                 for i, u in enumerate(U):
                     write_vtk(self.grid, u, f'{filename}-{i}', codim=self.codim)
                 return None
+        elif self.backend == 'jupyter':
+            from pymor.discretizers.builtin.gui.jupyter import get_visualizer
+            return get_visualizer()(self.grid, U, bounding_box=self.bounding_box, codim=self.codim, title=title,
+                                    legend=legend, separate_colorbars=separate_colorbars,
+                                    rescale_colorbars=rescale_colorbars, columns=columns)
         else:
-            if self.backend == 'jupyter':
-                from pymor.discretizers.builtin.gui.jupyter import get_visualizer
-                return get_visualizer()(self.grid, U, bounding_box=self.bounding_box, codim=self.codim, title=title,
-                                        legend=legend, separate_colorbars=separate_colorbars,
-                                        rescale_colorbars=rescale_colorbars, columns=columns)
-            else:
-                block = self.block if block is None else block
-                from pymor.discretizers.builtin.gui.qt import visualize_patch
-                return visualize_patch(self.grid, U, bounding_box=self.bounding_box, codim=self.codim, title=title,
-                                       legend=legend, separate_colorbars=separate_colorbars,
-                                       rescale_colorbars=rescale_colorbars, backend=self.backend, block=block,
-                                       columns=columns)
+            block = self.block if block is None else block
+            from pymor.discretizers.builtin.gui.qt import visualize_patch
+            return visualize_patch(self.grid, U, bounding_box=self.bounding_box, codim=self.codim, title=title,
+                                   legend=legend, separate_colorbars=separate_colorbars,
+                                   rescale_colorbars=rescale_colorbars, backend=self.backend, block=block,
+                                   columns=columns)
 
 
 class OnedVisualizer(ImmutableObject):
@@ -176,12 +175,11 @@ def _vmins_vmaxs(U, separate_colorbars, rescale_colorbars):
         else:
             vmins = [[np.min(u)] * len(U[0]) for u in U]
             vmaxs = [[np.max(u)] * len(U[0]) for u in U]
+    elif rescale_colorbars:
+        vmins = [[min(np.min(u[i]) for u in U) for i in range(len(U[0]))]] * len(U)
+        vmaxs = [[max(np.max(u[i]) for u in U) for i in range(len(U[0]))]] * len(U)
     else:
-        if rescale_colorbars:
-            vmins = [[min(np.min(u[i]) for u in U) for i in range(len(U[0]))]] * len(U)
-            vmaxs = [[max(np.max(u[i]) for u in U) for i in range(len(U[0]))]] * len(U)
-        else:
-            vmins = [[np.min(U)] * len(U[0])] * len(U)
-            vmaxs = [[np.max(U)] * len(U[0])] * len(U)
+        vmins = [[np.min(U)] * len(U[0])] * len(U)
+        vmaxs = [[np.max(U)] * len(U[0])] * len(U)
 
     return vmins, vmaxs

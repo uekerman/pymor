@@ -1061,13 +1061,12 @@ def discretize_stationary_fv(analytical_problem, diameter=None, domain_discretiz
                     outputs.append(LincombOperator(ops, v[1].coefficients))
                 else:
                     outputs.append(L2Functional(grid, v[1]).H)
+            elif isinstance(v[1], LincombFunction):
+                ops = [BoundaryL2Functional(grid, vv).H
+                       for vv in v[1].functions]
+                outputs.append(LincombOperator(ops, v[1].coefficients))
             else:
-                if isinstance(v[1], LincombFunction):
-                    ops = [BoundaryL2Functional(grid, vv).H
-                           for vv in v[1].functions]
-                    outputs.append(LincombOperator(ops, v[1].coefficients))
-                else:
-                    outputs.append(BoundaryL2Functional(grid, v[1]).H)
+                outputs.append(BoundaryL2Functional(grid, v[1]).H)
         if len(outputs) > 1:
             from pymor.operators.block import BlockColumnOperator
             from pymor.operators.constructions import NumpyConversionOperator

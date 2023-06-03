@@ -86,11 +86,10 @@ class ToMatrixRules(RuleTable):
                 return op.matrix
             else:
                 return op.matrix.toarray()
+        elif not op.sparse:
+            return getattr(sps, format + '_matrix')(op.matrix)
         else:
-            if not op.sparse:
-                return getattr(sps, format + '_matrix')(op.matrix)
-            else:
-                return op.matrix.asformat(format)
+            return op.matrix.asformat(format)
 
     @match_class(BlockOperatorBase)
     def action_BlockOperator(self, op):

@@ -12,9 +12,7 @@ from numbers import Number
 
 import numpy as np
 import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.utils as utils
+from torch import nn, optim, utils
 
 from pymor.algorithms.pod import pod
 from pymor.algorithms.projection import project

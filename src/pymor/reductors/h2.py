@@ -166,14 +166,13 @@ class GenericIRKAReductor(BasicObject):
             dist = min(spla.norm((sigma_old - sigma) / sigma_old, ord=np.inf)
                        for sigma_old in self._conv_data[1:]
                        if sigma_old is not None)
+        elif rom.poles().real.max() >= 0:
+            dist = np.inf
         else:
-            if rom.poles().real.max() >= 0:
-                dist = np.inf
-            else:
-                dist = min((rom_old - rom).h2_norm() / rom_old.h2_norm()
-                           if rom_old is not None and rom_old.poles().real.max() < 0
-                           else np.inf
-                           for rom_old in self._conv_data[1:])
+            dist = min((rom_old - rom).h2_norm() / rom_old.h2_norm()
+                       if rom_old is not None and rom_old.poles().real.max() < 0
+                       else np.inf
+                       for rom_old in self._conv_data[1:])
         self.conv_crit.append(dist)
         self.logger.info(f'Convergence criterion in iteration {it + 1}: {dist:e}')
 

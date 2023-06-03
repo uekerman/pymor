@@ -114,11 +114,10 @@ def solve_cont_lyap_lrcf(A, E, B, trans=False, options=None,
     if options:
         solver = options if isinstance(options, str) else options['type']
         backend = solver.split('_')[0]
+    elif A.source.dim >= mat_eqn_sparse_min_size():
+        backend = default_sparse_solver_backend
     else:
-        if A.source.dim >= mat_eqn_sparse_min_size():
-            backend = default_sparse_solver_backend
-        else:
-            backend = default_dense_solver_backend
+        backend = default_dense_solver_backend
     if backend == 'scipy':
         from pymor.bindings.scipy import solve_lyap_lrcf as solve_lyap_impl
     elif backend == 'slycot':

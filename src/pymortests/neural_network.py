@@ -12,7 +12,7 @@ pytestmark = pytest.mark.builtin
 
 @skip_if_missing('TORCH')
 def test_linear_function_fitting():
-    import torch.optim as optim
+    from torch import optim
 
     from pymor.models.neural_network import FullyConnectedNN
     from pymor.reductors.neural_network import multiple_restarts_training

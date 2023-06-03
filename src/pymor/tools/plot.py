@@ -89,17 +89,16 @@ class Adaptive(BasicObject):
                 self.y = self.fvals
             else:
                 self.y = [np.log2(fval) for fval in self.fvals]
+        elif yscale == 'linear':
+            self.y = list(np.stack(
+                (np.abs(self.fvals), np.unwrap(np.angle(self.fvals), axis=0)),
+                axis=-1,
+            ))
         else:
-            if yscale == 'linear':
-                self.y = list(np.stack(
-                    (np.abs(self.fvals), np.unwrap(np.angle(self.fvals), axis=0)),
-                    axis=-1,
-                ))
-            else:
-                self.y = list(np.stack(
-                    (np.log2(np.abs(self.fvals)), np.unwrap(np.angle(self.fvals), axis=0)),
-                    axis=-1,
-                ))
+            self.y = list(np.stack(
+                (np.log2(np.abs(self.fvals)), np.unwrap(np.angle(self.fvals), axis=0)),
+                axis=-1,
+            ))
         self.y_min = np.min(self.y, axis=0, keepdims=True)
         self.y_max = np.max(self.y, axis=0, keepdims=True)
 
